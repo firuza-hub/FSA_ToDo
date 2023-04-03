@@ -1,7 +1,9 @@
 package com.fsa.to_do_app.di
 
+import com.fsa.to_do_app.ui.content.dashboard.DashboardViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val presentationModule = module {
-    //viewModel { MyViewModel(useCase = get()) }
+    viewModel { DashboardViewModel(getCategoriesUseCase = get(), getActionsUseCase = get()) }
 }

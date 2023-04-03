@@ -12,15 +12,27 @@ import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.fsa.to_do_app.ui.content.dashboard.DashboardViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun DashboardScreen(navigateToCreateAction: () -> Unit) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+fun DashboardScreen(
+    viewModel: DashboardViewModel = koinViewModel(),
+    navigateToCreateAction: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
 
         Text(text = "Dashboard", style = MaterialTheme.typography.h2)
-        Button(onClick = navigateToCreateAction, modifier = Modifier.align(End).clip(shape = CircleShape)) {
+        Button(
+            onClick = navigateToCreateAction,
+            modifier = Modifier
+                .align(End)
+                .clip(shape = CircleShape)
+        ) {
             Text(text = "Create", style = MaterialTheme.typography.button)
         }
     }
