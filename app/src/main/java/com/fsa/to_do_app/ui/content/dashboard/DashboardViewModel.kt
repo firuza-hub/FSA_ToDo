@@ -1,13 +1,15 @@
 package com.fsa.to_do_app.ui.content.dashboard
 
+import androidx.lifecycle.DEFAULT_ARGS_KEY
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fsa.to_do_app.data.local.entities.Action
-import com.fsa.to_do_app.data.local.entities.Category
+import com.fsa.to_do_app.domain.model.ActionModel
+import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.domain.usecase.action.GetActionsUseCase
 import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 class DashboardViewModel(
@@ -15,10 +17,10 @@ class DashboardViewModel(
     private val getActionsUseCase: GetActionsUseCase
 ) : ViewModel() {
 
-    private val _actions = MutableStateFlow<List<Action>>(emptyList())
+    private val _actions = MutableStateFlow<List<ActionModel>>(emptyList())
     val actions = _actions.asStateFlow()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val categories = _categories.asStateFlow()
 
     init {
@@ -26,16 +28,19 @@ class DashboardViewModel(
         getActions()
     }
 
-    fun getActions(){
+    private fun getActions() {
         viewModelScope.launch {
             _actions.value = getActionsUseCase()
         }
     }
 
-    fun getCategories(){
-
+    private fun getCategories() {
         viewModelScope.launch {
             _categories.value = getCategoriesUseCase()
         }
+    }
+
+    fun onActionChecked(id: Int, checked: Boolean) {
+        //updateActionCheckUseCase(id, checked)
     }
 }

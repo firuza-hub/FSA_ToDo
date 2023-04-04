@@ -32,6 +32,12 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         color = Color.Gray
+    ),
+    subtitle1 = TextStyle(
+        fontFamily = SFPro,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        color = Color.LightGray
     )
     /* Other default text styles to override
     button = TextStyle(

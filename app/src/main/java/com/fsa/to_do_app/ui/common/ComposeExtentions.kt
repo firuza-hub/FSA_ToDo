@@ -42,3 +42,6 @@ fun Modifier.topBorder(strokeWidth: Dp, color: Color) = composed(factory = {
         )
     }
 })
+
+
+fun String.hexToColor() = Color(android.graphics.Color.parseColor("#$this"))
