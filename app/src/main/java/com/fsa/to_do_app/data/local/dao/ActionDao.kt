@@ -7,5 +7,5 @@ import com.fsa.to_do_app.data.local.entities.Action
 @Dao
 interface ActionDao {
     @Query("SELECT * FROM Actions")
-    fun get(): List<Action>
+    suspend fun get(): List<Action>
 }
