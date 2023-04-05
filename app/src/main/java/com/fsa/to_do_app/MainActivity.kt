@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(route = NavDestinations.CREATE_ACTION_SCREEN) {
-                            CreateActionScreen()
+                            CreateActionScreen(navigateBack = { navController.popBackStack() })
                         }
                     }
                 }
