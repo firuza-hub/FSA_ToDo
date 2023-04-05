@@ -5,5 +5,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val presentationModule = module {
-    viewModel { DashboardViewModel(getCategoriesUseCase = get(), getActionsUseCase = get()) }
+    viewModel {
+        DashboardViewModel(
+            getCategoriesUseCase = get(),
+            getActionsUseCase = get(),
+            updateActionStatusUseCase = get()
+        )
+    }
 }

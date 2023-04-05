@@ -38,11 +38,13 @@ fun DashboardScreen(
                 modifier = Modifier.padding(start = 44.dp, top = 16.dp)
             )
 
-            Actions(actions, Modifier.weight(1f), onActionChecked = viewModel::onActionChecked)
-            Categories(categories,
+            Actions(actions, Modifier.weight(1f), onActionChecked =viewModel::onActionChecked)
+            Categories(
+                categories,
                 Modifier
                     .weight(1f)
-                    .padding(end = 16.dp, start = 40.dp))
+                    .padding(end = 16.dp, start = 40.dp)
+            )
         }
 
 

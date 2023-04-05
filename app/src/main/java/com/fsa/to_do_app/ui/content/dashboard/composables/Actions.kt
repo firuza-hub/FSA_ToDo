@@ -21,7 +21,7 @@ import java.util.*
 
 
 @Composable
-fun Actions(actions: List<ActionModel>, modifier: Modifier, onActionChecked: (id:Int, checked:Boolean) -> Unit) {
+fun Actions(actions: List<ActionModel>, modifier: Modifier, onActionChecked: (id: Int, checked:Boolean) -> Unit) {
     LazyColumn(modifier) {
         items(actions) {action ->
             Row(Modifier.fillMaxWidth()) {

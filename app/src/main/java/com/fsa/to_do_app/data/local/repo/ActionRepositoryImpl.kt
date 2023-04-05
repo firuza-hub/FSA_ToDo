@@ -8,4 +8,8 @@ class ActionRepositoryImpl(private val dao: ActionDao): ActionRepository {
     override suspend fun get(): List<Action> {
         return dao.get()
     }
+
+    override suspend fun updateStatus(id: Int, checked: Boolean) {
+        dao.updateStatus(id, checked)
+    }
 }
