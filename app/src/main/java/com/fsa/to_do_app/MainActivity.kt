@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.fsa.to_do_app.ui.common.navigation.NavDestinations
-import com.fsa.to_do_app.ui.content.create_action.composables.CreateActionScreen
-import com.fsa.to_do_app.ui.content.dashboard.composables.DashboardScreen
-import com.fsa.to_do_app.ui.theme.ToDoAppTheme
+import com.fsa.to_do_app.presentation.common.navigation.NavDestinations
+import com.fsa.to_do_app.presentation.content.create_action.composables.CreateActionScreen
+import com.fsa.to_do_app.presentation.content.dashboard.composables.DashboardScreen
+import com.fsa.to_do_app.presentation.theme.ToDoAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

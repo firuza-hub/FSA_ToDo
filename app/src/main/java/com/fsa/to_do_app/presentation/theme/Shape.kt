@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.ui.theme
+package com.fsa.to_do_app.presentation.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.ui.content.dashboard.composables
+package com.fsa.to_do_app.presentation.content.dashboard.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,15 +13,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.domain.model.ActionModel
-import com.fsa.to_do_app.ui.common.bottomBorder
-import com.fsa.to_do_app.ui.common.composables.shapes.CircleShape
-import com.fsa.to_do_app.ui.common.hexToColor
+import com.fsa.to_do_app.presentation.common.bottomBorder
+import com.fsa.to_do_app.presentation.common.composables.shapes.CircleShape
+import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.util.getTimeShort
 import java.util.*
 
 
 @Composable
-fun Actions(actions: List<ActionModel>, modifier: Modifier, onActionChecked: (id: Int, checked:Boolean) -> Unit) {
+fun Actions(actions: List<ActionModel>, modifier: Modifier,  onActionChecked: (id: Int, checked:Boolean) -> Unit, showCateg:Boolean = true) {
     LazyColumn(modifier) {
         items(actions) {action ->
             Row(Modifier.fillMaxWidth()) {
@@ -52,12 +52,15 @@ fun Actions(actions: List<ActionModel>, modifier: Modifier, onActionChecked: (id
                         )
                          action.date?.let{ActionTime(date =it, modifier = Modifier.padding(top = 4.dp))}
                     }
-                    CategoryIndicator(action.category.colorCode.hexToColor() ,
-                        Modifier
-                            .align(Alignment.CenterVertically)
-                            .wrapContentWidth(unbounded = true)
-                            .padding(horizontal = 16.dp)
-                    )
+                    if(showCateg) {
+                        CategoryIndicator(
+                            action.categoryColorCode.hexToColor(),
+                            Modifier
+                                .align(Alignment.CenterVertically)
+                                .wrapContentWidth(unbounded = true)
+                                .padding(horizontal = 16.dp)
+                        )
+                    }
                 }
 
             }

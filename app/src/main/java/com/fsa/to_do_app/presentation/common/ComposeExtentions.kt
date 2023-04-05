@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.ui.common
+package com.fsa.to_do_app.presentation.common
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -7,6 +7,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.core.graphics.alpha
 
 
 fun Modifier.bottomBorder(strokeWidth: Dp, color: Color) = composed(factory = {
@@ -44,4 +45,5 @@ fun Modifier.topBorder(strokeWidth: Dp, color: Color) = composed(factory = {
 })
 
 
-fun String.hexToColor() = Color(android.graphics.Color.parseColor("#$this"))
+fun String.hexToColor(alpha: Float = 1f) =
+    Color(android.graphics.Color.parseColor("#$this")).copy(alpha = alpha)

@@ -1,6 +1,6 @@
 package com.fsa.to_do_app.di
 
-import com.fsa.to_do_app.ui.content.dashboard.DashboardViewModel
+import com.fsa.to_do_app.presentation.content.dashboard.DashboardViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

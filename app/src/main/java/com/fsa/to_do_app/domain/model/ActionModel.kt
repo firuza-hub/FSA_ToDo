@@ -7,5 +7,6 @@ data class ActionModel(
     val isDone: Boolean,
     val content: String,
     val date: Date?,
-    val category: CategoryModel = CategoryModel.NULL
+    val categoryId: Int,
+    val categoryColorCode:String
 )

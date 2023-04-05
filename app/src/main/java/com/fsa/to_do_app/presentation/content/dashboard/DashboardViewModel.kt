@@ -1,7 +1,7 @@
-package com.fsa.to_do_app.ui.content.dashboard
+package com.fsa.to_do_app.presentation.content.dashboard
 
-import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.DEFAULT_ARGS_KEY
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fsa.to_do_app.domain.model.ActionModel
@@ -22,8 +22,19 @@ class DashboardViewModel(
     private val _actions = MutableStateFlow<List<ActionModel>>(emptyList())
     val actions = _actions.asStateFlow()
 
+    private val _actionsByCategory = MutableStateFlow<List<ActionModel>>(emptyList())
+    val actionsByCategory = _actionsByCategory.asStateFlow()
+
     private val _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val categories = _categories.asStateFlow()
+
+    private val _selectedCategory = MutableStateFlow(CategoryModel.NULL)
+    val selectedCategory = _selectedCategory.asStateFlow()
+
+    @OptIn(ExperimentalMaterialApi::class)
+    private val _categorySheetState = MutableStateFlow( ModalBottomSheetValue.Hidden)
+    @OptIn(ExperimentalMaterialApi::class)
+    val categorySheetState = _categorySheetState.asStateFlow()
 
     init {
         getCategories()
@@ -49,5 +60,15 @@ class DashboardViewModel(
         viewModelScope.launch {
             updateActionStatusUseCase(id, checked)
         }
+    }
+
+    fun updateSelectedCategory(category: CategoryModel) {
+        _selectedCategory.value = category
+        _actionsByCategory.value = _actions.value.filter { it.categoryId == category.id }
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    fun updateCategorySheetState(sheetState: ModalBottomSheetValue) {
+        _categorySheetState.value = sheetState
     }
 }

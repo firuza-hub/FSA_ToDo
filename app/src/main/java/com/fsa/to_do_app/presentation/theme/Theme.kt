@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.ui.theme
+package com.fsa.to_do_app.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

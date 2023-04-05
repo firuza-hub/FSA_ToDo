@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.ui.common.navigation
+package com.fsa.to_do_app.presentation.common.navigation
 
 object NavDestinations {
     const val DASHBOARD_SCREEN = "DASHBOARD_SCREEN"

@@ -7,7 +7,7 @@ data class CategoryModel(
     val name: String,
     val colorCode: String,
     val dateCreated: Date,
-    val numberOfTasks: Int
+    val numberOfActions: Int
 ){
     companion object{
         val NULL = CategoryModel(0, "", "FFFFFF", Date(), 0)

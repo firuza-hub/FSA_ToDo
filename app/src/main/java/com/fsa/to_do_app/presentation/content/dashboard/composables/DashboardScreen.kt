@@ -1,9 +1,7 @@
-package com.fsa.to_do_app.ui.content.dashboard.composables
+package com.fsa.to_do_app.presentation.content.dashboard.composables
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -12,17 +10,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fsa.to_do_app.ui.content.dashboard.DashboardViewModel
-import com.fsa.to_do_app.ui.theme.SFPro
+import com.fsa.to_do_app.presentation.content.dashboard.DashboardViewModel
+import com.fsa.to_do_app.presentation.theme.SFPro
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel = koinViewModel(),
     navigateToCreateAction: () -> Unit
 ) {
     val actions by viewModel.actions.collectAsState()
+    val actionsByCategory by viewModel.actionsByCategory.collectAsState()
     val categories by viewModel.categories.collectAsState()
+    val selectedCategory by viewModel.selectedCategory.collectAsState()
+    val categorySheetState by viewModel.categorySheetState.collectAsState()
+
+
+    val modalSheetState = rememberModalBottomSheetState(
+        initialValue = categorySheetState,
+        confirmValueChange = {
+            viewModel.updateCategorySheetState(it)
+            it != ModalBottomSheetValue.HalfExpanded
+        },
+        skipHalfExpanded = false,
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -38,13 +51,24 @@ fun DashboardScreen(
                 modifier = Modifier.padding(start = 44.dp, top = 16.dp)
             )
 
-            Actions(actions, Modifier.weight(1f), onActionChecked =viewModel::onActionChecked)
+            Actions(actions, Modifier.weight(1f), onActionChecked = viewModel::onActionChecked)
             Categories(
                 categories,
                 Modifier
                     .weight(1f)
-                    .padding(end = 16.dp, start = 40.dp)
-            )
+                    .padding(end = 16.dp, start = 45.dp)
+            ) {
+                viewModel.updateSelectedCategory(it)
+                viewModel.updateCategorySheetState(ModalBottomSheetValue.Expanded)
+            }
+            if (modalSheetState.isVisible) {
+                CategoryBottomSheet(
+                    actionsByCategory,
+                    selectedCategory,
+                    modalSheetState,
+                    viewModel::onActionChecked
+                )
+            }
         }
 
 
