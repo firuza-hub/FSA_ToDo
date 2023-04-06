@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.domain.model.ActionModel
 import com.fsa.to_do_app.presentation.common.bottomBorder
+import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbox
 import com.fsa.to_do_app.presentation.common.composables.shapes.CircleShape
 import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.util.getTimeShort
@@ -25,17 +26,19 @@ fun Actions(actions: List<ActionModel>, modifier: Modifier,  onActionChecked: (i
     LazyColumn(modifier) {
         items(actions) {action ->
             Row(Modifier.fillMaxWidth()) {
-                Checkbox(
+                RoundCheckbox(
                     checked = action.isDone,
                     onCheckedChange = {onActionChecked(action.id, it)},
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .width(28.dp)
+                        .size(28.dp)
                         .align(Alignment.CenterVertically),
                     colors = CheckboxDefaults.colors(
                         uncheckedColor = Color.LightGray,
                         checkedColor = Color.Blue
-                    )
+                    ),
+                    borderWidth = 1.5.dp,
+                    backgroundColor = if(!showCateg) action.categoryColorCode.hexToColor() else Color.White
                 )
                 Row(modifier = Modifier.bottomBorder(1.dp, Color.LightGray)) {
                     Column(

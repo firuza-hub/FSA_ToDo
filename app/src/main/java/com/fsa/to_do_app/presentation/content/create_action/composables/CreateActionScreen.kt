@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbox
 import com.fsa.to_do_app.presentation.content.create_action.CreateActionViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -45,13 +46,33 @@ fun CreateActionToolbar(cancel: () -> Boolean, save: () -> Unit) {
 
 @Composable
 fun CreateActionTextField(content: String, onContentChange: (String) -> Unit) {
+
     BasicTextField(
         value = content,
         onValueChange = onContentChange,
-        modifier = Modifier.fillMaxWidth().padding(16.dp),
-        textStyle = MaterialTheme.typography.body2
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        textStyle = MaterialTheme.typography.body1
 
-    )
+    ) {
+        Row {
+            RoundCheckbox(
+                checked = false,
+                enabled = false,
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .size(28.dp)
+            )
+            if (content.isEmpty())
+                Text(
+                    text = "What do you want to do?",
+                    style = MaterialTheme.typography.body1,
+                    color = Color.LightGray
+                )
+            else it()
+        }
+    }
 }
 
 @Composable

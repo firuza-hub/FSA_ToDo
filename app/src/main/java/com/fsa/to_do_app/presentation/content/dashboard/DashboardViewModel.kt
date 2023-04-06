@@ -57,6 +57,7 @@ class DashboardViewModel(
         _actions.value = _actions.value.map {
             if (it.id == id) it.copy(isDone = checked) else it
         }
+        _actionsByCategory.value = _actions.value.filter { it.categoryId == _selectedCategory.value.id }
         viewModelScope.launch {
             updateActionStatusUseCase(id, checked)
         }
