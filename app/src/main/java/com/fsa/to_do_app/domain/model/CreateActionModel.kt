@@ -5,9 +5,9 @@ import java.util.*
 data class CreateActionModel(
     val content: String,
     val date: Date?,
-    val categoryId: Int?
+    val category: CategoryModel
 ){
     companion object{
-        val NULL = CreateActionModel("", null,null)
+        val NULL = CreateActionModel("", null,CategoryModel.NULL)
     }
 }

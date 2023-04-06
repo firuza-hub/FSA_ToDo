@@ -27,5 +27,5 @@ fun ActionWithCategoryInfo.toActionModel(): ActionModel = ActionModel(
 )
 fun CreateActionModel.toAction(): Action = Action(
     -1,false,
-    content,date,categoryId?:-1
+    content,date,category.id
 )

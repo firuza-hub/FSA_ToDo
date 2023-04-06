@@ -46,7 +46,17 @@ fun RoundCheckbox(
         else Color.LightGray
     Box(modifier = modifier) {
         Box(
-            Modifier
+            modifier = if (enabled)
+                Modifier
+                    .align(Alignment.Center)
+                    .fillMaxSize()
+                    .clip(CircleShape)
+                    .background(borderColor)
+                    .padding(borderWidth)
+                    .clip(CircleShape)
+                    .background(fillColor)
+                    .clickable { onCheckedChange(!checked) }
+            else Modifier
                 .align(Alignment.Center)
                 .fillMaxSize()
                 .clip(CircleShape)
@@ -54,7 +64,6 @@ fun RoundCheckbox(
                 .padding(borderWidth)
                 .clip(CircleShape)
                 .background(fillColor)
-                .clickable { onCheckedChange(!checked) }
         ) {
             if (checked) {
                 Icon(

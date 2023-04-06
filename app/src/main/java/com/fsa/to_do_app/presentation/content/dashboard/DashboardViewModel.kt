@@ -31,6 +31,9 @@ class DashboardViewModel(
     private val _selectedCategory = MutableStateFlow(CategoryModel.NULL)
     val selectedCategory = _selectedCategory.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
     @OptIn(ExperimentalMaterialApi::class)
     private val _categorySheetState = MutableStateFlow( ModalBottomSheetValue.Hidden)
     @OptIn(ExperimentalMaterialApi::class)
@@ -42,8 +45,10 @@ class DashboardViewModel(
     }
 
     private fun getActions() {
+        _isLoading.value = true
         viewModelScope.launch {
             _actions.value = getActionsUseCase()
+            _isLoading.value = false
         }
     }
 

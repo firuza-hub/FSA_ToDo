@@ -25,6 +25,7 @@ fun DashboardScreen(
     val categories by viewModel.categories.collectAsState()
     val selectedCategory by viewModel.selectedCategory.collectAsState()
     val categorySheetState by viewModel.categorySheetState.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
 
     val modalSheetState = rememberModalBottomSheetState(
@@ -35,7 +36,7 @@ fun DashboardScreen(
         },
         skipHalfExpanded = false,
     )
-
+    if (isLoading) LinearProgressIndicator()
     Box(
         modifier = Modifier
             .fillMaxSize()

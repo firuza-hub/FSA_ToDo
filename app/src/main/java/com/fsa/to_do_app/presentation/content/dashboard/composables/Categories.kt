@@ -9,26 +9,26 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.domain.model.ActionModel
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.presentation.common.composables.shapes.DragHandle
 import com.fsa.to_do_app.presentation.common.hexToColor
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Categories(
     categories: List<CategoryModel>,
     modifier: Modifier,
-    showCategory: (CategoryModel) -> Unit
+    onCategorySelected: (CategoryModel) -> Unit
 ) {
     Column(modifier) {
-        Text(
-            text = "Lists",
-            style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(bottom = 6.dp)
-        )
+        if (categories.any()) {
+            Text(
+                text = "Lists",
+                style = MaterialTheme.typography.subtitle1,
+                modifier = Modifier.padding(bottom = 6.dp)
+            )
+        }
         LazyColumn {
             items(categories) {
                 Row(Modifier.fillMaxWidth()) {
@@ -36,7 +36,7 @@ fun Categories(
                         category = it,
                         modifier = Modifier
                     ) {
-                        showCategory(it)
+                        onCategorySelected(it)
                     }
                 }
             }
@@ -76,7 +76,7 @@ fun CategoryBottomSheet(
     actionsByCategory: List<ActionModel>,
     category: CategoryModel,
     modalSheetState: ModalBottomSheetState,
-    onActionChecked:(id:Int, checked:Boolean) -> Unit
+    onActionChecked: (id: Int, checked: Boolean) -> Unit
 ) {
     ModalBottomSheetLayout(
         sheetState = modalSheetState,
@@ -104,7 +104,12 @@ fun CategoryBottomSheet(
                             style = MaterialTheme.typography.body2
                         )
                     }
-                    Actions(actions = actionsByCategory, modifier = Modifier, onActionChecked = onActionChecked , showCateg = false)
+                    Actions(
+                        actions = actionsByCategory,
+                        modifier = Modifier,
+                        onActionChecked = onActionChecked,
+                        showCateg = false
+                    )
                 }
 
             }
