@@ -22,13 +22,6 @@ fun Categories(
     onCategorySelected: (CategoryModel) -> Unit
 ) {
     Column(modifier) {
-        if (categories.any()) {
-            Text(
-                text = "Lists",
-                style = MaterialTheme.typography.subtitle1,
-                modifier = Modifier.padding(bottom = 6.dp)
-            )
-        }
         LazyColumn {
             items(categories) {
                 Row(Modifier.fillMaxWidth()) {

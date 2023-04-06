@@ -53,6 +53,14 @@ fun DashboardScreen(
             )
 
             Actions(actions, Modifier.weight(1f), onActionChecked = viewModel::onActionChecked)
+
+            if (categories.any()) {
+                Text(
+                    text = "Lists",
+                    style = MaterialTheme.typography.subtitle1,
+                    modifier = Modifier.padding(bottom = 6.dp, start = 45.dp)
+                )
+            }
             Categories(
                 categories,
                 Modifier
