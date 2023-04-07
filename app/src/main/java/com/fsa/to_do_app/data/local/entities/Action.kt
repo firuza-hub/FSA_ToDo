@@ -13,7 +13,7 @@ import java.util.*
 )
 data class Action(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
     val isDone: Boolean,
     val content: String,
     val date: Date?,

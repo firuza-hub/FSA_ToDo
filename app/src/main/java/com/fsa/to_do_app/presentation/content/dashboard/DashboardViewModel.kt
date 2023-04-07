@@ -39,7 +39,8 @@ class DashboardViewModel(
     @OptIn(ExperimentalMaterialApi::class)
     val categorySheetState = _categorySheetState.asStateFlow()
 
-    init {
+
+    fun loadData(){
         getCategories()
         getActions()
     }

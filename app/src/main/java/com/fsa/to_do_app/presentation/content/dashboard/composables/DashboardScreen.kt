@@ -20,6 +20,7 @@ fun DashboardScreen(
     viewModel: DashboardViewModel = koinViewModel(),
     navigateToCreateAction: () -> Unit
 ) {
+    viewModel.loadData()
     val actions by viewModel.actions.collectAsState()
     val actionsByCategory by viewModel.actionsByCategory.collectAsState()
     val categories by viewModel.categories.collectAsState()

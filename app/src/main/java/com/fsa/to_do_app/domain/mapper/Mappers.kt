@@ -25,7 +25,7 @@ fun ActionWithCategoryInfo.toActionModel(): ActionModel = ActionModel(
     action.categoryId,
     categoryColorCode
 )
+
 fun CreateActionModel.toAction(): Action = Action(
-    -1,false,
-    content,date,category.id
+    isDone = false, content = content, date = date, categoryId = category.id
 )

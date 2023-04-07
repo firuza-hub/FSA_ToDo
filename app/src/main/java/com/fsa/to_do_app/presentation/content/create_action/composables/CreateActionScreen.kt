@@ -1,5 +1,6 @@
 package com.fsa.to_do_app.presentation.content.create_action.composables
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -33,6 +35,15 @@ fun CreateActionScreen(
 ) {
     val action by viewModel.action.collectAsState()
     val categories by viewModel.categories.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.validationErrors.collect {
+            if (it.contentError.isNullOrBlank().not()) {
+                Toast.makeText(context, it.contentError, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     var expandPropertyBox by remember {
         mutableStateOf(false)
     }
@@ -40,8 +51,15 @@ fun CreateActionScreen(
     var propertyBoxToShow by remember {
         mutableStateOf(ActionProperty.CATEGORY)
     }
+
     Column(Modifier.fillMaxSize()) {
-        CreateActionToolbar(cancel = navigateBack, save = {})
+        CreateActionToolbar(cancel = navigateBack, save = {
+            viewModel.save {
+                Toast.makeText(context, "Saved successfully", Toast.LENGTH_SHORT).show()
+                navigateBack()
+            }
+
+        })
         CreateActionTextField(
             action.content,
             viewModel::onContentChange,
@@ -61,7 +79,8 @@ fun CreateActionScreen(
                 propertyBoxToShow = ActionProperty.CATEGORY
                 expandPropertyBox = !expandPropertyBox
             },
-        onCategorySelected = viewModel::selectCategory)
+            onCategorySelected = viewModel::selectCategory
+        )
     }
 }
 
