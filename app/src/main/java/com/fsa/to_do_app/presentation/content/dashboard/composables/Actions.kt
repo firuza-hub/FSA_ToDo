@@ -1,5 +1,6 @@
 package com.fsa.to_do_app.presentation.content.dashboard.composables
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,13 +23,18 @@ import java.util.*
 
 
 @Composable
-fun Actions(actions: List<ActionModel>, modifier: Modifier,  onActionChecked: (id: Int, checked:Boolean) -> Unit, showCateg:Boolean = true) {
+fun Actions(
+    actions: List<ActionModel>,
+    modifier: Modifier,
+    onActionChecked: (id: Int, checked: Boolean) -> Unit,
+    showCateg: Boolean = true
+) {
     LazyColumn(modifier) {
-        items(actions) {action ->
+        items(actions) { action ->
             Row(Modifier.fillMaxWidth()) {
                 RoundCheckbox(
                     checked = action.isDone,
-                    onCheckedChange = {onActionChecked(action.id, it)},
+                    onCheckedChange = { onActionChecked(action.id, it) },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .size(28.dp)
@@ -38,13 +44,12 @@ fun Actions(actions: List<ActionModel>, modifier: Modifier,  onActionChecked: (i
                         checkedColor = Color.Blue
                     ),
                     borderWidth = 1.5.dp,
-                    backgroundColor = if(!showCateg) action.categoryColorCode.hexToColor() else Color.White
+                    backgroundColor = if (!showCateg) action.categoryColorCode.hexToColor() else Color.White
                 )
-                Row(modifier = Modifier.bottomBorder(1.dp, Color.LightGray)) {
+                Row(modifier = Modifier.bottomBorder(1.dp, Color.Black.copy(alpha = 0.1f))) {
                     Column(
                         modifier = Modifier
                             .wrapContentHeight()
-                            .defaultMinSize(minHeight = 80.dp)
                             .weight(1f)
                             .padding(vertical = 16.dp),
                         verticalArrangement = Arrangement.Center
@@ -53,9 +58,14 @@ fun Actions(actions: List<ActionModel>, modifier: Modifier,  onActionChecked: (i
                             text = action.content, overflow = TextOverflow.Ellipsis, maxLines = 2,
                             style = MaterialTheme.typography.body1
                         )
-                         action.date?.let{ActionTime(date =it, modifier = Modifier.padding(top = 4.dp))}
+                        action.date?.let {
+                            ActionTime(
+                                date = it,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+                        }
                     }
-                    if(showCateg) {
+                    if (showCateg) {
                         CategoryIndicator(
                             action.categoryColorCode.hexToColor(),
                             Modifier
@@ -87,7 +97,7 @@ fun ActionTime(date: Date, modifier: Modifier) {
 }
 
 @Composable
-fun CategoryIndicator(color:Color, modifier: Modifier) {
+fun CategoryIndicator(color: Color, modifier: Modifier) {
     CircleShape(color, modifier)
 }
 

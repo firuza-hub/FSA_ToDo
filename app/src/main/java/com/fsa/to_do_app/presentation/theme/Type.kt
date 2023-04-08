@@ -38,6 +38,11 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
         color = Color.LightGray
+    ),
+    h3 = TextStyle(
+        fontFamily = SFPro,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
     )
     /* Other default text styles to override
     button = TextStyle(

@@ -35,7 +35,7 @@ fun DashboardScreen(
             viewModel.updateCategorySheetState(it)
             it != ModalBottomSheetValue.HalfExpanded
         },
-        skipHalfExpanded = false,
+        skipHalfExpanded = true,
     )
     if (isLoading) LinearProgressIndicator()
     Box(
@@ -46,11 +46,22 @@ fun DashboardScreen(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
+
+
+            Spacer(modifier = Modifier.height(16.dp))
+            if (modalSheetState.isVisible) {
+                CategoryBottomSheet(
+                    actionsByCategory,
+                    selectedCategory,
+                    modalSheetState,
+                    viewModel::onActionChecked
+                )
+            }
             Text(
                 text = "Today",
                 style = MaterialTheme.typography.h1,
                 fontFamily = SFPro,
-                modifier = Modifier.padding(start = 44.dp, top = 16.dp)
+                modifier = Modifier.padding(start = 44.dp)
             )
 
             Actions(actions, Modifier.weight(1f), onActionChecked = viewModel::onActionChecked)
@@ -70,14 +81,6 @@ fun DashboardScreen(
             ) {
                 viewModel.updateSelectedCategory(it)
                 viewModel.updateCategorySheetState(ModalBottomSheetValue.Expanded)
-            }
-            if (modalSheetState.isVisible) {
-                CategoryBottomSheet(
-                    actionsByCategory,
-                    selectedCategory,
-                    modalSheetState,
-                    viewModel::onActionChecked
-                )
             }
         }
 

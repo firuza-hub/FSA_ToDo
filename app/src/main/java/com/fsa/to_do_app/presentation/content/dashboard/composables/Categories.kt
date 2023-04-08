@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.domain.model.ActionModel
 import com.fsa.to_do_app.domain.model.CategoryModel
@@ -46,7 +47,7 @@ fun CategoryCard(
     Card(
         modifier = modifier
             .clickable { onCategoryClicked(category) }
-            .padding(vertical = 6.dp)
+            .padding(bottom = 8.dp)
             .fillMaxWidth(),
         elevation = 0.dp,
         shape = RoundedCornerShape(10.dp),
@@ -74,7 +75,8 @@ fun CategoryBottomSheet(
     ModalBottomSheetLayout(
         sheetState = modalSheetState,
         sheetBackgroundColor = category.colorCode.hexToColor(),
-        sheetShape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+        sheetContentColor = Color.White,
+        sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
         sheetContent = {
             Column(
                 modifier = Modifier
@@ -83,7 +85,7 @@ fun CategoryBottomSheet(
                 DragHandle(
                     color = "252A31".hexToColor(alpha = 0.2f),
                     modifier = Modifier
-                        .padding(top = 5.dp)
+                        .padding(top = 8.dp)
                         .align(CenterHorizontally)
                 )
                 Column(

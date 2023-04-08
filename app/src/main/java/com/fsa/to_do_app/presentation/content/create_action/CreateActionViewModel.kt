@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class CreateActionViewModel(
     private val createActionUseCase: CreateActionUseCase,
@@ -64,5 +65,8 @@ class CreateActionViewModel(
 
     fun selectCategory(categoryModel: CategoryModel) {
         _action.value = _action.value.copy(category = categoryModel)
+    }
+    fun selectDate(date: Date) {
+        _action.value = _action.value.copy(date = date)
     }
 }
