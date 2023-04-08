@@ -3,6 +3,7 @@ package com.fsa.to_do_app.presentation.content.create_action.composables
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +15,8 @@ import com.fsa.to_do_app.R
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.domain.model.CreateActionModel
 import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
@@ -48,7 +51,13 @@ fun CreateActionBottomToolbar(
             modifier = Modifier.padding(6.dp).clickable { onTimeClicked() },
             tint = Color.LightGray
         )
-        action.date?.let{Text(text = it.toLocaleString())}
+        val sdf = SimpleDateFormat.getDateInstance(DateFormat.DATE_FIELD)
+        action.date?.let {
+            Text(
+                text = sdf.format(it), style = MaterialTheme.typography.body2,
+                modifier = Modifier.padding(10.dp).align(Alignment.CenterVertically)
+            )
+        }
         Spacer(modifier = Modifier.weight(1f))
         SelectedCategory(
             category,

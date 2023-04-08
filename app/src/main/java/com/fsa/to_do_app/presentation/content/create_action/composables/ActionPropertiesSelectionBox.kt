@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
 import com.fsa.to_do_app.presentation.content.dashboard.composables.Categories
-import java.text.SimpleDateFormat
+import com.fsa.to_do_app.util.DateFormatter.month_date
+import com.fsa.to_do_app.util.getDayOfWeek
 import java.util.*
 
 @Composable
@@ -27,6 +28,7 @@ fun ActionPropertiesSelectionBox(
     onCategorySelected: (CategoryModel) -> Unit,
     onDateSelected: (Date) -> Unit
 ) {
+    val currentDate = Calendar.getInstance(TimeZone.getDefault())
     Box(modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
         when (actionProperty) {
             ActionProperty.CATEGORY -> {
@@ -37,7 +39,7 @@ fun ActionPropertiesSelectionBox(
                 )
             }
             ActionProperty.DATE -> {
-                CustomCalendar(onDateClicked = onDateSelected)
+                CustomCalendar(onDateClicked = onDateSelected,currentDate, {}, {})
             }
             ActionProperty.TIME -> {}
         }
@@ -45,9 +47,7 @@ fun ActionPropertiesSelectionBox(
 }
 
 fun getMonthDays():List<Int>{
-    val month_date = SimpleDateFormat("MMMM")
     val calendar = Calendar.getInstance(TimeZone.getDefault())
-    calendar.firstDayOfWeek = Calendar.MONDAY
 
     calendar.set(Calendar.DAY_OF_MONTH, 1)
     val firstDayOfMonth_WeekDay = calendar.getDayOfWeek()
@@ -61,13 +61,12 @@ fun getMonthDays():List<Int>{
 }
 
 @Composable
-fun CustomCalendar(onDateClicked: (date: Date) -> Unit) {
-    val currentDate = Calendar.getInstance(TimeZone.getDefault())
-    val month_date = SimpleDateFormat("MMMM")
-    val monthString = month_date.format(currentDate.time)
-    val currentMonth = getMonthDays()
+fun CustomCalendar(onDateClicked: (date: Date) -> Unit, currentDate:Calendar,  onMonthUp:() -> Unit, onMonthDown: () -> Unit) {
+
     val year = currentDate.get(Calendar.YEAR)
     val month = currentDate.get(Calendar.MONTH)
+    val monthString = month_date.format(currentDate.time)
+    val currentMonthDays = getMonthDays()
 
     Column(horizontalAlignment = CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.padding(bottom = 16.dp)) {
@@ -107,7 +106,7 @@ fun CustomCalendar(onDateClicked: (date: Date) -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(currentMonth) {
+            items(currentMonthDays) {
                 Text(
                     text = if (it == -1) "" else it.toString(),
                     modifier = Modifier
@@ -127,9 +126,3 @@ fun CustomCalendar(onDateClicked: (date: Date) -> Unit) {
 }
 
 
-fun Calendar.getDayOfWeek(): Int {
-    var dayOfWeek: Int = this.get(Calendar.DAY_OF_WEEK) - 1
-    if (dayOfWeek == 0) dayOfWeek = 7
-
-    return dayOfWeek
-}
