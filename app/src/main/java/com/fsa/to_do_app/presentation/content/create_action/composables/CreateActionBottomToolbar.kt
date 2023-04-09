@@ -15,6 +15,7 @@ import com.fsa.to_do_app.R
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.domain.model.CreateActionModel
 import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
+import com.fsa.to_do_app.presentation.content.create_action.CalendarState
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,7 +32,10 @@ fun CreateActionBottomToolbar(
     onCalendarClicked: () -> Unit,
     onTimeClicked: () -> Unit,
     onCategorySelected: (CategoryModel) -> Unit,
-    onDateSelected: (Date) -> Unit
+    onDateSelected: (Date) -> Unit,
+    calendar: CalendarState,
+    onMonthDown: () -> Unit,
+    onMonthUp: () -> Unit
 ) {
     Row(
         modifier
@@ -41,21 +45,27 @@ fun CreateActionBottomToolbar(
         Icon(
             painter = painterResource(id = R.drawable.ic_calendar),
             contentDescription = "Open Calendar",
-            modifier = Modifier.padding(6.dp).clickable { onCalendarClicked() },
+            modifier = Modifier
+                .padding(6.dp)
+                .clickable { onCalendarClicked() },
             tint = Color.LightGray
         )
         Spacer(modifier = Modifier.padding(4.dp))
         Icon(
             painter = painterResource(id = R.drawable.ic_alarm),
             contentDescription = "Open Time Picker",
-            modifier = Modifier.padding(6.dp).clickable { onTimeClicked() },
+            modifier = Modifier
+                .padding(6.dp)
+                .clickable { onTimeClicked() },
             tint = Color.LightGray
         )
         val sdf = SimpleDateFormat.getDateInstance(DateFormat.DATE_FIELD)
         action.date?.let {
             Text(
                 text = sdf.format(it), style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(10.dp).align(Alignment.CenterVertically)
+                modifier = Modifier
+                    .padding(10.dp)
+                    .align(Alignment.CenterVertically)
             )
         }
         Spacer(modifier = Modifier.weight(1f))
@@ -74,7 +84,10 @@ fun CreateActionBottomToolbar(
             categories = categories,
             actionProperty = propertyBoxToShow,
             onCategorySelected = onCategorySelected,
-            onDateSelected = onDateSelected
+            onDateSelected = onDateSelected,
+            calendar = calendar,
+            onMonthDown = onMonthDown,
+            onMonthUp = onMonthUp
         )
     }
 }

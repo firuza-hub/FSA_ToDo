@@ -7,10 +7,7 @@ import com.fsa.to_do_app.domain.model.CreateActionModel
 import com.fsa.to_do_app.domain.usecase.action.CreateActionUseCase
 import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -20,11 +17,15 @@ class CreateActionViewModel(
     private val getCategoriesUseCase: GetCategoriesUseCase
 ) : ViewModel() {
 
+    private val cal = Calendar.getInstance(TimeZone.getDefault())
     private val _action = MutableStateFlow(CreateActionModel.NULL)
     val action = _action.asStateFlow()
 
     private val _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val categories = _categories.asStateFlow()
+
+    private val _calendar = MutableStateFlow(CalendarState.setCalendar(cal))
+    val calendar = _calendar.asStateFlow()
 
     private val _validationErrors = MutableSharedFlow<CreateActionErrorsModel>()
     val validationErrors = _validationErrors.asSharedFlow()
@@ -66,7 +67,19 @@ class CreateActionViewModel(
     fun selectCategory(categoryModel: CategoryModel) {
         _action.value = _action.value.copy(category = categoryModel)
     }
+
     fun selectDate(date: Date) {
         _action.value = _action.value.copy(date = date)
+    }
+
+    fun onMonthUp() {
+        cal.add(Calendar.MONTH, 1)
+        _calendar.value = CalendarState.setCalendar(cal)
+    }
+
+    fun onMonthDown() {
+        cal.add(Calendar.MONTH, -1)
+        _calendar.value = CalendarState.setCalendar(cal)
+
     }
 }

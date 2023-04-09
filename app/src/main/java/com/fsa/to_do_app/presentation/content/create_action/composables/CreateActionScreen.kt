@@ -20,6 +20,7 @@ fun CreateActionScreen(
 ) {
     val action by viewModel.action.collectAsState()
     val categories by viewModel.categories.collectAsState()
+    val calendar by viewModel.calendar.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
@@ -90,7 +91,10 @@ fun CreateActionScreen(
             },
 
             onCategorySelected = viewModel::selectCategory,
-            onDateSelected = viewModel::selectDate
+            onDateSelected = viewModel::selectDate,
+            calendar = calendar,
+            onMonthUp = viewModel::onMonthUp,
+            onMonthDown = viewModel::onMonthDown
         )
     }
 }
