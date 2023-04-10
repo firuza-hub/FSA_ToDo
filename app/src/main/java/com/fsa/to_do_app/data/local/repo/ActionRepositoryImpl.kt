@@ -18,4 +18,8 @@ class ActionRepositoryImpl(private val dao: ActionDao): ActionRepository {
     override suspend fun create(model: CreateActionModel) {
         dao.create(model.toAction())
     }
+
+    override suspend fun getByMonth(month: Int, year: Int): List<ActionWithCategoryInfo> {
+        return dao.getByMonth(month = month, year = year)
+    }
 }

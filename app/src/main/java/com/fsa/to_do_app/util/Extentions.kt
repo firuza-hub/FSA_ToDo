@@ -13,3 +13,10 @@ fun Calendar.getDayOfWeek(): Int {
 
     return dayOfWeek
 }
+
+fun Date.getDayOfMonth(): Int {
+    val cal = Calendar.getInstance();
+    cal.time = this;
+    return cal.get(Calendar.DAY_OF_MONTH);
+
+}

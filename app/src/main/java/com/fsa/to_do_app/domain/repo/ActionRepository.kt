@@ -8,4 +8,5 @@ interface ActionRepository {
     suspend fun get(): List<ActionWithCategoryInfo>
     suspend fun updateStatus(id: Int, checked: Boolean)
     suspend fun create(model: CreateActionModel)
+    suspend fun getByMonth(month: Int, year: Int): List<ActionWithCategoryInfo>
 }

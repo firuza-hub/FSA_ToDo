@@ -10,19 +10,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun CircleShape(color: Color, modifier: Modifier) {
+fun CircleShape(color: Color, modifier: Modifier, circleSize: Dp ) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
             .wrapContentSize(Alignment.Center)
     ) {
         Box(
             modifier = Modifier
-                .size(12.dp)
+                .size(circleSize)
                 .clip(androidx.compose.foundation.shape.CircleShape)
                 .background(color)
         )

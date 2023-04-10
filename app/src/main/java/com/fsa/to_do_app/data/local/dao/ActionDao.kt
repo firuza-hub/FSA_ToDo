@@ -15,4 +15,6 @@ interface ActionDao {
     suspend fun updateStatus(id:Int, checked: Boolean)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun create(toAction: Action)
+    @Query("SELECT a.*,c.colorCode AS categoryColorCode FROM Actions a join Categories c on a.categoryId = c.id where cast(strftime('%Y',datetime(a.date/1000, 'unixepoch')) as numeric) = :year and cast(strftime('%m',datetime(a.date/1000, 'unixepoch')) as numeric) = :month")
+    fun getByMonth(month: Int, year: Int):List<ActionWithCategoryInfo>
 }

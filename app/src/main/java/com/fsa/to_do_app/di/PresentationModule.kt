@@ -16,7 +16,8 @@ val presentationModule = module {
     viewModel {
         CreateActionViewModel(
             getCategoriesUseCase = get(),
-            createActionUseCase = get()
+            createTaskUseCase = get(),
+            getMonthTasksUseCase = get()
         )
     }
 }
