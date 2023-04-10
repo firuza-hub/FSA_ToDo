@@ -1,6 +1,6 @@
 package com.fsa.to_do_app.presentation.content.create_action
 
-import com.fsa.to_do_app.domain.model.ActionModel
+import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.util.DateFormatter.month_date
 import com.fsa.to_do_app.util.getDayOfMonth
 import com.fsa.to_do_app.util.getDayOfWeek
@@ -15,7 +15,7 @@ data class CalendarState(
     val daysRange: List<CalendarDay>
 ) {
     companion object {
-        private fun getMonthDays(calendar: Calendar, tasks: List<ActionModel>): List<CalendarDay> {
+        private fun getMonthDays(calendar: Calendar, tasks: List<TaskModel>): List<CalendarDay> {
             calendar.set(Calendar.DAY_OF_MONTH, 1)
             val firstDayOfMonthWeekDay = calendar.getDayOfWeek()
             val lastDayOfMonth = calendar.getActualMaximum(Calendar.DATE)
@@ -27,7 +27,7 @@ data class CalendarState(
             return currentMonth
         }
 
-        fun setCalendar(cal: Calendar, tasks: List<ActionModel>): CalendarState{
+        fun setCalendar(cal: Calendar, tasks: List<TaskModel>): CalendarState{
                 return CalendarState(
                     selectedDate = cal,
                     year = cal.get(Calendar.YEAR),
@@ -42,6 +42,6 @@ data class CalendarState(
 
 data class CalendarDay(
     val num: Int,
-    val tasks: List<ActionModel> = emptyList()
+    val tasks: List<TaskModel> = emptyList()
 )
 

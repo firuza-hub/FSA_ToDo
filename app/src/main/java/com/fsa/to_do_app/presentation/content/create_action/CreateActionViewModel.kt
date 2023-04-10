@@ -2,9 +2,9 @@ package com.fsa.to_do_app.presentation.content.create_action
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fsa.to_do_app.domain.model.ActionModel
+import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.model.CategoryModel
-import com.fsa.to_do_app.domain.model.CreateActionModel
+import com.fsa.to_do_app.domain.model.CreateTaskModel
 import com.fsa.to_do_app.domain.usecase.action.CreateTaskUseCase
 import com.fsa.to_do_app.domain.usecase.action.GetMonthTasksUseCase
 import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
@@ -21,7 +21,7 @@ class CreateActionViewModel(
 ) : ViewModel() {
 
     private val cal = Calendar.getInstance(TimeZone.getDefault())
-    private val _action = MutableStateFlow(CreateActionModel.NULL)
+    private val _action = MutableStateFlow(CreateTaskModel.NULL)
     val action = _action.asStateFlow()
 
     private val _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
@@ -92,7 +92,7 @@ class CreateActionViewModel(
         }
     }
 
-    private suspend fun getMonthTasks(month: Int, year: Int): List<ActionModel> {
+    private suspend fun getMonthTasks(month: Int, year: Int): List<TaskModel> {
         return getMonthTasksUseCase(month, year)
     }
 

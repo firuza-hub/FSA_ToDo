@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.domain.model.CategoryModel
-import com.fsa.to_do_app.domain.model.CreateActionModel
+import com.fsa.to_do_app.domain.model.CreateTaskModel
 import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
 import com.fsa.to_do_app.presentation.content.create_action.CalendarState
 import java.text.DateFormat
@@ -25,7 +25,7 @@ fun CreateActionBottomToolbar(
     modifier: Modifier,
     category: CategoryModel,
     categories: List<CategoryModel>,
-    action: CreateActionModel,
+    action: CreateTaskModel,
     expandPropertyBox: Boolean,
     propertyBoxToShow: ActionProperty,
     onSelectedCategoryClicked: () -> Unit,

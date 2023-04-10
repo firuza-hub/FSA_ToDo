@@ -21,8 +21,8 @@ fun DashboardScreen(
     navigateToCreateAction: () -> Unit
 ) {
     viewModel.loadData()
-    val actions by viewModel.actions.collectAsState()
-    val actionsByCategory by viewModel.actionsByCategory.collectAsState()
+    val tasks by viewModel.tasks.collectAsState()
+    val tasksByCategory by viewModel.tasksByCategory.collectAsState()
     val categories by viewModel.categories.collectAsState()
     val selectedCategory by viewModel.selectedCategory.collectAsState()
     val categorySheetState by viewModel.categorySheetState.collectAsState()
@@ -51,7 +51,7 @@ fun DashboardScreen(
             Spacer(modifier = Modifier.height(16.dp))
             if (modalSheetState.isVisible) {
                 CategoryBottomSheet(
-                    actionsByCategory,
+                    tasksByCategory,
                     selectedCategory,
                     modalSheetState,
                     viewModel::onActionChecked
@@ -64,7 +64,7 @@ fun DashboardScreen(
                 modifier = Modifier.padding(start = 44.dp)
             )
 
-            Actions(actions, Modifier.weight(1f), onActionChecked = viewModel::onActionChecked)
+            Tasks(tasks, Modifier.weight(1f), onTaskChecked = viewModel::onActionChecked, deleteTask = viewModel::delete)
 
             if (categories.any()) {
                 Text(
@@ -73,6 +73,7 @@ fun DashboardScreen(
                     modifier = Modifier.padding(bottom = 6.dp, start = 45.dp)
                 )
             }
+
             Categories(
                 categories,
                 Modifier

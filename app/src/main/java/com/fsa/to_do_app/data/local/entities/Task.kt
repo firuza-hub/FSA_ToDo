@@ -4,14 +4,14 @@ import androidx.room.*
 import java.util.*
 
 @Entity(
-    tableName = "Actions", foreignKeys = [ForeignKey(
+    tableName = "Tasks", foreignKeys = [ForeignKey(
         entity = Category::class,
         parentColumns = ["id"],
         childColumns = ["categoryId"],
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class Action(
+data class Task(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val isDone: Boolean,

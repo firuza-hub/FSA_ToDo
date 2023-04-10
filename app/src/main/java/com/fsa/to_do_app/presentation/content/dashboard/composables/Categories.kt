@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.fsa.to_do_app.domain.model.ActionModel
+import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.presentation.common.composables.shapes.DragHandle
 import com.fsa.to_do_app.presentation.common.hexToColor
@@ -67,7 +67,7 @@ fun CategoryCard(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CategoryBottomSheet(
-    actionsByCategory: List<ActionModel>,
+    actionsByCategory: List<TaskModel>,
     category: CategoryModel,
     modalSheetState: ModalBottomSheetState,
     onActionChecked: (id: Int, checked: Boolean) -> Unit
@@ -99,11 +99,11 @@ fun CategoryBottomSheet(
                             style = MaterialTheme.typography.body2
                         )
                     }
-                    Actions(
-                        actions = actionsByCategory,
+                    Tasks(
+                        tasks = actionsByCategory,
                         modifier = Modifier,
-                        onActionChecked = onActionChecked,
-                        showCateg = false
+                        onTaskChecked = onActionChecked,
+                        showCategory = false
                     )
                 }
 

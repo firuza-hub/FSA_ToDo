@@ -2,9 +2,9 @@ package com.fsa.to_do_app.di
 
 import androidx.room.Room
 import com.fsa.to_do_app.data.local.MyDatabase
-import com.fsa.to_do_app.data.local.repo.ActionRepositoryImpl
+import com.fsa.to_do_app.data.local.repo.TaskRepositoryImpl
 import com.fsa.to_do_app.data.local.repo.CategoryRepositoryImpl
-import com.fsa.to_do_app.domain.repo.ActionRepository
+import com.fsa.to_do_app.domain.repo.TaskRepository
 import com.fsa.to_do_app.domain.repo.CategoryRepository
 import org.koin.dsl.module
 
@@ -15,6 +15,6 @@ val dataModule = module {
     single { get<MyDatabase>().getCategoryDao() }
 
     //REPO
-    single<ActionRepository> { ActionRepositoryImpl(get()) }
+    single<TaskRepository> { TaskRepositoryImpl(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
 }

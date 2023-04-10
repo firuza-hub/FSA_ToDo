@@ -4,26 +4,29 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fsa.to_do_app.domain.model.ActionModel
+import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.model.CategoryModel
-import com.fsa.to_do_app.domain.usecase.action.GetActionsUseCase
-import com.fsa.to_do_app.domain.usecase.action.UpdateActionStatusUseCase
+import com.fsa.to_do_app.domain.usecase.action.DeleteTaskUseCase
+import com.fsa.to_do_app.domain.usecase.action.GetTasksUseCase
+import com.fsa.to_do_app.domain.usecase.action.UpdateTaskStatusUseCase
 import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DashboardViewModel(
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val getActionsUseCase: GetActionsUseCase,
-    private val updateActionStatusUseCase: UpdateActionStatusUseCase
+    private val getTasksUseCase: GetTasksUseCase,
+    private val updateTaskStatusUseCase: UpdateTaskStatusUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase
 ) : ViewModel() {
-    private val _actions = MutableStateFlow<List<ActionModel>>(emptyList())
-    val actions = _actions.asStateFlow()
+    private val _actions = MutableStateFlow<List<TaskModel>>(emptyList())
+    val tasks = _actions.asStateFlow()
 
-    private val _actionsByCategory = MutableStateFlow<List<ActionModel>>(emptyList())
-    val actionsByCategory = _actionsByCategory.asStateFlow()
+    private val _actionsByCategory = MutableStateFlow<List<TaskModel>>(emptyList())
+    val tasksByCategory = _actionsByCategory.asStateFlow()
 
     private val _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val categories = _categories.asStateFlow()
@@ -35,12 +38,13 @@ class DashboardViewModel(
     val isLoading = _isLoading.asStateFlow()
 
     @OptIn(ExperimentalMaterialApi::class)
-    private val _categorySheetState = MutableStateFlow( ModalBottomSheetValue.Hidden)
+    private val _categorySheetState = MutableStateFlow(ModalBottomSheetValue.Hidden)
+
     @OptIn(ExperimentalMaterialApi::class)
     val categorySheetState = _categorySheetState.asStateFlow()
 
 
-    fun loadData(){
+    fun loadData() {
         getCategories()
         getActions()
     }
@@ -48,7 +52,7 @@ class DashboardViewModel(
     private fun getActions() {
         _isLoading.value = true
         viewModelScope.launch {
-            _actions.value = getActionsUseCase()
+            _actions.value = getTasksUseCase()
             _isLoading.value = false
         }
     }
@@ -63,9 +67,10 @@ class DashboardViewModel(
         _actions.value = _actions.value.map {
             if (it.id == id) it.copy(isDone = checked) else it
         }
-        _actionsByCategory.value = _actions.value.filter { it.categoryId == _selectedCategory.value.id }
+        _actionsByCategory.value =
+            _actions.value.filter { it.categoryId == _selectedCategory.value.id }
         viewModelScope.launch {
-            updateActionStatusUseCase(id, checked)
+            updateTaskStatusUseCase(id, checked)
         }
     }
 
@@ -77,5 +82,13 @@ class DashboardViewModel(
     @OptIn(ExperimentalMaterialApi::class)
     fun updateCategorySheetState(sheetState: ModalBottomSheetValue) {
         _categorySheetState.value = sheetState
+    }
+
+    fun delete(task: TaskModel, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteTaskUseCase(task)
+
+            withContext(Dispatchers.Main) { onSuccess() }
+        }
     }
 }

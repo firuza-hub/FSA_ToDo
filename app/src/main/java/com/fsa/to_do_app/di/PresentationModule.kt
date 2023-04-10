@@ -9,8 +9,9 @@ val presentationModule = module {
     viewModel {
         DashboardViewModel(
             getCategoriesUseCase = get(),
-            getActionsUseCase = get(),
-            updateActionStatusUseCase = get()
+            getTasksUseCase = get(),
+            updateTaskStatusUseCase = get(),
+            deleteTaskUseCase = get()
         )
     }
     viewModel {

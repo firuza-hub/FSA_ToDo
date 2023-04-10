@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d9aacacf80625718d97507c37b86ea37",
+    "identityHash": "f3360793a6983b8dcb458772aa552cd3",
     "entities": [
       {
-        "tableName": "Actions",
+        "tableName": "Tasks",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `isDone` INTEGER NOT NULL, `content` TEXT NOT NULL, `date` INTEGER, `categoryId` INTEGER NOT NULL, FOREIGN KEY(`categoryId`) REFERENCES `Categories`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
@@ -47,13 +47,13 @@
         },
         "indices": [
           {
-            "name": "index_Actions_categoryId",
+            "name": "index_Tasks_categoryId",
             "unique": false,
             "columnNames": [
               "categoryId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Actions_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Tasks_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
           }
         ],
         "foreignKeys": [
@@ -112,7 +112,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd9aacacf80625718d97507c37b86ea37')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f3360793a6983b8dcb458772aa552cd3')"
     ]
   }
 }

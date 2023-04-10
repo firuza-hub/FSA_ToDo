@@ -7,10 +7,11 @@ import org.koin.dsl.module
 val domainModule = module {
 
     //ACTION
-    factory { GetActionsUseCase(get()) }
+    factory { GetTasksUseCase(get()) }
     factory { CreateTaskUseCase(get()) }
-    factory { UpdateActionStatusUseCase(get()) }
+    factory { UpdateTaskStatusUseCase(get()) }
     factory { GetMonthTasksUseCase(get()) }
+    factory { DeleteTaskUseCase(get()) }
 
     //CATEGORY
     factory { GetCategoriesUseCase(get()) }
