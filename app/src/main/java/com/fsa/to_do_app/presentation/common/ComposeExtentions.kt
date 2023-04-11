@@ -1,5 +1,8 @@
 package com.fsa.to_do_app.presentation.common
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
@@ -47,3 +50,10 @@ fun Modifier.topBorder(strokeWidth: Dp, color: Color) = composed(factory = {
 
 fun String.hexToColor(alpha: Float = 1f) =
     Color(android.graphics.Color.parseColor("#$this")).copy(alpha = alpha)
+
+fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
+    clickable(indication = null,
+        interactionSource = remember { MutableInteractionSource() }) {
+        onClick()
+    }
+}

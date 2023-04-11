@@ -1,9 +1,6 @@
 package com.fsa.to_do_app.presentation.content.create_action.composables
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.MaterialTheme
@@ -11,8 +8,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbox
 
@@ -22,20 +20,20 @@ import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbo
 fun CreateActionTextField(
     content: String,
     onContentChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    keyboardController: SoftwareKeyboardController?,
+    onKeyboardShown:() -> Unit
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    Box(modifier = modifier) {
+    Box(modifier = modifier.fillMaxWidth()) {
         BasicTextField(
             value = content,
             onValueChange = onContentChange,
-            modifier = Modifier
+            modifier = Modifier.fillMaxSize().onFocusChanged { if(it.hasFocus) onKeyboardShown() }
                 .padding(16.dp),
             textStyle = MaterialTheme.typography.body1,
             keyboardActions = KeyboardActions(onDone = {
                 keyboardController?.hide()
-            }),
-
+            })
             ) {
             Row {
                 RoundCheckbox(

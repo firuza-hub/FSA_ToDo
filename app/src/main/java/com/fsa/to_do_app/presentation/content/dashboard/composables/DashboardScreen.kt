@@ -1,10 +1,12 @@
 package com.fsa.to_do_app.presentation.content.dashboard.composables
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -64,7 +66,12 @@ fun DashboardScreen(
                 modifier = Modifier.padding(start = 44.dp)
             )
 
-            Tasks(tasks, Modifier.weight(1f), onTaskChecked = viewModel::onTaskChecked, deleteTask = viewModel::delete)
+            Tasks(
+                tasks,
+                Modifier.weight(1f),
+                onTaskChecked = viewModel::onTaskChecked,
+                deleteTask = viewModel::delete
+            )
 
             if (categories.any()) {
                 Text(
@@ -96,6 +103,5 @@ fun DashboardScreen(
             Text(text = "+", fontSize = 30.sp, color = Color.Blue)
         }
     }
-
 }
 

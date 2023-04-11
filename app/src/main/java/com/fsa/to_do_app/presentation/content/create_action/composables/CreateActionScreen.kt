@@ -3,9 +3,12 @@ package com.fsa.to_do_app.presentation.content.create_action.composables
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.presentation.common.topBorder
 import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
@@ -13,6 +16,7 @@ import com.fsa.to_do_app.presentation.content.create_action.CreateActionViewMode
 import org.koin.androidx.compose.koinViewModel
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CreateActionScreen(
     navigateBack: () -> Boolean,
@@ -37,6 +41,8 @@ fun CreateActionScreen(
     var propertyBoxToShow by remember {
         mutableStateOf(ActionProperty.CATEGORY)
     }
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     Column(Modifier.fillMaxSize()) {
         CreateActionToolbar(cancel = navigateBack, save = {
@@ -45,13 +51,18 @@ fun CreateActionScreen(
                 navigateBack()
             }
 
+        }, onAreaClicked = {
+            expandPropertyBox = false
+            keyboardController?.hide()
+            focusManager.clearFocus()
         })
         CreateActionTextField(
             action.content,
             viewModel::onContentChange,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            keyboardController,
+            onKeyboardShown = { expandPropertyBox = false }
         )
-
         CreateActionBottomToolbar(
             modifier = Modifier
                 .topBorder(1.dp, Color.LightGray)
@@ -61,8 +72,9 @@ fun CreateActionScreen(
             action,
             expandPropertyBox,
             propertyBoxToShow,
-            onSelectedCategoryClicked =
-            {
+            onSelectedCategoryClicked = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
                 if (propertyBoxToShow == ActionProperty.CATEGORY)
                     expandPropertyBox = !expandPropertyBox
                 else {
@@ -72,6 +84,8 @@ fun CreateActionScreen(
                 }
             },
             onTimeClicked = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
                 if (propertyBoxToShow == ActionProperty.TIME)
                     expandPropertyBox = !expandPropertyBox
                 else {
@@ -81,6 +95,8 @@ fun CreateActionScreen(
                 }
             },
             onCalendarClicked = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
                 if (propertyBoxToShow == ActionProperty.DATE)
                     expandPropertyBox = !expandPropertyBox
                 else {
@@ -89,7 +105,6 @@ fun CreateActionScreen(
                         expandPropertyBox = true
                 }
             },
-
             onCategorySelected = viewModel::selectCategory,
             onDateSelected = viewModel::selectDate,
             calendar = calendar,

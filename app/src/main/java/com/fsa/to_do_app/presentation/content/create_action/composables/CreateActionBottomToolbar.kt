@@ -1,6 +1,5 @@
 package com.fsa.to_do_app.presentation.content.create_action.composables
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -14,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.domain.model.CreateTaskModel
+import com.fsa.to_do_app.presentation.common.noRippleClickable
 import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
 import com.fsa.to_do_app.presentation.content.create_action.CalendarState
 import java.text.DateFormat
@@ -39,7 +39,7 @@ fun CreateActionBottomToolbar(
 ) {
     Row(
         modifier
-            .fillMaxWidth()
+            .fillMaxWidth().imePadding()
             .padding(16.dp)
     ) {
         Icon(
@@ -47,7 +47,7 @@ fun CreateActionBottomToolbar(
             contentDescription = "Open Calendar",
             modifier = Modifier
                 .padding(6.dp)
-                .clickable { onCalendarClicked() },
+                .noRippleClickable { onCalendarClicked() },
             tint = Color.LightGray
         )
         Spacer(modifier = Modifier.padding(4.dp))
@@ -56,7 +56,7 @@ fun CreateActionBottomToolbar(
             contentDescription = "Open Time Picker",
             modifier = Modifier
                 .padding(6.dp)
-                .clickable { onTimeClicked() },
+                .noRippleClickable { onTimeClicked() },
             tint = Color.LightGray
         )
         val sdf = SimpleDateFormat.getDateInstance(DateFormat.DATE_FIELD)
@@ -73,7 +73,7 @@ fun CreateActionBottomToolbar(
             category,
             Modifier
                 .align(Alignment.CenterVertically)
-                .clickable { onSelectedCategoryClicked() },
+                .noRippleClickable { onSelectedCategoryClicked() },
             propertyBoxToShow == ActionProperty.CATEGORY && expandPropertyBox
         )
 

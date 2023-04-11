@@ -10,11 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.fsa.to_do_app.presentation.common.noRippleClickable
 
 @Composable
-fun CreateActionToolbar(cancel: () -> Boolean, save: () -> Unit) {
+fun CreateActionToolbar(cancel: () -> Boolean, save: () -> Unit, onAreaClicked:() -> Unit) {
     Row(
-        Modifier
+        Modifier.noRippleClickable { onAreaClicked() }
             .fillMaxWidth()
             .padding(16.dp)
     ) {
