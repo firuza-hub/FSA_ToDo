@@ -3,11 +3,12 @@ package com.fsa.to_do_app.data.local.dao
 import androidx.room.*
 import com.fsa.to_do_app.data.local.entities.Task
 import com.fsa.to_do_app.data.local.models.TasksWithCategoryInfo
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
     @Query("SELECT a.*,c.colorCode AS categoryColorCode FROM Tasks a join Categories c on a.categoryId = c.id")
-    suspend fun getWithCategoryInfo(): List<TasksWithCategoryInfo>
+    fun getWithCategoryInfo(): Flow<List<TasksWithCategoryInfo>>
     @Query("UPDATE Tasks SET isDone = :checked where id = :id")
     suspend fun updateStatus(id:Int, checked: Boolean)
     @Insert(onConflict = OnConflictStrategy.REPLACE)

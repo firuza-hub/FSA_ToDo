@@ -6,9 +6,10 @@ import com.fsa.to_do_app.domain.mapper.toTask
 import com.fsa.to_do_app.domain.model.CreateTaskModel
 import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.repo.TaskRepository
+import kotlinx.coroutines.flow.Flow
 
 class TaskRepositoryImpl(private val dao: TaskDao): TaskRepository {
-    override suspend fun get(): List<TasksWithCategoryInfo> {
+    override suspend fun get(): Flow<List<TasksWithCategoryInfo>> {
         return dao.getWithCategoryInfo()
     }
 

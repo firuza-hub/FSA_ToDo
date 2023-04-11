@@ -37,7 +37,7 @@ fun DashboardScreen(
         },
         skipHalfExpanded = true,
     )
-    if (isLoading) LinearProgressIndicator()
+    if (isLoading) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +54,7 @@ fun DashboardScreen(
                     tasksByCategory,
                     selectedCategory,
                     modalSheetState,
-                    viewModel::onActionChecked
+                    viewModel::onTaskChecked
                 )
             }
             Text(
@@ -64,7 +64,7 @@ fun DashboardScreen(
                 modifier = Modifier.padding(start = 44.dp)
             )
 
-            Tasks(tasks, Modifier.weight(1f), onTaskChecked = viewModel::onActionChecked, deleteTask = viewModel::delete)
+            Tasks(tasks, Modifier.weight(1f), onTaskChecked = viewModel::onTaskChecked, deleteTask = viewModel::delete)
 
             if (categories.any()) {
                 Text(

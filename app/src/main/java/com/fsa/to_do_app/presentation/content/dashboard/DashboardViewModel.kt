@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.model.CategoryModel
-import com.fsa.to_do_app.domain.usecase.action.DeleteTaskUseCase
-import com.fsa.to_do_app.domain.usecase.action.GetTasksUseCase
-import com.fsa.to_do_app.domain.usecase.action.UpdateTaskStatusUseCase
+import com.fsa.to_do_app.domain.usecase.task.DeleteTaskUseCase
+import com.fsa.to_do_app.domain.usecase.task.GetTasksUseCase
+import com.fsa.to_do_app.domain.usecase.task.UpdateTaskStatusUseCase
 import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,11 +22,11 @@ class DashboardViewModel(
     private val updateTaskStatusUseCase: UpdateTaskStatusUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase
 ) : ViewModel() {
-    private val _actions = MutableStateFlow<List<TaskModel>>(emptyList())
-    val tasks = _actions.asStateFlow()
+    private val _tasks = MutableStateFlow<List<TaskModel>>(emptyList())
+    val tasks = _tasks.asStateFlow()
 
-    private val _actionsByCategory = MutableStateFlow<List<TaskModel>>(emptyList())
-    val tasksByCategory = _actionsByCategory.asStateFlow()
+    private val _tasksByCategory = MutableStateFlow<List<TaskModel>>(emptyList())
+    val tasksByCategory = _tasksByCategory.asStateFlow()
 
     private val _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val categories = _categories.asStateFlow()
@@ -46,14 +46,18 @@ class DashboardViewModel(
 
     fun loadData() {
         getCategories()
-        getActions()
+        getTasks()
     }
 
-    private fun getActions() {
-        _isLoading.value = true
+    private fun getTasks() {
         viewModelScope.launch {
-            _actions.value = getTasksUseCase()
-            _isLoading.value = false
+            getTasksUseCase().collect {
+
+                _isLoading.value = true
+                _tasks.value = it
+                _isLoading.value = false
+            }
+
         }
     }
 
@@ -63,12 +67,12 @@ class DashboardViewModel(
         }
     }
 
-    fun onActionChecked(id: Int, checked: Boolean) {
-        _actions.value = _actions.value.map {
+    fun onTaskChecked(id: Int, checked: Boolean) {
+        _tasks.value = _tasks.value.map {
             if (it.id == id) it.copy(isDone = checked) else it
         }
-        _actionsByCategory.value =
-            _actions.value.filter { it.categoryId == _selectedCategory.value.id }
+        _tasksByCategory.value =
+            _tasks.value.filter { it.categoryId == _selectedCategory.value.id }
         viewModelScope.launch {
             updateTaskStatusUseCase(id, checked)
         }
@@ -76,7 +80,7 @@ class DashboardViewModel(
 
     fun updateSelectedCategory(category: CategoryModel) {
         _selectedCategory.value = category
-        _actionsByCategory.value = _actions.value.filter { it.categoryId == category.id }
+        _tasksByCategory.value = _tasks.value.filter { it.categoryId == category.id }
     }
 
     @OptIn(ExperimentalMaterialApi::class)

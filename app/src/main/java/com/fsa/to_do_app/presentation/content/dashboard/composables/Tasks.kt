@@ -3,7 +3,6 @@ package com.fsa.to_do_app.presentation.content.dashboard.composables
 import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,7 +11,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,11 +42,17 @@ fun Tasks(
 ) {
     val context = LocalContext.current
     LazyColumn(modifier) {
-        items(items = tasks, key = {it.id}) { task ->
-            val dismissState = rememberDismissState()
-            if (dismissState.isDismissed(DismissDirection.EndToStart)) {
-                deleteTask(task) { Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show() }
-            }
+        items(items = tasks, key = { it.id }) { task ->
+            val dismissState = rememberDismissState(
+                confirmStateChange = {
+                    if (it == DismissValue.DismissedToStart) {
+                        deleteTask(task) {
+                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show()
+                        }
+                        true
+                    } else false
+                }
+            )
             SwipeToDismiss(
                 state = dismissState,
                 background = {
@@ -78,6 +82,7 @@ fun Tasks(
                         }
                     }
                 },
+                dismissThresholds = { FractionalThreshold(0.2f) },
                 directions = setOf(DismissDirection.EndToStart)
             ) {
                 RoundCheckbox(

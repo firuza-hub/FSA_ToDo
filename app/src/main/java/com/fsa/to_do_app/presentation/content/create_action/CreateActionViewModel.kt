@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.domain.model.CreateTaskModel
-import com.fsa.to_do_app.domain.usecase.action.CreateTaskUseCase
-import com.fsa.to_do_app.domain.usecase.action.GetMonthTasksUseCase
+import com.fsa.to_do_app.domain.usecase.task.CreateTaskUseCase
+import com.fsa.to_do_app.domain.usecase.task.GetMonthTasksUseCase
 import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

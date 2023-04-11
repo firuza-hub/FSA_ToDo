@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.domain.usecase.action
+package com.fsa.to_do_app.domain.usecase.task
 
 import com.fsa.to_do_app.domain.model.CreateTaskModel
 import com.fsa.to_do_app.domain.repo.TaskRepository
