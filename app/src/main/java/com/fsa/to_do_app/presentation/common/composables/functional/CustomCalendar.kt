@@ -30,7 +30,7 @@ fun CustomCalendar(
     onMonthDown: () -> Unit
 ) {
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding( start = 16.dp, end = 16.dp).fillMaxWidth()) {
         Row(modifier = Modifier.padding(bottom = 16.dp)) {
             Icon(
                 modifier = Modifier

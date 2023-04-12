@@ -1,6 +1,8 @@
 package com.fsa.to_do_app.presentation.common.composables.functional
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,23 +14,53 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.roundToInt
 
 @Composable
-fun CustomTimePicker() {
-    var hour by remember { mutableStateOf(5) }
-    var minute by remember { mutableStateOf(41) }
+fun CustomTimePicker(hour: Int, minute: Int,ap:String) {
+    val density = LocalDensity.current
+    var _hour by remember { mutableStateOf(hour) }
+    var _minute by remember { mutableStateOf(minute) }
+    var _ap by remember { mutableStateOf(ap) }
 
-    val hours = (1..12).toList()
-    val minutes = (1..60).toList()
 
+    val hours = (listOf(-1, -1) + (1..12)+ listOf(-1, -1)).toList()
+    val minutes = (listOf(-1, -1) + (1..60) + listOf(-1, -1)).toList()
+    var am_pmList = listOf<String>("","","AM", "PM", "", "")
 
-    val minuteOffsetPosition = -200
-    val hourOffsetPosition = -200
+    var hourYCoordinates by remember { mutableStateOf(0) }
+    var minuteYCoordinates by remember { mutableStateOf(0) }
+    var apYCoordinates by remember { mutableStateOf(0) }
 
-    val hoursState = rememberLazyListState(hours.indexOf(hour),hourOffsetPosition)
-    val minutesState = rememberLazyListState(minutes.indexOf(minute),minuteOffsetPosition)
+    val offsetPosition = -with(density) { 85.dp.toPx() }
+
+    val hoursState = rememberLazyListState(hours.indexOf(_hour), offsetPosition.toInt())
+    val minutesState = rememberLazyListState(minutes.indexOf(_minute), offsetPosition.toInt())
+    val apState = rememberLazyListState(am_pmList.indexOf(_ap), offsetPosition.toInt())
+
+    val isHourPressed by hoursState.interactionSource.collectIsDraggedAsState()
+    if (!isHourPressed && hourYCoordinates != 93) {
+        LaunchedEffect(true) {
+            hoursState.scrollToItem(hours.indexOf(_hour), offsetPosition.toInt())
+        }
+    }
+    val isMinutePressed by minutesState.interactionSource.collectIsDraggedAsState()
+    if (!isMinutePressed && minuteYCoordinates != 93) {
+        LaunchedEffect(true) {
+            minutesState.scrollToItem(minutes.indexOf(_minute), offsetPosition.toInt())
+        }
+    }
+    val isAPPressed by apState.interactionSource.collectIsDraggedAsState()
+    if (!isAPPressed && apYCoordinates != 93) {
+        LaunchedEffect(true) {
+            apState.scrollToItem(am_pmList.indexOf(_ap), offsetPosition.toInt())
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -40,21 +72,67 @@ fun CustomTimePicker() {
             LazyColumn(state = hoursState) {
                 items(hours) {
                     Text(
-                        text = it.toString(),
+                        text =  if(it == -1) "" else it.toString(),
                         style = MaterialTheme.typography.body1,
                         fontSize = 26.sp,
-                        modifier = Modifier.padding(vertical = 8.dp)
+                        modifier = Modifier
+                            .width(40.dp)
+                            .padding(vertical = 8.dp)
+                            .onGloballyPositioned { layoutCoordinates ->
+                                if (with(density) { layoutCoordinates.positionInParent().y.toDp() }.value.roundToInt() in 70..110) {
+                                    _hour = it
+                                    hourYCoordinates =
+                                        with(density) { layoutCoordinates.positionInParent().y.toDp() }.value.roundToInt()
+                                }
+                            }
                     )
                 }
             }
-            Spacer(modifier = Modifier.width(25.dp))
+            Spacer(
+                modifier = Modifier
+                    .width(25.dp)
+            )
+
             LazyColumn(state = minutesState) {
                 items(minutes) {
                     Text(
-                        text = it.toString(),
+                        text = if(it == -1) "" else it.toString(),
                         style = MaterialTheme.typography.body1,
                         fontSize = 26.sp,
-                        modifier = Modifier.padding(vertical = 8.dp)
+                        modifier = Modifier
+                            .width(40.dp)
+                            .padding(vertical = 8.dp)
+                            .onGloballyPositioned { layoutCoordinates ->
+                                if (with(density) { layoutCoordinates.positionInParent().y.toDp() }.value.roundToInt() in 70..110) {
+                                    _minute = it
+                                    minuteYCoordinates =
+                                        with(density) { layoutCoordinates.positionInParent().y.toDp() }.value.roundToInt()
+                                }
+                            }
+                    )
+                }
+            }
+            Spacer(
+                modifier = Modifier
+                    .width(25.dp)
+            )
+
+            LazyColumn(state = apState) {
+                items(am_pmList) {
+                    Text(
+                        text =  it,
+                        style = MaterialTheme.typography.body1,
+                        fontSize = 26.sp,
+                        modifier = Modifier
+                            .width(40.dp)
+                            .padding(vertical = 8.dp)
+                            .onGloballyPositioned { layoutCoordinates ->
+                                if (with(density) { layoutCoordinates.positionInParent().y.toDp() }.value.roundToInt() in 70..110) {
+                                    _ap = it
+                                    apYCoordinates =
+                                        with(density) { layoutCoordinates.positionInParent().y.toDp() }.value.roundToInt()
+                                }
+                            }
                     )
                 }
             }
@@ -72,6 +150,10 @@ fun CustomTimePicker() {
                         )
                     )
                 )
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth().height(45.dp).align(Alignment.CenterStart).border(1.dp,Color.Black.copy(0.1f))
         )
     }
 }

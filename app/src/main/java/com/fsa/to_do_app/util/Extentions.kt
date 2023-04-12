@@ -20,3 +20,8 @@ fun Date.getDayOfMonth(): Int {
     return cal.get(Calendar.DAY_OF_MONTH);
 
 }
+
+fun Int.intToAmPm(): String {
+    return if (this == 1) "PM"
+    else "AM"
+}

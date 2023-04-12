@@ -48,7 +48,7 @@ fun CreateActionBottomToolbar(
             modifier = Modifier
                 .padding(6.dp)
                 .noRippleClickable { onCalendarClicked() },
-            tint = Color.LightGray
+            tint = if (propertyBoxToShow == ActionProperty.DATE && expandPropertyBox) Color.Blue else Color.LightGray
         )
         Spacer(modifier = Modifier.padding(4.dp))
         Icon(
@@ -57,7 +57,7 @@ fun CreateActionBottomToolbar(
             modifier = Modifier
                 .padding(6.dp)
                 .noRippleClickable { onTimeClicked() },
-            tint = Color.LightGray
+            tint = if (propertyBoxToShow == ActionProperty.TIME && expandPropertyBox) Color.Blue else Color.LightGray
         )
         val sdf = SimpleDateFormat.getDateInstance(DateFormat.DATE_FIELD)
         action.date?.let {
