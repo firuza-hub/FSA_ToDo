@@ -1,5 +1,6 @@
 package com.fsa.to_do_app.presentation.common.composables.functional
 
+import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
@@ -14,9 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.text.DecimalFormat
@@ -30,6 +33,7 @@ fun CustomTimePicker(
     onTimePicked: (h: Int, m: Int, ap: String) -> Unit
 ) {
     val density = LocalDensity.current
+    val haptic = LocalHapticFeedback.current
 
     var _hour by remember { mutableStateOf(if (hour == 0) 12 else hour) }
     var _minute by remember { mutableStateOf(minute) }
@@ -93,6 +97,8 @@ fun CustomTimePicker(
                                     hourYCoordinates =
                                         with(density) { layoutCoordinates.positionInParent().y.toDp() }.value.roundToInt()
                                 }
+                                if(with(density) {layoutCoordinates.positionInParent().y.toDp() }.value.roundToInt() == 93)
+                                    haptic.performHapticFeedback(HapticFeedbackType(HapticFeedbackConstants.LONG_PRESS))
                             }
                     )
                 }
