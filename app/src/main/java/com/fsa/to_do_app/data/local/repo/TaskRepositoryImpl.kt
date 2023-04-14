@@ -7,6 +7,7 @@ import com.fsa.to_do_app.domain.model.CreateTaskModel
 import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.repo.TaskRepository
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 class TaskRepositoryImpl(private val dao: TaskDao): TaskRepository {
     override suspend fun get(): Flow<List<TasksWithCategoryInfo>> {
@@ -27,5 +28,9 @@ class TaskRepositoryImpl(private val dao: TaskDao): TaskRepository {
 
     override suspend fun delete(task: TaskModel) {
         dao.delete(task.toTask())
+    }
+
+    override fun getForDate(date: Date): Flow<List<TasksWithCategoryInfo>> {
+        return dao.getWithCategoryInfoForDate(date)
     }
 }

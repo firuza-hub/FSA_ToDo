@@ -37,6 +37,9 @@ class DashboardViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
+    private val _allShown = MutableStateFlow(false)
+    val allShown = _allShown.asStateFlow()
+
     @OptIn(ExperimentalMaterialApi::class)
     private val _categorySheetState = MutableStateFlow(ModalBottomSheetValue.Hidden)
 
@@ -50,9 +53,8 @@ class DashboardViewModel(
     }
 
     private fun getTasks() {
-        viewModelScope.launch {
-            getTasksUseCase().collect {
-
+        viewModelScope.launch(Dispatchers.IO)  {
+            getTasksUseCase.invoke(showAll = _allShown.value).collect {
                 _isLoading.value = true
                 _tasks.value = it
                 _isLoading.value = false
@@ -62,8 +64,8 @@ class DashboardViewModel(
     }
 
     private fun getCategories() {
-        viewModelScope.launch {
-            _categories.value = getCategoriesUseCase()
+        viewModelScope.launch(Dispatchers.IO) {
+            _categories.value = getCategoriesUseCase.invoke(showAll = _allShown.value)
         }
     }
 
@@ -94,5 +96,14 @@ class DashboardViewModel(
 
             withContext(Dispatchers.Main) { onSuccess() }
         }
+    }
+
+    fun showToday(){
+        _allShown.value = false
+        loadData()
+    }
+    fun showAll(){
+        _allShown.value = true
+        loadData()
     }
 }

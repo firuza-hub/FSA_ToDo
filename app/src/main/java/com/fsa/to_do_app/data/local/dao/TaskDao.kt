@@ -4,6 +4,7 @@ import androidx.room.*
 import com.fsa.to_do_app.data.local.entities.Task
 import com.fsa.to_do_app.data.local.models.TasksWithCategoryInfo
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 @Dao
 interface TaskDao {
@@ -17,4 +18,6 @@ interface TaskDao {
     fun getByMonth(month: Int, year: Int):List<TasksWithCategoryInfo>
     @Delete()
     fun delete(task: Task)
+    @Query("SELECT a.*,c.colorCode AS categoryColorCode FROM Tasks a join Categories c on a.categoryId = c.id where date(a.date / 1000,'unixepoch') = date(:date / 1000,'unixepoch')")
+    fun getWithCategoryInfoForDate(date: Date): Flow<List<TasksWithCategoryInfo>>
 }

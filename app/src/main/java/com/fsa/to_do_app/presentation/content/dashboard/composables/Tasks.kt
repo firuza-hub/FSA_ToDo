@@ -27,6 +27,8 @@ import com.fsa.to_do_app.presentation.common.bottomBorder
 import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbox
 import com.fsa.to_do_app.presentation.common.composables.shapes.CircleShape
 import com.fsa.to_do_app.presentation.common.hexToColor
+import com.fsa.to_do_app.util.DateFormatter
+import com.fsa.to_do_app.util.getDateShort
 import com.fsa.to_do_app.util.getTimeShort
 import java.util.*
 
@@ -38,7 +40,8 @@ fun Tasks(
     modifier: Modifier,
     onTaskChecked: (id: Int, checked: Boolean) -> Unit,
     showCategory: Boolean = true,
-    deleteTask: (TaskModel, onSuccess: () -> Unit) -> Unit = { _, _ -> }
+    deleteTask: (TaskModel, onSuccess: () -> Unit) -> Unit = { _, _ -> },
+    allShown: Boolean
 ) {
     val context = LocalContext.current
     LazyColumn(modifier) {
@@ -113,7 +116,7 @@ fun Tasks(
                         )
                         task.date?.let {
                             ActionTime(
-                                date = it,
+                                date = it, allShown,
                                 modifier = Modifier.padding(top = 4.dp)
                             )
                         }
@@ -134,7 +137,7 @@ fun Tasks(
 }
 
 @Composable
-fun ActionTime(date: Date, modifier: Modifier) {
+fun ActionTime(date: Date, allShown: Boolean, modifier: Modifier) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
         Icon(
             modifier = Modifier
@@ -144,7 +147,10 @@ fun ActionTime(date: Date, modifier: Modifier) {
             painter = painterResource(id = R.drawable.ic_alarm),
             contentDescription = "Alarm icon"
         )
-        Text(text = date.getTimeShort(), style = MaterialTheme.typography.body2)
+        Text(
+            text = if (allShown) date.getDateShort() else date.getTimeShort(),
+            style = MaterialTheme.typography.body2
+        )
     }
 }
 

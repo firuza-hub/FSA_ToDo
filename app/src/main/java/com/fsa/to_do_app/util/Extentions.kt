@@ -6,6 +6,7 @@ import java.util.*
 
 
 fun Date.getTimeShort(): String = SimpleDateFormat.getTimeInstance(DateFormat.SHORT).format(this)
+fun Date.getDateShort(): String = SimpleDateFormat.getDateInstance(DateFormat.SHORT).format(this)
 
 fun Calendar.getDayOfWeek(): Int {
     var dayOfWeek: Int = this.get(Calendar.DAY_OF_WEEK) - 1

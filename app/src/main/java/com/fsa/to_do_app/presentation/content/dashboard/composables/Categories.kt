@@ -20,6 +20,7 @@ import com.fsa.to_do_app.presentation.common.hexToColor
 fun Categories(
     categories: List<CategoryModel>,
     modifier: Modifier,
+    allShown: Boolean = true,
     onCategorySelected: (CategoryModel) -> Unit
 ) {
     Column(modifier) {
@@ -28,7 +29,7 @@ fun Categories(
                 Row(Modifier.fillMaxWidth()) {
                     CategoryCard(
                         category = it,
-                        modifier = Modifier
+                        modifier = Modifier, allShown
                     ) {
                         onCategorySelected(it)
                     }
@@ -42,6 +43,7 @@ fun Categories(
 fun CategoryCard(
     category: CategoryModel,
     modifier: Modifier,
+    allShown: Boolean,
     onCategoryClicked: (CategoryModel) -> Unit
 ) {
     Card(
@@ -70,7 +72,8 @@ fun CategoryBottomSheet(
     actionsByCategory: List<TaskModel>,
     category: CategoryModel,
     modalSheetState: ModalBottomSheetState,
-    onActionChecked: (id: Int, checked: Boolean) -> Unit
+    onActionChecked: (id: Int, checked: Boolean) -> Unit,
+    allShown: Boolean
 ) {
     ModalBottomSheetLayout(
         sheetState = modalSheetState,
@@ -103,7 +106,8 @@ fun CategoryBottomSheet(
                         tasks = actionsByCategory,
                         modifier = Modifier,
                         onTaskChecked = onActionChecked,
-                        showCategory = false
+                        showCategory = false,
+                        allShown = allShown
                     )
                 }
 

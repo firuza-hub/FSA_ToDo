@@ -4,6 +4,7 @@ import com.fsa.to_do_app.data.local.models.TasksWithCategoryInfo
 import com.fsa.to_do_app.domain.model.CreateTaskModel
 import com.fsa.to_do_app.domain.model.TaskModel
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 
 interface TaskRepository {
@@ -12,4 +13,5 @@ interface TaskRepository {
     suspend fun create(model: CreateTaskModel)
     suspend fun getByMonth(month: Int, year: Int): List<TasksWithCategoryInfo>
     suspend fun delete(task: TaskModel)
+    fun getForDate(date: Date): Flow<List<TasksWithCategoryInfo>>
 }

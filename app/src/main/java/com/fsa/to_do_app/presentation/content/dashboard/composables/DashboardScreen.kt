@@ -1,17 +1,17 @@
 package com.fsa.to_do_app.presentation.content.dashboard.composables
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.BottomEnd
+import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fsa.to_do_app.R
+import com.fsa.to_do_app.presentation.common.noRippleClickable
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardViewModel
 import com.fsa.to_do_app.presentation.theme.SFPro
 import org.koin.androidx.compose.koinViewModel
@@ -29,7 +29,8 @@ fun DashboardScreen(
     val selectedCategory by viewModel.selectedCategory.collectAsState()
     val categorySheetState by viewModel.categorySheetState.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
-
+    val allShown by viewModel.allShown.collectAsState()
+    var expanded by remember { mutableStateOf(false) }
 
     val modalSheetState = rememberModalBottomSheetState(
         initialValue = categorySheetState,
@@ -48,29 +49,41 @@ fun DashboardScreen(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-
-
             Spacer(modifier = Modifier.height(16.dp))
             if (modalSheetState.isVisible) {
                 CategoryBottomSheet(
                     tasksByCategory,
                     selectedCategory,
                     modalSheetState,
-                    viewModel::onTaskChecked
+                    viewModel::onTaskChecked,
+                    allShown = allShown
                 )
             }
-            Text(
-                text = "Today",
-                style = MaterialTheme.typography.h1,
-                fontFamily = SFPro,
-                modifier = Modifier.padding(start = 44.dp)
-            )
+            Row(Modifier.fillMaxWidth()) {
+                Text(
+                    text = if (allShown) "All Tasks" else "Today",
+                    style = MaterialTheme.typography.h1,
+                    fontFamily = SFPro,
+                    modifier = Modifier.padding(start = 44.dp)
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_more), contentDescription = "More",
+                    modifier = Modifier
+                        .noRippleClickable { expanded = !expanded }
+                        .padding(end = 10.dp)
+                        .size(30.dp),
+                    tint = if (expanded) Color.Blue else Color.Gray
+                )
 
+
+            }
             Tasks(
                 tasks,
                 Modifier.weight(1f),
                 onTaskChecked = viewModel::onTaskChecked,
-                deleteTask = viewModel::delete
+                deleteTask = viewModel::delete,
+                allShown = allShown
             )
 
             if (categories.any()) {
@@ -82,8 +95,8 @@ fun DashboardScreen(
             }
 
             Categories(
-                categories,
-                Modifier
+                categories = categories, allShown = allShown,
+                modifier = Modifier
                     .weight(1f)
                     .padding(end = 16.dp, start = 45.dp)
             ) {
@@ -92,7 +105,17 @@ fun DashboardScreen(
             }
         }
 
-
+        DashboardFilterMenu(
+            allShown = allShown,
+            onShowAllClicked = viewModel::showAll,
+            onShowTodayClicked = viewModel::showToday,
+            onCalendarClicked = {},
+            expanded = expanded,
+            close = { expanded = false },
+            modifier = Modifier
+                .align(TopEnd)
+                .padding(30.dp)
+        )
         FloatingActionButton(
             onClick = navigateToCreateAction,
             backgroundColor = Color.White,
@@ -105,3 +128,34 @@ fun DashboardScreen(
     }
 }
 
+@Composable
+fun DashboardFilterMenu(
+    expanded: Boolean,
+    close: () -> Unit,
+    modifier: Modifier,
+    allShown: Boolean,
+    onShowAllClicked: () -> Unit,
+    onShowTodayClicked: () -> Unit,
+    onCalendarClicked: () -> Unit
+
+) {
+    Box(
+        modifier = modifier.wrapContentSize()
+    ) {
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = close
+        ) {
+            if (allShown)
+                DropdownMenuItem(
+                    onClick = {onShowTodayClicked(); close()}
+                ) { Text("Show Today") }
+            else DropdownMenuItem(
+                onClick = {onShowAllClicked(); close()}
+            ) { Text("Show All") }
+            DropdownMenuItem(
+                onClick = { ; close() }
+            ) { Text("Calendar") }
+        }
+    }
+}
