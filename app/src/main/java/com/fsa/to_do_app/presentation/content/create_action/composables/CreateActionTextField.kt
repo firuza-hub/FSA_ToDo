@@ -22,19 +22,18 @@ fun CreateActionTextField(
     onContentChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     keyboardController: SoftwareKeyboardController?,
-    onKeyboardShown:() -> Unit
+    onKeyboardShown: () -> Unit
 ) {
     Box(modifier = modifier.fillMaxWidth()) {
         BasicTextField(
             value = content,
             onValueChange = onContentChange,
-            modifier = Modifier.fillMaxSize().onFocusChanged { if(it.hasFocus) onKeyboardShown() }
+            modifier = Modifier
+                .fillMaxSize()
+                .onFocusChanged { if (it.hasFocus) onKeyboardShown() }
                 .padding(16.dp),
-            textStyle = MaterialTheme.typography.body1,
-            keyboardActions = KeyboardActions(onDone = {
-                keyboardController?.hide()
-            })
-            ) {
+            textStyle = MaterialTheme.typography.body1
+        ) {
             Row {
                 RoundCheckbox(
                     checked = false,

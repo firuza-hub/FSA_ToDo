@@ -109,7 +109,8 @@ fun CreateActionScreen(
             onDateSelected = viewModel::selectDate,
             calendar = calendar,
             onMonthUp = viewModel::onMonthUp,
-            onMonthDown = viewModel::onMonthDown
+            onMonthDown = viewModel::onMonthDown,
+            onTimePicked = viewModel::selectTime
         )
     }
 }

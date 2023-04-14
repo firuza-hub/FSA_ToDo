@@ -25,3 +25,7 @@ fun Int.intToAmPm(): String {
     return if (this == 1) "PM"
     else "AM"
 }
+fun String.stringToAmPm(): Int {
+    return if (this == "PM") 1
+    else 0
+}

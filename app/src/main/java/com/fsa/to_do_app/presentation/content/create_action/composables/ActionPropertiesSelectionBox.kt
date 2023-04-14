@@ -21,6 +21,7 @@ fun ActionPropertiesSelectionBox(
     categories: List<CategoryModel>,
     onCategorySelected: (CategoryModel) -> Unit,
     onDateSelected: (Date) -> Unit,
+    onTimePicked: (h:Int, m:Int, ap:String) -> Unit,
     calendar: CalendarState,
     onMonthDown: () -> Unit,
     onMonthUp: () -> Unit
@@ -47,7 +48,8 @@ fun ActionPropertiesSelectionBox(
                 CustomTimePicker(
                     calendar.selectedDate.get(Calendar.HOUR),
                     calendar.selectedDate.get(Calendar.MINUTE),
-                    calendar.selectedDate.get(Calendar.AM_PM).intToAmPm()
+                    calendar.selectedDate.get(Calendar.AM_PM).intToAmPm(),
+                    onTimePicked
                 )
             }
         }

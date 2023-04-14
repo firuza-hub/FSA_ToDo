@@ -8,6 +8,7 @@ import com.fsa.to_do_app.domain.model.CreateTaskModel
 import com.fsa.to_do_app.domain.usecase.task.CreateTaskUseCase
 import com.fsa.to_do_app.domain.usecase.task.GetMonthTasksUseCase
 import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
+import com.fsa.to_do_app.util.stringToAmPm
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -74,6 +75,12 @@ class CreateActionViewModel(
 
     fun selectDate(date: Date) {
         _action.value = _action.value.copy(date = date)
+    }
+    fun selectTime(hour:Int, minute:Int, ap:String) {
+         cal.set(Calendar.HOUR, hour)
+         cal.set(Calendar.MINUTE, minute)
+         cal.set(Calendar.AM_PM, ap.stringToAmPm())
+        _action.value = _action.value.copy(date = cal.time)
     }
 
     fun onMonthUp() {

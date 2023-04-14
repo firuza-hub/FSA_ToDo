@@ -16,8 +16,11 @@ import com.fsa.to_do_app.domain.model.CreateTaskModel
 import com.fsa.to_do_app.presentation.common.noRippleClickable
 import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
 import com.fsa.to_do_app.presentation.content.create_action.CalendarState
+import com.fsa.to_do_app.util.DateFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.DateTimeException
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Composable
@@ -35,7 +38,8 @@ fun CreateActionBottomToolbar(
     onDateSelected: (Date) -> Unit,
     calendar: CalendarState,
     onMonthDown: () -> Unit,
-    onMonthUp: () -> Unit
+    onMonthUp: () -> Unit,
+    onTimePicked: (h:Int, m:Int, ap:String) -> Unit
 ) {
     Row(
         modifier
@@ -59,10 +63,10 @@ fun CreateActionBottomToolbar(
                 .noRippleClickable { onTimeClicked() },
             tint = if (propertyBoxToShow == ActionProperty.TIME && expandPropertyBox) Color.Blue else Color.LightGray
         )
-        val sdf = SimpleDateFormat.getDateInstance(DateFormat.DATE_FIELD)
+
         action.date?.let {
             Text(
-                text = sdf.format(it), style = MaterialTheme.typography.body2,
+                text = DateFormatter.parseDateTime(it), style = MaterialTheme.typography.body2,
                 modifier = Modifier
                     .padding(10.dp)
                     .align(Alignment.CenterVertically)
@@ -87,7 +91,8 @@ fun CreateActionBottomToolbar(
             onDateSelected = onDateSelected,
             calendar = calendar,
             onMonthDown = onMonthDown,
-            onMonthUp = onMonthUp
+            onMonthUp = onMonthUp,
+            onTimePicked = onTimePicked
         )
     }
 }
