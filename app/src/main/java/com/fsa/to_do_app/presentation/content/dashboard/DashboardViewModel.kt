@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class DashboardViewModel(
     private val getCategoriesUseCase: GetCategoriesUseCase,
@@ -28,6 +29,9 @@ class DashboardViewModel(
     private val _tasksByCategory = MutableStateFlow<List<TaskModel>>(emptyList())
     val tasksByCategory = _tasksByCategory.asStateFlow()
 
+    private val _filterDate = MutableStateFlow(Calendar.getInstance())
+    val filterDate = _filterDate.asStateFlow()
+
     private val _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val categories = _categories.asStateFlow()
 
@@ -37,7 +41,7 @@ class DashboardViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    private val _allShown = MutableStateFlow(false)
+    private val _allShown = MutableStateFlow(DashboardFilter.ShowToday)
     val allShown = _allShown.asStateFlow()
 
     @OptIn(ExperimentalMaterialApi::class)
@@ -53,19 +57,38 @@ class DashboardViewModel(
     }
 
     private fun getTasks() {
-        viewModelScope.launch(Dispatchers.IO)  {
-            getTasksUseCase.invoke(showAll = _allShown.value).collect {
-                _isLoading.value = true
-                _tasks.value = it
-                _isLoading.value = false
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            when (_allShown.value) {
+                DashboardFilter.ShowAll -> {
+                    getTasksUseCase.invoke(showAll = true).collect {
+                        _isLoading.value = true
+                        _tasks.value = it
+                        _isLoading.value = false
+                    }
 
+                }
+                DashboardFilter.ShowToday -> {
+                    getTasksUseCase.invoke(showAll = false).collect {
+                        _isLoading.value = true
+                        _tasks.value = it
+                        _isLoading.value = false
+                    }
+                }
+                DashboardFilter.ShowByDate -> {
+                    getTasksUseCase.invoke(showAll = false, date = _filterDate.value.time).collect {
+                        _isLoading.value = true
+                        _tasks.value = it
+                        _isLoading.value = false
+                    }
+                }
+            }
         }
     }
 
     private fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {
-            _categories.value = getCategoriesUseCase.invoke(showAll = _allShown.value)
+            _categories.value =
+                getCategoriesUseCase.invoke(showAll = _allShown.value == DashboardFilter.ShowAll)
         }
     }
 
@@ -98,12 +121,17 @@ class DashboardViewModel(
         }
     }
 
-    fun showToday(){
-        _allShown.value = false
+    fun showToday() {
+        _allShown.value = DashboardFilter.ShowToday
         loadData()
     }
-    fun showAll(){
-        _allShown.value = true
+
+    fun showAll() {
+        _allShown.value = DashboardFilter.ShowAll
         loadData()
+    }
+
+    fun showByDate(filterCalendar: Calendar) {
+        _allShown.value = DashboardFilter.ShowByDate
     }
 }

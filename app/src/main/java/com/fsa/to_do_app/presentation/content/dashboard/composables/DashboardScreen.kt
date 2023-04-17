@@ -1,26 +1,32 @@
 package com.fsa.to_do_app.presentation.content.dashboard.composables
 
+import android.app.DatePickerDialog
+import android.widget.DatePicker
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.noRippleClickable
+import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardViewModel
 import com.fsa.to_do_app.presentation.theme.SFPro
+import com.fsa.to_do_app.util.getDateShort
 import org.koin.androidx.compose.koinViewModel
+import java.util.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DashboardScreen(
-    viewModel: DashboardViewModel = koinViewModel(),
-    navigateToCreateAction: () -> Unit
+    viewModel: DashboardViewModel = koinViewModel(), navigateToCreateAction: () -> Unit
 ) {
     viewModel.loadData()
     val tasks by viewModel.tasks.collectAsState()
@@ -30,7 +36,9 @@ fun DashboardScreen(
     val categorySheetState by viewModel.categorySheetState.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val allShown by viewModel.allShown.collectAsState()
-    var expanded by remember { mutableStateOf(false) }
+    var filterOptionsExpanded by remember { mutableStateOf(false) }
+    var showCalendar by remember { mutableStateOf(false) }
+    val filterCalendar by viewModel.filterDate.collectAsState()
 
     val modalSheetState = rememberModalBottomSheetState(
         initialValue = categorySheetState,
@@ -42,12 +50,10 @@ fun DashboardScreen(
     )
     if (isLoading) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             if (modalSheetState.isVisible) {
@@ -61,20 +67,25 @@ fun DashboardScreen(
             }
             Row(Modifier.fillMaxWidth()) {
                 Text(
-                    text = if (allShown) "All Tasks" else "Today",
+                    text = when (allShown) {
+                        DashboardFilter.ShowAll -> "All Tasks"
+                        DashboardFilter.ShowToday ->  "Today"
+                        DashboardFilter.ShowByDate -> filterCalendar.time.getDateShort()
+                    },
                     style = MaterialTheme.typography.h1,
                     fontFamily = SFPro,
                     modifier = Modifier.padding(start = 44.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_more), contentDescription = "More",
+                Icon(painter = painterResource(id = R.drawable.ic_more),
+                    contentDescription = "More",
                     modifier = Modifier
-                        .noRippleClickable { expanded = !expanded }
+                        .noRippleClickable {
+                            filterOptionsExpanded = !filterOptionsExpanded
+                        }
                         .padding(end = 10.dp)
                         .size(30.dp),
-                    tint = if (expanded) Color.Blue else Color.Gray
-                )
+                    tint = if (filterOptionsExpanded) Color.Blue else Color.Gray)
 
 
             }
@@ -95,7 +106,7 @@ fun DashboardScreen(
             }
 
             Categories(
-                categories = categories, allShown = allShown,
+                categories = categories,
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 16.dp, start = 45.dp)
@@ -109,9 +120,9 @@ fun DashboardScreen(
             allShown = allShown,
             onShowAllClicked = viewModel::showAll,
             onShowTodayClicked = viewModel::showToday,
-            onCalendarClicked = {},
-            expanded = expanded,
-            close = { expanded = false },
+            onCalendarClicked = { showCalendar = !showCalendar },
+            expanded = filterOptionsExpanded,
+            close = { filterOptionsExpanded = false },
             modifier = Modifier
                 .align(TopEnd)
                 .padding(30.dp)
@@ -125,6 +136,12 @@ fun DashboardScreen(
         ) {
             Text(text = "+", fontSize = 30.sp, color = Color.Blue)
         }
+
+        if (showCalendar)
+            DateSelectionBox(filterCalendar, onDatePicked = {
+                showCalendar = false
+                viewModel.showByDate(filterCalendar)
+            })
     }
 }
 
@@ -133,7 +150,7 @@ fun DashboardFilterMenu(
     expanded: Boolean,
     close: () -> Unit,
     modifier: Modifier,
-    allShown: Boolean,
+    allShown: DashboardFilter,
     onShowAllClicked: () -> Unit,
     onShowTodayClicked: () -> Unit,
     onCalendarClicked: () -> Unit
@@ -143,19 +160,42 @@ fun DashboardFilterMenu(
         modifier = modifier.wrapContentSize()
     ) {
         DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = close
+            expanded = expanded, onDismissRequest = close
         ) {
-            if (allShown)
-                DropdownMenuItem(
-                    onClick = {onShowTodayClicked(); close()}
-                ) { Text("Show Today") }
-            else DropdownMenuItem(
-                onClick = {onShowAllClicked(); close()}
-            ) { Text("Show All") }
-            DropdownMenuItem(
-                onClick = { ; close() }
-            ) { Text("Calendar") }
+            if (allShown == DashboardFilter.ShowAll) DropdownMenuItem(onClick = { onShowTodayClicked(); close() }) { Text("Show Today") }
+            else DropdownMenuItem(onClick = { onShowAllClicked(); close() }) { Text("Show All") }
+            DropdownMenuItem(onClick = { onCalendarClicked(); close() }) { Text("Calendar") }
         }
+    }
+}
+
+@Composable
+fun DateSelectionBox(calendar: Calendar, onDatePicked: () -> Unit) {
+    val context = LocalContext.current
+
+    var selectedDateText by remember { mutableStateOf("") }
+
+// Fetching current year, month and day
+    val year = calendar[Calendar.YEAR]
+    val month = calendar[Calendar.MONTH]
+    val dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
+    val datePicker = DatePickerDialog(
+        context, { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDayOfMonth: Int ->
+            selectedDateText = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
+            calendar.set(Calendar.DAY_OF_MONTH, selectedDayOfMonth)
+            calendar.set(Calendar.YEAR, selectedYear)
+            calendar.set(Calendar.MONTH, selectedMonth)
+            onDatePicked()
+        }, year, month, dayOfMonth
+    )
+
+    // datePicker.datePicker.minDate = calendar.timeInMillis
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        datePicker.show()
     }
 }

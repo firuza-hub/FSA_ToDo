@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.map
 import java.util.Date
 
 class GetTasksUseCase(private val repo: TaskRepository) {
-    suspend operator fun invoke(showAll: Boolean): Flow<List<TaskModel>> {
-        return if(showAll)
-         repo.get().map { it.map { t -> t.toTaskModel() }  }
+    suspend operator fun invoke(showAll: Boolean, date:Date = Date()): Flow<List<TaskModel>> {
+        return if (showAll)
+            repo.get().map { it.map { t -> t.toTaskModel() } }
         else
-            repo.getForDate(Date()).map { it.map { t -> t.toTaskModel() }  }
+            repo.getForDate(date).map { it.map { t -> t.toTaskModel() } }
     }
 }

@@ -15,12 +15,12 @@ import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.presentation.common.composables.shapes.DragHandle
 import com.fsa.to_do_app.presentation.common.hexToColor
+import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
 
 @Composable
 fun Categories(
     categories: List<CategoryModel>,
     modifier: Modifier,
-    allShown: Boolean = true,
     onCategorySelected: (CategoryModel) -> Unit
 ) {
     Column(modifier) {
@@ -29,7 +29,7 @@ fun Categories(
                 Row(Modifier.fillMaxWidth()) {
                     CategoryCard(
                         category = it,
-                        modifier = Modifier, allShown
+                        modifier = Modifier
                     ) {
                         onCategorySelected(it)
                     }
@@ -43,7 +43,6 @@ fun Categories(
 fun CategoryCard(
     category: CategoryModel,
     modifier: Modifier,
-    allShown: Boolean,
     onCategoryClicked: (CategoryModel) -> Unit
 ) {
     Card(
@@ -73,7 +72,7 @@ fun CategoryBottomSheet(
     category: CategoryModel,
     modalSheetState: ModalBottomSheetState,
     onActionChecked: (id: Int, checked: Boolean) -> Unit,
-    allShown: Boolean
+    allShown: DashboardFilter
 ) {
     ModalBottomSheetLayout(
         sheetState = modalSheetState,

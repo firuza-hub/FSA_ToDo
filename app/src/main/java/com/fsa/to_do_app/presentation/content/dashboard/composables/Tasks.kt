@@ -27,7 +27,7 @@ import com.fsa.to_do_app.presentation.common.bottomBorder
 import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbox
 import com.fsa.to_do_app.presentation.common.composables.shapes.CircleShape
 import com.fsa.to_do_app.presentation.common.hexToColor
-import com.fsa.to_do_app.util.DateFormatter
+import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
 import com.fsa.to_do_app.util.getDateShort
 import com.fsa.to_do_app.util.getTimeShort
 import java.util.*
@@ -41,7 +41,7 @@ fun Tasks(
     onTaskChecked: (id: Int, checked: Boolean) -> Unit,
     showCategory: Boolean = true,
     deleteTask: (TaskModel, onSuccess: () -> Unit) -> Unit = { _, _ -> },
-    allShown: Boolean
+    allShown: DashboardFilter
 ) {
     val context = LocalContext.current
     LazyColumn(modifier) {
@@ -137,7 +137,7 @@ fun Tasks(
 }
 
 @Composable
-fun ActionTime(date: Date, allShown: Boolean, modifier: Modifier) {
+fun ActionTime(date: Date, allShown: DashboardFilter, modifier: Modifier) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
         Icon(
             modifier = Modifier
@@ -148,7 +148,7 @@ fun ActionTime(date: Date, allShown: Boolean, modifier: Modifier) {
             contentDescription = "Alarm icon"
         )
         Text(
-            text = if (allShown) date.getDateShort() else date.getTimeShort(),
+            text = if (allShown == DashboardFilter.ShowAll) date.getDateShort() else date.getTimeShort(),
             style = MaterialTheme.typography.body2
         )
     }
