@@ -61,7 +61,7 @@ fun DashboardScreen(
                 Text(
                     text = when (allShown) {
                         DashboardFilter.ShowAll -> "All Tasks"
-                        DashboardFilter.ShowToday ->  "Today"
+                        DashboardFilter.ShowToday -> "Today"
                         DashboardFilter.ShowByDate -> filterCalendar.time.getDateShort()
                     },
                     style = MaterialTheme.typography.h1,
@@ -142,7 +142,7 @@ fun DashboardScreen(
             DateSelectionBox(filterCalendar, onDatePicked = {
                 showCalendar = false
                 viewModel.showByDate(filterCalendar)
-            })
+            }) { showCalendar = false }
     }
 }
 
@@ -163,7 +163,11 @@ fun DashboardFilterMenu(
         DropdownMenu(
             expanded = expanded, onDismissRequest = close
         ) {
-            if (allShown == DashboardFilter.ShowAll) DropdownMenuItem(onClick = { onShowTodayClicked(); close() }) { Text("Show Today") }
+            if (allShown == DashboardFilter.ShowAll) DropdownMenuItem(onClick = { onShowTodayClicked(); close() }) {
+                Text(
+                    "Show Today"
+                )
+            }
             else DropdownMenuItem(onClick = { onShowAllClicked(); close() }) { Text("Show All") }
             DropdownMenuItem(onClick = { onCalendarClicked(); close() }) { Text("Calendar") }
         }
@@ -171,7 +175,7 @@ fun DashboardFilterMenu(
 }
 
 @Composable
-fun DateSelectionBox(calendar: Calendar, onDatePicked: () -> Unit) {
+fun DateSelectionBox(calendar: Calendar, onDatePicked: () -> Unit, onDismissed: () -> Unit) {
     val context = LocalContext.current
 
     var selectedDateText by remember { mutableStateOf("") }
@@ -189,9 +193,7 @@ fun DateSelectionBox(calendar: Calendar, onDatePicked: () -> Unit) {
             onDatePicked()
         }, year, month, dayOfMonth
     )
-
-    // datePicker.datePicker.minDate = calendar.timeInMillis
-
+    datePicker.setOnDismissListener { onDismissed() }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

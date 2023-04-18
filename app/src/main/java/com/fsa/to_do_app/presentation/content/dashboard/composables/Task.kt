@@ -49,7 +49,7 @@ fun Task(
             ) {
                 Text(
                     text = task.content, overflow = TextOverflow.Ellipsis, maxLines = 2,
-                    style = MaterialTheme.typography.body1, color = task.categoryColorCode.hexToColor().getTextOnBackground()
+                    style = MaterialTheme.typography.body1, color = if(showCategory) Color.Black else  task.categoryColorCode.hexToColor().getTextOnBackground()
                 )
                 task.date?.let {
                     ActionTime(
