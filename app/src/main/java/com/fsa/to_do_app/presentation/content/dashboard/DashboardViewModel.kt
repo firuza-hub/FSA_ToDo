@@ -97,7 +97,7 @@ class DashboardViewModel(
             if (it.id == id) it.copy(isDone = checked) else it
         }
         _tasksByCategory.value =
-            _tasks.value.filter { it.categoryId == _selectedCategory.value.id }
+            _tasks.value.filter { it.category.id == _selectedCategory.value.id }
         viewModelScope.launch {
             updateTaskStatusUseCase(id, checked)
         }
@@ -105,7 +105,7 @@ class DashboardViewModel(
 
     fun updateSelectedCategory(category: CategoryModel) {
         _selectedCategory.value = category
-        _tasksByCategory.value = _tasks.value.filter { it.categoryId == category.id }
+        _tasksByCategory.value = _tasks.value.filter { it.category.id == category.id }
     }
 
     @OptIn(ExperimentalMaterialApi::class)
@@ -116,7 +116,6 @@ class DashboardViewModel(
     fun delete(task: TaskModel, onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteTaskUseCase(task)
-
             withContext(Dispatchers.Main) { onSuccess() }
         }
     }

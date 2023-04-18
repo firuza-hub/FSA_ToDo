@@ -19,7 +19,10 @@ class TaskRepositoryImpl(private val dao: TaskDao): TaskRepository {
     }
 
     override suspend fun create(model: CreateTaskModel) {
-        dao.create(model.toTask())
+        dao.upsert(model.toTask())
+    }
+    override suspend fun update(model: TaskModel) {
+        dao.upsert(model.toTask())
     }
 
     override suspend fun getByMonth(month: Int, year: Int): List<TasksWithCategoryInfo> {
@@ -32,5 +35,9 @@ class TaskRepositoryImpl(private val dao: TaskDao): TaskRepository {
 
     override fun getForDate(date: Date): Flow<List<TasksWithCategoryInfo>> {
         return dao.getWithCategoryInfoForDate(date)
+    }
+
+    override suspend fun getById(id: Int): TasksWithCategoryInfo {
+        return dao.getById(id)
     }
 }

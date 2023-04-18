@@ -17,18 +17,14 @@ import com.fsa.to_do_app.presentation.common.noRippleClickable
 import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
 import com.fsa.to_do_app.presentation.content.create_action.CalendarState
 import com.fsa.to_do_app.util.DateFormatter
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.time.DateTimeException
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Composable
-fun CreateActionBottomToolbar(
+fun TaskBottomToolbar(
     modifier: Modifier,
     category: CategoryModel,
     categories: List<CategoryModel>,
-    action: CreateTaskModel,
+    taskDate: Date?,
     expandPropertyBox: Boolean,
     propertyBoxToShow: ActionProperty,
     onSelectedCategoryClicked: () -> Unit,
@@ -64,7 +60,7 @@ fun CreateActionBottomToolbar(
             tint = if (propertyBoxToShow == ActionProperty.TIME && expandPropertyBox) Color.Blue else Color.LightGray
         )
 
-        action.date?.let {
+        taskDate?.let {
             Text(
                 text = DateFormatter.parseDateTime(it), style = MaterialTheme.typography.body2,
                 modifier = Modifier

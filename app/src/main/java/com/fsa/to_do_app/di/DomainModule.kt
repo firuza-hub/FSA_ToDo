@@ -12,6 +12,8 @@ val domainModule = module {
     factory { UpdateTaskStatusUseCase(get()) }
     factory { GetMonthTasksUseCase(get()) }
     factory { DeleteTaskUseCase(get()) }
+    factory { EditTaskUseCase(get()) }
+    factory { GetTaskUseCase(get()) }
 
     //CATEGORY
     factory { GetCategoriesUseCase(get()) }

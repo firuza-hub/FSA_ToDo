@@ -6,6 +6,7 @@ import com.fsa.to_do_app.data.local.models.CategoryWithNumberOfActions
 import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.domain.model.CreateTaskModel
+import java.util.*
 
 
 fun CategoryWithNumberOfActions.toCategoryModel(): CategoryModel =
@@ -22,8 +23,13 @@ fun TasksWithCategoryInfo.toTaskModel(): TaskModel = TaskModel(
     task.isDone,
     task.content,
     task.date,
-    task.categoryId,
-    categoryColorCode
+    category = CategoryModel(
+        id = task.categoryId,
+        colorCode = categoryColorCode,
+        name = categoryName,
+        dateCreated = Date(),
+        numberOfActions = -1
+    )
 )
 
 fun CreateTaskModel.toTask(): Task = Task(
@@ -32,5 +38,5 @@ fun CreateTaskModel.toTask(): Task = Task(
 
 
 fun TaskModel.toTask(): Task = Task(
-    isDone = false, content = content, date = date, categoryId = categoryId, id = id
+    isDone = false, content = content, date = date, categoryId = category.id, id = id
 )

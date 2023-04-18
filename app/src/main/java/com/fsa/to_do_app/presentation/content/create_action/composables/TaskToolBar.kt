@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.presentation.common.noRippleClickable
 
 @Composable
-fun CreateActionToolbar(cancel: () -> Boolean, save: () -> Unit, onAreaClicked:() -> Unit) {
+fun TaskToolBar(cancel: () -> Boolean, save: () -> Unit, onAreaClicked:() -> Unit) {
     Row(
         Modifier.noRippleClickable { onAreaClicked() }
             .fillMaxWidth()

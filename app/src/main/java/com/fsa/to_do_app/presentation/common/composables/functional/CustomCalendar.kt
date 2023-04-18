@@ -103,7 +103,7 @@ fun CustomCalendar(
                         )
                         Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                             it.tasks.take(3).forEach{
-                                CategoryIndicator(color = it.categoryColorCode.hexToColor(), modifier = Modifier.padding(horizontal = 1.dp), 5.dp)
+                                CategoryIndicator(color = it.category.colorCode.hexToColor(), modifier = Modifier.padding(horizontal = 1.dp), 5.dp)
                             }
                         }
                     }

@@ -1,16 +1,12 @@
 package com.fsa.to_do_app.presentation.content.dashboard.composables
 
-import android.app.DatePickerDialog
-import android.widget.DatePicker
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,9 +22,13 @@ import java.util.*
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DashboardScreen(
-    viewModel: DashboardViewModel = koinViewModel(), navigateToCreateAction: () -> Unit
+    viewModel: DashboardViewModel = koinViewModel(),
+    navigateToCreateAction: () -> Unit,
+    navigateToEditAction: (Int) -> Unit
 ) {
-    viewModel.loadData()
+    LaunchedEffect(key1 = true){
+        viewModel.loadData()
+    }
     val tasks by viewModel.tasks.collectAsState()
     val tasksByCategory by viewModel.tasksByCategory.collectAsState()
     val categories by viewModel.categories.collectAsState()
@@ -86,7 +86,8 @@ fun DashboardScreen(
                 Modifier.weight(1f),
                 onTaskChecked = viewModel::onTaskChecked,
                 deleteTask = viewModel::delete,
-                allShown = allShown
+                allShown = allShown,
+                onTaskClicked = navigateToEditAction
             )
 
             if (categories.any()) {
@@ -121,7 +122,7 @@ fun DashboardScreen(
             allShown = allShown,
             onShowAllClicked = viewModel::showAll,
             onShowTodayClicked = viewModel::showToday,
-            onCalendarClicked = { showCalendar = !showCalendar },
+            onCalendarClicked = { showCalendar = true },
             expanded = filterOptionsExpanded,
             close = { filterOptionsExpanded = false },
             modifier = Modifier
@@ -138,67 +139,13 @@ fun DashboardScreen(
             Text(text = "+", fontSize = 30.sp, color = Color.Blue)
         }
 
-        if (showCalendar)
+        if (showCalendar){
             DateSelectionBox(filterCalendar, onDatePicked = {
                 showCalendar = false
                 viewModel.showByDate(filterCalendar)
             }) { showCalendar = false }
-    }
-}
-
-@Composable
-fun DashboardFilterMenu(
-    expanded: Boolean,
-    close: () -> Unit,
-    modifier: Modifier,
-    allShown: DashboardFilter,
-    onShowAllClicked: () -> Unit,
-    onShowTodayClicked: () -> Unit,
-    onCalendarClicked: () -> Unit
-
-) {
-    Box(
-        modifier = modifier.wrapContentSize()
-    ) {
-        DropdownMenu(
-            expanded = expanded, onDismissRequest = close
-        ) {
-            if (allShown == DashboardFilter.ShowAll) DropdownMenuItem(onClick = { onShowTodayClicked(); close() }) {
-                Text(
-                    "Show Today"
-                )
-            }
-            else DropdownMenuItem(onClick = { onShowAllClicked(); close() }) { Text("Show All") }
-            DropdownMenuItem(onClick = { onCalendarClicked(); close() }) { Text("Calendar") }
         }
+
     }
 }
 
-@Composable
-fun DateSelectionBox(calendar: Calendar, onDatePicked: () -> Unit, onDismissed: () -> Unit) {
-    val context = LocalContext.current
-
-    var selectedDateText by remember { mutableStateOf("") }
-
-// Fetching current year, month and day
-    val year = calendar[Calendar.YEAR]
-    val month = calendar[Calendar.MONTH]
-    val dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
-    val datePicker = DatePickerDialog(
-        context, { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDayOfMonth: Int ->
-            selectedDateText = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
-            calendar.set(Calendar.DAY_OF_MONTH, selectedDayOfMonth)
-            calendar.set(Calendar.YEAR, selectedYear)
-            calendar.set(Calendar.MONTH, selectedMonth)
-            onDatePicked()
-        }, year, month, dayOfMonth
-    )
-    datePicker.setOnDismissListener { onDismissed() }
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        datePicker.show()
-    }
-}

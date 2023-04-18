@@ -14,6 +14,7 @@ import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.presentation.common.bottomBorder
 import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbox
 import com.fsa.to_do_app.presentation.common.hexToColor
+import com.fsa.to_do_app.presentation.common.noRippleClickable
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
 import com.fsa.to_do_app.util.getTextOnBackground
 
@@ -22,7 +23,8 @@ fun Task(
     task: TaskModel,
     onTaskChecked: (id: Int, checked: Boolean) -> Unit,
     showCategory: Boolean,
-    allShown: DashboardFilter
+    allShown: DashboardFilter,
+    onClick: (Int) -> Unit = {}
 ) {
     Row {
         RoundCheckbox(
@@ -37,9 +39,14 @@ fun Task(
                 checkedColor = Color.Blue
             ),
             borderWidth = 1.5.dp,
-            backgroundColor = if (!showCategory) task.categoryColorCode.hexToColor() else Color.White
+            backgroundColor = if (!showCategory) task.category.colorCode.hexToColor() else Color.White
         )
-        Row(modifier = Modifier.bottomBorder(1.dp, Color.Black.copy(alpha = 0.1f))) {
+        Row(
+            modifier = if (showCategory) Modifier
+                .noRippleClickable { onClick(task.id) }
+                .bottomBorder(1.dp, Color.Black.copy(alpha = 0.1f)) else
+                Modifier.bottomBorder(1.dp, Color.Black.copy(alpha = 0.1f))
+        ) {
             Column(
                 modifier = Modifier
                     .wrapContentHeight()
@@ -48,8 +55,12 @@ fun Task(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = task.content, overflow = TextOverflow.Ellipsis, maxLines = 2,
-                    style = MaterialTheme.typography.body1, color = if(showCategory) Color.Black else  task.categoryColorCode.hexToColor().getTextOnBackground()
+                    text = task.content,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2,
+                    style = MaterialTheme.typography.body1,
+                    color = if (showCategory) Color.Black else task.category.colorCode.hexToColor()
+                        .getTextOnBackground()
                 )
                 task.date?.let {
                     ActionTime(
@@ -60,7 +71,7 @@ fun Task(
             }
             if (showCategory) {
                 CategoryIndicator(
-                    task.categoryColorCode.hexToColor(),
+                    task.category.colorCode.hexToColor(),
                     Modifier
                         .align(Alignment.CenterVertically)
                         .wrapContentWidth(unbounded = true)

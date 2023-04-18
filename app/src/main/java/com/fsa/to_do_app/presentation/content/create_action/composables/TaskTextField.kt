@@ -2,7 +2,6 @@ package com.fsa.to_do_app.presentation.content.create_action.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -10,6 +9,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbox
@@ -17,7 +18,7 @@ import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbo
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CreateActionTextField(
+fun TaskTextField(
     content: String,
     onContentChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -30,7 +31,7 @@ fun CreateActionTextField(
             onValueChange = onContentChange,
             modifier = Modifier
                 .fillMaxSize()
-                .onFocusChanged { if (it.hasFocus) onKeyboardShown() }
+                .onFocusChanged { if (it.hasFocus) onKeyboardShown() }.onKeyEvent { println("MEOW " + it.key.keyCode); return@onKeyEvent true }
                 .padding(16.dp),
             textStyle = MaterialTheme.typography.body1
         ) {

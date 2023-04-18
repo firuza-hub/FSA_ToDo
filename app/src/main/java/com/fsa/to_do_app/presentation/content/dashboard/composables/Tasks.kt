@@ -38,7 +38,8 @@ fun Tasks(
     onTaskChecked: (id: Int, checked: Boolean) -> Unit,
     showCategory: Boolean = true,
     deleteTask: (TaskModel, onSuccess: () -> Unit) -> Unit = { _, _ -> },
-    allShown: DashboardFilter
+    allShown: DashboardFilter,
+    onTaskClicked: (Int) -> Unit = {}
 ) {
     val context = LocalContext.current
     LazyColumn(modifier) {
@@ -86,7 +87,7 @@ fun Tasks(
                     dismissThresholds = { FractionalThreshold(0.2f) },
                     directions = setOf(DismissDirection.EndToStart)
                 ) {
-                    Task(task, onTaskChecked, showCategory, allShown)
+                    Task(task, onTaskChecked, showCategory, allShown, onTaskClicked)
                 }
             } else {
                 Task(task, onTaskChecked, showCategory, allShown)

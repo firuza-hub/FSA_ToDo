@@ -8,16 +8,24 @@ import java.util.*
 
 @Dao
 interface TaskDao {
-    @Query("SELECT a.*,c.colorCode AS categoryColorCode FROM Tasks a join Categories c on a.categoryId = c.id")
+    @Query("SELECT a.*,c.colorCode AS categoryColorCode, c.name as categoryName FROM Tasks a join Categories c on a.categoryId = c.id")
     fun getWithCategoryInfo(): Flow<List<TasksWithCategoryInfo>>
+
     @Query("UPDATE Tasks SET isDone = :checked where id = :id")
-    suspend fun updateStatus(id:Int, checked: Boolean)
+    suspend fun updateStatus(id: Int, checked: Boolean)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun create(toTask: Task)
-    @Query("SELECT a.*,c.colorCode AS categoryColorCode FROM Tasks a join Categories c on a.categoryId = c.id where cast(strftime('%Y',datetime(a.date/1000, 'unixepoch')) as numeric) = :year and cast(strftime('%m',datetime(a.date/1000, 'unixepoch')) as numeric) = :month")
-    fun getByMonth(month: Int, year: Int):List<TasksWithCategoryInfo>
+    suspend fun upsert(toTask: Task)
+
+    @Query("SELECT a.*,c.colorCode AS categoryColorCode, c.name as categoryName  FROM Tasks a join Categories c on a.categoryId = c.id where cast(strftime('%Y',datetime(a.date/1000, 'unixepoch')) as numeric) = :year and cast(strftime('%m',datetime(a.date/1000, 'unixepoch')) as numeric) = :month")
+    suspend fun getByMonth(month: Int, year: Int): List<TasksWithCategoryInfo>
+
     @Delete()
-    fun delete(task: Task)
-    @Query("SELECT a.*,c.colorCode AS categoryColorCode FROM Tasks a join Categories c on a.categoryId = c.id where date(a.date / 1000,'unixepoch') = date(:date / 1000,'unixepoch')")
+    suspend fun delete(task: Task)
+
+    @Query("SELECT a.*,c.colorCode AS categoryColorCode, c.name as categoryName  FROM Tasks a join Categories c on a.categoryId = c.id where date(a.date / 1000,'unixepoch') = date(:date / 1000,'unixepoch')")
     fun getWithCategoryInfoForDate(date: Date): Flow<List<TasksWithCategoryInfo>>
+
+    @Query("SELECT a.*,c.colorCode AS categoryColorCode, c.name as categoryName  FROM Tasks a join Categories c on a.categoryId = c.id where a.id = :id")
+    suspend fun getById(id: Int): TasksWithCategoryInfo
 }

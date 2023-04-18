@@ -12,17 +12,17 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.presentation.common.topBorder
 import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
-import com.fsa.to_do_app.presentation.content.create_action.CreateActionViewModel
+import com.fsa.to_do_app.presentation.content.create_action.CreateTaskViewModel
 import org.koin.androidx.compose.koinViewModel
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CreateActionScreen(
+fun CreateTaskScreen(
     navigateBack: () -> Boolean,
-    viewModel: CreateActionViewModel = koinViewModel()
+    viewModel: CreateTaskViewModel = koinViewModel()
 ) {
-    val action by viewModel.action.collectAsState()
+    val task by viewModel.task.collectAsState()
     val categories by viewModel.categories.collectAsState()
     val calendar by viewModel.calendar.collectAsState()
     val context = LocalContext.current
@@ -45,7 +45,7 @@ fun CreateActionScreen(
     val focusManager = LocalFocusManager.current
 
     Column(Modifier.fillMaxSize()) {
-        CreateActionToolbar(cancel = navigateBack, save = {
+        TaskToolBar(cancel = navigateBack, save = {
             viewModel.save {
                 Toast.makeText(context, "Saved successfully", Toast.LENGTH_SHORT).show()
                 navigateBack()
@@ -56,20 +56,20 @@ fun CreateActionScreen(
             keyboardController?.hide()
             focusManager.clearFocus()
         })
-        CreateActionTextField(
-            action.content,
+        TaskTextField(
+            task.content,
             viewModel::onContentChange,
             modifier = Modifier.weight(1f),
             keyboardController,
             onKeyboardShown = { expandPropertyBox = false }
         )
-        CreateActionBottomToolbar(
+        TaskBottomToolbar(
             modifier = Modifier
                 .topBorder(1.dp, Color.LightGray)
                 .wrapContentHeight(unbounded = true),
-            action.category,
+            task.category,
             categories,
-            action,
+            task.date,
             expandPropertyBox,
             propertyBoxToShow,
             onSelectedCategoryClicked = {
