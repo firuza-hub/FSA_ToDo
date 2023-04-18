@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.SoftwareKeyboardController
@@ -29,6 +31,7 @@ fun TaskTextField(
         BasicTextField(
             value = content,
             onValueChange = onContentChange,
+            cursorBrush = SolidColor(Color.LightGray),
             modifier = Modifier
                 .fillMaxSize()
                 .onFocusChanged { if (it.hasFocus) onKeyboardShown() }.onKeyEvent { println("MEOW " + it.key.keyCode); return@onKeyEvent true }
@@ -43,13 +46,16 @@ fun TaskTextField(
                         .padding(end = 10.dp)
                         .size(28.dp)
                 )
-                if (content.isEmpty())
-                    Text(
-                        text = "What do you want to do?",
-                        style = MaterialTheme.typography.body1,
-                        color = Color.LightGray
-                    )
-                else it()
+                Box{
+
+                    if (content.isEmpty())
+                        Text(
+                            text = "What do you want to do?",
+                            style = MaterialTheme.typography.body1,
+                            color = Color.LightGray
+                        )
+                    it()
+                }
             }
         }
     }
