@@ -86,21 +86,10 @@ fun Tasks(
                     dismissThresholds = { FractionalThreshold(0.2f) },
                     directions = setOf(DismissDirection.EndToStart)
                 ) {
-                    Task(
-                        task,
-                        onTaskChecked,
-                        showCategory,
-                        allShown
-                    )
+                    Task(task, onTaskChecked, showCategory, allShown)
                 }
             } else {
-                    Task(
-                        task,
-                        onTaskChecked,
-                        showCategory,
-                        allShown
-                    )
-
+                Task(task, onTaskChecked, showCategory, allShown)
             }
         }
     }

@@ -56,15 +56,7 @@ fun DashboardScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            if (modalSheetState.isVisible) {
-                CategoryBottomSheet(
-                    tasksByCategory,
-                    selectedCategory,
-                    modalSheetState,
-                    viewModel::onTaskChecked,
-                    allShown = allShown
-                )
-            }
+
             Row(Modifier.fillMaxWidth()) {
                 Text(
                     text = when (allShown) {
@@ -114,6 +106,15 @@ fun DashboardScreen(
                 viewModel.updateSelectedCategory(it)
                 viewModel.updateCategorySheetState(ModalBottomSheetValue.Expanded)
             }
+        }
+        if (modalSheetState.isVisible) {
+            CategoryBottomSheet(
+                tasksByCategory,
+                selectedCategory,
+                modalSheetState,
+                viewModel::onTaskChecked,
+                allShown = allShown
+            )
         }
 
         DashboardFilterMenu(

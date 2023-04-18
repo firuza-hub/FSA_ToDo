@@ -15,6 +15,7 @@ import com.fsa.to_do_app.presentation.common.bottomBorder
 import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbox
 import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
+import com.fsa.to_do_app.util.getTextOnBackground
 
 @Composable
 fun Task(
@@ -23,7 +24,6 @@ fun Task(
     showCategory: Boolean,
     allShown: DashboardFilter
 ) {
-
     Row {
         RoundCheckbox(
             checked = task.isDone,
@@ -49,7 +49,7 @@ fun Task(
             ) {
                 Text(
                     text = task.content, overflow = TextOverflow.Ellipsis, maxLines = 2,
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.body1, color = task.categoryColorCode.hexToColor().getTextOnBackground()
                 )
                 task.date?.let {
                     ActionTime(
