@@ -150,8 +150,7 @@ fun DashboardScreen(
             animationSpec = spring(
                 stiffness = Spring.StiffnessLow,
                 dampingRatio = if (createOptionsExpanded) Spring.DampingRatioHighBouncy else 1f
-            ),
-            finishedListener = { createOptionsExpanded = !createOptionsExpanded}
+            )
         )
 
         FloatingActionButton(
