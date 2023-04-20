@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.presentation.content.create_action.composables
+package com.fsa.to_do_app.presentation.content.create_task.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -8,8 +8,8 @@ import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.presentation.common.composables.functional.CustomCalendar
 import com.fsa.to_do_app.presentation.common.composables.functional.CustomTimePicker
-import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
-import com.fsa.to_do_app.presentation.content.create_action.CalendarState
+import com.fsa.to_do_app.presentation.content.create_task.ActionProperty
+import com.fsa.to_do_app.presentation.content.create_task.CalendarState
 import com.fsa.to_do_app.presentation.content.dashboard.composables.Categories
 import com.fsa.to_do_app.util.intToAmPm
 import java.util.*

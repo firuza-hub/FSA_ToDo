@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.hexToColor
-import com.fsa.to_do_app.presentation.content.create_action.CalendarState
+import com.fsa.to_do_app.presentation.content.create_task.CalendarState
 import com.fsa.to_do_app.presentation.content.dashboard.composables.CategoryIndicator
 import java.util.*
 

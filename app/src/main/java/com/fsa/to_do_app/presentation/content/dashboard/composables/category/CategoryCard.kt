@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.presentation.common.hexToColor
+import com.fsa.to_do_app.presentation.common.noRippleClickable
 
 
 @Composable
@@ -23,7 +24,7 @@ fun CategoryCard(
 ) {
     Card(
         modifier = modifier
-            .clickable { onCategoryClicked(category) }
+            .noRippleClickable { onCategoryClicked(category) }
             .padding(bottom = 8.dp)
             .fillMaxWidth(),
         elevation = 0.dp,

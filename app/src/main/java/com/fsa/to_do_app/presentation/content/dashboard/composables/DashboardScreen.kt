@@ -7,7 +7,6 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.BottomEnd
@@ -35,7 +34,8 @@ import java.util.*
 fun DashboardScreen(
     viewModel: DashboardViewModel = koinViewModel(),
     navigateToCreateTask: () -> Unit,
-    navigateToEditAction: (Int) -> Unit
+    navigateToEditTask: (Int) -> Unit,
+    navigateToCreateCategory: () -> Unit,
 ) {
     LaunchedEffect(key1 = true) {
         viewModel.loadData()
@@ -99,7 +99,7 @@ fun DashboardScreen(
                 onTaskChecked = viewModel::onTaskChecked,
                 deleteTask = viewModel::delete,
                 allShown = allShown,
-                onTaskClicked = navigateToEditAction
+                onTaskClicked = navigateToEditTask
             )
 
             if (categories.any()) {
@@ -142,7 +142,7 @@ fun DashboardScreen(
                 .padding(30.dp)
         )
         CreateTaskOrCategoryMenu(
-            onCreateCategoryClicked = {},//TODO: Navigate to create category
+            onCreateCategoryClicked = navigateToCreateCategory,
             onCreateTaskClicked = navigateToCreateTask,
             expanded = createOptionsExpanded,
             close = { createOptionsExpanded = false },
@@ -176,14 +176,15 @@ fun DashboardScreen(
         CircleShape(
             color = colorFAB,
             modifier = Modifier
-                .noRippleClickable { }.pointerInput(createOptionsExpanded) {
+                .noRippleClickable { }
+                .pointerInput(createOptionsExpanded) {
                     awaitPointerEventScope {
                         createOptionsExpanded = if (createOptionsExpanded) {
                             waitForUpOrCancellation()
-                             false
+                            false
                         } else {
                             awaitFirstDown(false)
-                             true
+                            true
                         }
                     }
                 }

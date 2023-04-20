@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.presentation.content.create_action.composables
+package com.fsa.to_do_app.presentation.content.create_task.composables
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -11,8 +11,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.presentation.common.topBorder
-import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
-import com.fsa.to_do_app.presentation.content.create_action.CreateTaskViewModel
+import com.fsa.to_do_app.presentation.content.create_task.ActionProperty
+import com.fsa.to_do_app.presentation.content.create_task.CreateTaskViewModel
 import org.koin.androidx.compose.koinViewModel
 
 

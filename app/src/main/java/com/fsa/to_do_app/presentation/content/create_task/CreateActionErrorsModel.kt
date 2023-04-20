@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.presentation.content.create_action
+package com.fsa.to_do_app.presentation.content.create_task
 
 data class CreateActionErrorsModel(
     val contentError:String?

@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.presentation.content.create_action.composables
+package com.fsa.to_do_app.presentation.content.create_task.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -12,10 +12,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.domain.model.CategoryModel
-import com.fsa.to_do_app.domain.model.CreateTaskModel
 import com.fsa.to_do_app.presentation.common.noRippleClickable
-import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
-import com.fsa.to_do_app.presentation.content.create_action.CalendarState
+import com.fsa.to_do_app.presentation.content.create_task.ActionProperty
+import com.fsa.to_do_app.presentation.content.create_task.CalendarState
 import com.fsa.to_do_app.util.DateFormatter
 import java.util.*
 

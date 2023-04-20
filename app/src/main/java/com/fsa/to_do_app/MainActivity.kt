@@ -13,9 +13,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.fsa.to_do_app.presentation.common.navigation.NavDestinations
-import com.fsa.to_do_app.presentation.content.create_action.composables.CreateTaskScreen
+import com.fsa.to_do_app.presentation.content.create_task.composables.CreateTaskScreen
 import com.fsa.to_do_app.presentation.content.dashboard.composables.DashboardScreen
 import com.fsa.to_do_app.presentation.content.edit_action.EditActionScreen
+import com.fsa.to_do_app.presentation.content.edit_category_list.EditCategoryListScreen
 import com.fsa.to_do_app.presentation.theme.ToDoAppTheme
 
 
@@ -38,11 +39,15 @@ class MainActivity : ComponentActivity() {
                                     NavDestinations.CREATE_ACTION_SCREEN
                                 )
                             },
-                                navigateToEditAction = { navController.navigate("${NavDestinations.EDIT_ACTION_SCREEN}/$it") })
+                                navigateToEditTask = { navController.navigate("${NavDestinations.EDIT_ACTION_SCREEN}/$it") },
+                                navigateToCreateCategory = { navController.navigate( NavDestinations.EDIT_CATEGORY_LIST_SCREEN)})
                         }
 
                         composable(route = NavDestinations.CREATE_ACTION_SCREEN) {
                             CreateTaskScreen(navigateBack = { navController.popBackStack() })
+                        }
+                        composable(route = NavDestinations.EDIT_CATEGORY_LIST_SCREEN) {
+                            EditCategoryListScreen(navigateBack = { navController.popBackStack() })
                         }
                         composable(
                             route = "${NavDestinations.EDIT_ACTION_SCREEN}/{id}",

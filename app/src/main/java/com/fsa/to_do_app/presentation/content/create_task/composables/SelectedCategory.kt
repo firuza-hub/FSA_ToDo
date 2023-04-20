@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.presentation.content.create_action.composables
+package com.fsa.to_do_app.presentation.content.create_task.composables
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding

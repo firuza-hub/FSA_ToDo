@@ -11,10 +11,10 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.presentation.common.topBorder
-import com.fsa.to_do_app.presentation.content.create_action.ActionProperty
-import com.fsa.to_do_app.presentation.content.create_action.composables.TaskBottomToolbar
-import com.fsa.to_do_app.presentation.content.create_action.composables.TaskTextField
-import com.fsa.to_do_app.presentation.content.create_action.composables.TaskToolBar
+import com.fsa.to_do_app.presentation.content.create_task.ActionProperty
+import com.fsa.to_do_app.presentation.content.create_task.composables.TaskBottomToolbar
+import com.fsa.to_do_app.presentation.content.create_task.composables.TaskTextField
+import com.fsa.to_do_app.presentation.content.create_task.composables.TaskToolBar
 import org.koin.androidx.compose.koinViewModel
 
 
