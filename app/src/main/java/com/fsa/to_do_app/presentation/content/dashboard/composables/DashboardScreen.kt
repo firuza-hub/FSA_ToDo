@@ -1,19 +1,24 @@
 package com.fsa.to_do_app.presentation.content.dashboard.composables
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.fsa.to_do_app.R
+import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.presentation.common.noRippleClickable
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardViewModel
+import com.fsa.to_do_app.presentation.content.dashboard.composables.menu.DashboardFilterMenu
 import com.fsa.to_do_app.presentation.theme.SFPro
 import com.fsa.to_do_app.util.getDateShort
 import org.koin.androidx.compose.koinViewModel
@@ -23,10 +28,10 @@ import java.util.*
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel = koinViewModel(),
-    navigateToCreateAction: () -> Unit,
+    navigateToCreateTask: () -> Unit,
     navigateToEditAction: (Int) -> Unit
 ) {
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(key1 = true) {
         viewModel.loadData()
     }
     val tasks by viewModel.tasks.collectAsState()
@@ -37,6 +42,7 @@ fun DashboardScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val allShown by viewModel.allShown.collectAsState()
     var filterOptionsExpanded by remember { mutableStateOf(false) }
+    var createOptionsExpanded by remember { mutableStateOf(false) }
     var showCalendar by remember { mutableStateOf(false) }
     val filterCalendar by viewModel.filterDate.collectAsState()
 
@@ -129,17 +135,37 @@ fun DashboardScreen(
                 .align(TopEnd)
                 .padding(30.dp)
         )
+        CreateTaskOrCategoryMenu(
+            onCreateCategoryClicked = {},//TODO: Navigate to create category
+            onCreateTaskClicked = navigateToCreateTask,
+            expanded = createOptionsExpanded,
+            close = { createOptionsExpanded = false },
+            modifier = Modifier
+                .align(BottomEnd)
+                .padding(30.dp)
+        )
+
+        val rotation by animateFloatAsState(
+            targetValue = if (createOptionsExpanded) 135f else 0f,
+            animationSpec = spring(
+                stiffness = Spring.StiffnessLow,
+                dampingRatio = if (createOptionsExpanded) Spring.DampingRatioHighBouncy else 1f
+            ),
+            finishedListener = { createOptionsExpanded = !createOptionsExpanded}
+        )
+
         FloatingActionButton(
-            onClick = navigateToCreateAction,
+            onClick = { createOptionsExpanded = !createOptionsExpanded },
             backgroundColor = Color.White,
             modifier = Modifier
                 .align(BottomEnd)
                 .padding(bottom = 30.dp, end = 16.dp)
+                .rotate(rotation)
         ) {
-            Text(text = "+", fontSize = 30.sp, color = Color.Blue)
+            Icon(painterResource(id = R.drawable.ic_plus), "Create", tint = "006CFF".hexToColor())
         }
 
-        if (showCalendar){
+        if (showCalendar) {
             DateSelectionBox(filterCalendar, onDatePicked = {
                 showCalendar = false
                 viewModel.showByDate(filterCalendar)

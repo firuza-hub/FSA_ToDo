@@ -34,7 +34,7 @@ fun TaskTextField(
             cursorBrush = SolidColor(Color.LightGray),
             modifier = Modifier
                 .fillMaxSize()
-                .onFocusChanged { if (it.hasFocus) onKeyboardShown() }.onKeyEvent { println("MEOW " + it.key.keyCode); return@onKeyEvent true }
+                .onFocusChanged { if (it.hasFocus) onKeyboardShown() }
                 .padding(16.dp),
             textStyle = MaterialTheme.typography.body1
         ) {

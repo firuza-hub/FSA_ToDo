@@ -11,7 +11,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgs
 import androidx.navigation.navArgument
 import com.fsa.to_do_app.presentation.common.navigation.NavDestinations
 import com.fsa.to_do_app.presentation.content.create_action.composables.CreateTaskScreen
@@ -34,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController, startDestination = NavDestinations.DASHBOARD_SCREEN) {
                         composable(route = NavDestinations.DASHBOARD_SCREEN) {
-                            DashboardScreen(navigateToCreateAction = {
+                            DashboardScreen(navigateToCreateTask = {
                                 navController.navigate(
                                     NavDestinations.CREATE_ACTION_SCREEN
                                 )
