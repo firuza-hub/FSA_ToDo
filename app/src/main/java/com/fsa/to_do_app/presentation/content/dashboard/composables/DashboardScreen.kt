@@ -1,9 +1,13 @@
 package com.fsa.to_do_app.presentation.content.dashboard.composables
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.BottomEnd
@@ -11,9 +15,11 @@ import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
+import com.fsa.to_do_app.presentation.common.composables.shapes.CircleShape
 import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.presentation.common.noRippleClickable
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
@@ -153,15 +159,39 @@ fun DashboardScreen(
             )
         )
 
-        FloatingActionButton(
-            onClick = { createOptionsExpanded = !createOptionsExpanded },
-            backgroundColor = Color.White,
+
+        val colorFAB by animateColorAsState(
+            targetValue = if (createOptionsExpanded) "006CFF".hexToColor() else Color.White,
+            animationSpec = spring(
+                stiffness = Spring.StiffnessLow
+            )
+        )
+
+        val colorFABIcon by animateColorAsState(
+            targetValue = if (createOptionsExpanded) Color.White else "006CFF".hexToColor(),
+            animationSpec = spring(
+                stiffness = Spring.StiffnessLow
+            )
+        )
+        CircleShape(
+            color = colorFAB,
             modifier = Modifier
+                .noRippleClickable { }.pointerInput(createOptionsExpanded) {
+                    awaitPointerEventScope {
+                        createOptionsExpanded = if (createOptionsExpanded) {
+                            waitForUpOrCancellation()
+                             false
+                        } else {
+                            awaitFirstDown(false)
+                             true
+                        }
+                    }
+                }
                 .align(BottomEnd)
                 .padding(bottom = 30.dp, end = 16.dp)
-                .rotate(rotation)
-        ) {
-            Icon(painterResource(id = R.drawable.ic_plus), "Create", tint = "006CFF".hexToColor())
+                .rotate(rotation),
+            circleSize = 64.dp) {
+            Icon(painterResource(id = R.drawable.ic_plus), "Create", tint = colorFABIcon)
         }
 
         if (showCalendar) {
