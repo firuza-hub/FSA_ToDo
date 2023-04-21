@@ -1,11 +1,14 @@
 package com.fsa.to_do_app.domain.mapper
 
+import com.fsa.to_do_app.data.local.entities.Category
 import com.fsa.to_do_app.data.local.entities.Task
 import com.fsa.to_do_app.data.local.models.TasksWithCategoryInfo
 import com.fsa.to_do_app.data.local.models.CategoryWithNumberOfActions
 import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.model.CategoryModel
+import com.fsa.to_do_app.domain.model.CreateCategoryModel
 import com.fsa.to_do_app.domain.model.CreateTaskModel
+import com.fsa.to_do_app.presentation.common.toHexString
 import java.util.*
 
 
@@ -39,4 +42,9 @@ fun CreateTaskModel.toTask(): Task = Task(
 
 fun TaskModel.toTask(): Task = Task(
     isDone = false, content = content, date = date, categoryId = category.id, id = id
+)
+
+
+fun CreateCategoryModel.toCategory(): Category = Category(
+    name = name, colorCode = color.toHexString()
 )

@@ -10,7 +10,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
-import androidx.core.graphics.alpha
 
 
 fun Modifier.bottomBorder(strokeWidth: Dp, color: Color) = composed(factory = {
@@ -50,6 +49,13 @@ fun Modifier.topBorder(strokeWidth: Dp, color: Color) = composed(factory = {
 
 fun String.hexToColor(alpha: Float = 1f) =
     Color(android.graphics.Color.parseColor("#$this")).copy(alpha = alpha)
+
+fun Color.toHexString(): String {
+    return String.format(
+        "%02x%02x%02x%02x", (this.alpha * 255).toInt(),
+        (this.red * 255).toInt(), (this.green * 255).toInt(), (this.blue * 255).toInt()
+    )
+}
 
 fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
     clickable(indication = null,

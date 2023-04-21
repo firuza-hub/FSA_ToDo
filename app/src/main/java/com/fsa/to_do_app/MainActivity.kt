@@ -16,9 +16,8 @@ import com.fsa.to_do_app.presentation.common.navigation.NavDestinations
 import com.fsa.to_do_app.presentation.content.create_task.composables.CreateTaskScreen
 import com.fsa.to_do_app.presentation.content.dashboard.composables.DashboardScreen
 import com.fsa.to_do_app.presentation.content.edit_action.EditActionScreen
-import com.fsa.to_do_app.presentation.content.edit_category_list.EditCategoryListScreen
+import com.fsa.to_do_app.presentation.content.edit_category_list.composables.EditCategoryListScreen
 import com.fsa.to_do_app.presentation.theme.ToDoAppTheme
-
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

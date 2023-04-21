@@ -1,6 +1,8 @@
 package com.fsa.to_do_app.presentation.common.composables.shapes
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,7 +14,13 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun CircleShape(color: Color, modifier: Modifier, circleSize: Dp,  content: @Composable () -> Unit = {} ) {
+fun CircleShape(
+    color: Color,
+    modifier: Modifier,
+    circleSize: Dp,
+    borderStroke: BorderStroke = BorderStroke(0.dp, Color.Transparent),
+    content: @Composable () -> Unit = {}
+) {
     Box(
         modifier = modifier
             .wrapContentSize(Alignment.Center)
@@ -21,9 +29,10 @@ fun CircleShape(color: Color, modifier: Modifier, circleSize: Dp,  content: @Com
             modifier = Modifier
                 .size(circleSize)
                 .clip(androidx.compose.foundation.shape.CircleShape)
+                .border(borderStroke, androidx.compose.foundation.shape.CircleShape)
                 .background(color),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             content()
         }
     }
