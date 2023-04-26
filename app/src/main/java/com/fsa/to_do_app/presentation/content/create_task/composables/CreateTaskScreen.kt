@@ -19,7 +19,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CreateTaskScreen(
-    navigateBack: () -> Boolean,
+    navigateBack: () -> Unit,
     viewModel: CreateTaskViewModel = koinViewModel()
 ) {
     val task by viewModel.task.collectAsState()
@@ -55,7 +55,7 @@ fun CreateTaskScreen(
             expandPropertyBox = false
             keyboardController?.hide()
             focusManager.clearFocus()
-        })
+        }, showCancel = false)
         TaskTextField(
             task.content,
             viewModel::onContentChange,

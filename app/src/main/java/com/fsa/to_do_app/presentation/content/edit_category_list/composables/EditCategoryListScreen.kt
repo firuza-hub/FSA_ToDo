@@ -21,7 +21,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun EditCategoryListScreen(
-    navigateBack: () -> Boolean,
+    navigateBack: () -> Unit,
     viewModel: EditCategoryListViewModel = koinViewModel()
 ) {
     val categories by viewModel.categories.collectAsState()
@@ -31,7 +31,7 @@ fun EditCategoryListScreen(
     val newCategoryColor by viewModel.newCategoryColor.collectAsState()
 
     Column(Modifier.fillMaxSize()) {
-        TaskToolBar(cancel = navigateBack, save = {}, onAreaClicked = {})
+        TaskToolBar(cancel = { }, save = navigateBack, onAreaClicked = {}, showCancel = false)
         Categories(
             categories = categories,
             modifier = Modifier

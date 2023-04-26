@@ -21,7 +21,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EditActionScreen(
-    navigateBack: () -> Boolean,
+    navigateBack: () -> Unit,
     viewModel: EditTaskViewModel = koinViewModel()
 ) {
     val task by viewModel.task.collectAsState()
@@ -59,7 +59,7 @@ fun EditActionScreen(
                 expandPropertyBox = false
                 keyboardController?.hide()
                 focusManager.clearFocus()
-            })
+            }, showCancel = false)
             TaskTextField(
                 task.content,
                 viewModel::onContentChange,
