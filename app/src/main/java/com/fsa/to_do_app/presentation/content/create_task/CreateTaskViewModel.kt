@@ -37,9 +37,9 @@ class CreateTaskViewModel(
         getCategories()
         initCalendar()
     }
+
     fun save(onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-
             if (inputValidated()) {
                 createTaskUseCase(_task.value)
                 withContext(Dispatchers.Main) { onSuccess() }
@@ -73,10 +73,11 @@ class CreateTaskViewModel(
     fun selectDate(date: Date) {
         _task.value = _task.value.copy(date = date)
     }
-    fun selectTime(hour:Int, minute:Int, ap:String) {
-         cal.set(Calendar.HOUR, hour)
-         cal.set(Calendar.MINUTE, minute)
-         cal.set(Calendar.AM_PM, ap.stringToAmPm())
+
+    fun selectTime(hour: Int, minute: Int, ap: String) {
+        cal.set(Calendar.HOUR, hour)
+        cal.set(Calendar.MINUTE, minute)
+        cal.set(Calendar.AM_PM, ap.stringToAmPm())
         _task.value = _task.value.copy(date = cal.time)
     }
 
@@ -91,7 +92,7 @@ class CreateTaskViewModel(
     fun onMonthDown() {
         viewModelScope.launch(Dispatchers.IO) {
             cal.add(Calendar.MONTH, -1)
-            val tasks =  getMonthTasks(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
+            val tasks = getMonthTasks(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
             _calendar.value = CalendarState.setCalendar(cal, tasks)
         }
     }
@@ -100,7 +101,7 @@ class CreateTaskViewModel(
         return getMonthTasksUseCase(month, year)
     }
 
-    fun initCalendar(){
+    fun initCalendar() {
         viewModelScope.launch(Dispatchers.IO) {
             val tasks = getMonthTasks(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
             _calendar.value = CalendarState.setCalendar(cal, tasks)

@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.presentation.content.edit_action
+package com.fsa.to_do_app.presentation.content.edit_task
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -23,7 +23,7 @@ class EditTaskViewModel(
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val getMonthTasksUseCase: GetMonthTasksUseCase,
     private val getTaskUseCase: GetTaskUseCase,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val taskId: Int = checkNotNull( savedStateHandle["id"])
     private val cal = Calendar.getInstance(TimeZone.getDefault())

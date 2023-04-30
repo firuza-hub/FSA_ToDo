@@ -10,7 +10,10 @@ import org.koin.dsl.module
 
 val dataModule = module {
     //DB and DAO
-    single { Room.databaseBuilder(get(), MyDatabase::class.java, "TODO_FSA_DB").createFromAsset("database/ToDo.db").build() }
+    single {
+        Room.databaseBuilder(get(), MyDatabase::class.java, "TODO_FSA_DB")
+            .createFromAsset("database/ToDo.db").build()
+    }
     single { get<MyDatabase>().getActionDao() }
     single { get<MyDatabase>().getCategoryDao() }
 

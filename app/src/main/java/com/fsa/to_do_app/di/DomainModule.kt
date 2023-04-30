@@ -8,11 +8,11 @@ val domainModule = module {
 
     //ACTION
     factory { GetTasksUseCase(get()) }
-    factory { CreateTaskUseCase(get()) }
+    factory { CreateTaskUseCase(get(), get()) }
     factory { UpdateTaskStatusUseCase(get()) }
     factory { GetMonthTasksUseCase(get()) }
     factory { DeleteTaskUseCase(get()) }
-    factory { EditTaskUseCase(get()) }
+    factory { EditTaskUseCase(get(), get()) }
     factory { GetTaskUseCase(get()) }
 
     //CATEGORY

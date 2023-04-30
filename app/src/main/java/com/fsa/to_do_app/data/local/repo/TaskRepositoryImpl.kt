@@ -9,7 +9,7 @@ import com.fsa.to_do_app.domain.repo.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
-class TaskRepositoryImpl(private val dao: TaskDao): TaskRepository {
+class TaskRepositoryImpl(private val dao: TaskDao) : TaskRepository {
     override suspend fun get(): Flow<List<TasksWithCategoryInfo>> {
         return dao.getWithCategoryInfo()
     }
@@ -18,11 +18,12 @@ class TaskRepositoryImpl(private val dao: TaskDao): TaskRepository {
         dao.updateStatus(id, checked)
     }
 
-    override suspend fun create(model: CreateTaskModel) {
-        dao.upsert(model.toTask())
+    override suspend fun create(model: CreateTaskModel): Long {
+        return dao.upsert(model.toTask())
     }
-    override suspend fun update(model: TaskModel) {
-        dao.upsert(model.toTask())
+
+    override suspend fun update(model: TaskModel): Long {
+        return dao.upsert(model.toTask())
     }
 
     override suspend fun getByMonth(month: Int, year: Int): List<TasksWithCategoryInfo> {
@@ -40,4 +41,14 @@ class TaskRepositoryImpl(private val dao: TaskDao): TaskRepository {
     override suspend fun getById(id: Int): TasksWithCategoryInfo {
         return dao.getById(id)
     }
+
+    override fun updateWorkId(workId: UUID, taskId: Long) {
+        dao.updateWorkId(workId.toString(), taskId)
+    }
+
+    override suspend fun getWorkId(id: Long): UUID? {
+        val workId = dao.getWorkIdByTaskId(id)
+        return if(workId == null) null else UUID.fromString(workId)
+    }
+
 }

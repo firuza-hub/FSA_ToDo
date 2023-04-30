@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.presentation.content.edit_action
+package com.fsa.to_do_app.presentation.content.edit_task
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -20,7 +20,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun EditActionScreen(
+fun EditTaskScreen(
     navigateBack: () -> Unit,
     viewModel: EditTaskViewModel = koinViewModel()
 ) {

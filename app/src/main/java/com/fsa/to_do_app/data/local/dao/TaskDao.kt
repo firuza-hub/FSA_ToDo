@@ -4,6 +4,7 @@ import androidx.room.*
 import com.fsa.to_do_app.data.local.entities.Task
 import com.fsa.to_do_app.data.local.models.TasksWithCategoryInfo
 import kotlinx.coroutines.flow.Flow
+import java.sql.Blob
 import java.util.*
 
 @Dao
@@ -15,7 +16,7 @@ interface TaskDao {
     suspend fun updateStatus(id: Int, checked: Boolean)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(toTask: Task)
+    suspend fun upsert(toTask: Task): Long
 
     @Query("SELECT a.*,c.colorCode AS categoryColorCode, c.name as categoryName  FROM Tasks a join Categories c on a.categoryId = c.id where cast(strftime('%Y',datetime(a.date/1000, 'unixepoch')) as numeric) = :year and cast(strftime('%m',datetime(a.date/1000, 'unixepoch')) as numeric) = :month")
     suspend fun getByMonth(month: Int, year: Int): List<TasksWithCategoryInfo>
@@ -28,4 +29,10 @@ interface TaskDao {
 
     @Query("SELECT a.*,c.colorCode AS categoryColorCode, c.name as categoryName  FROM Tasks a join Categories c on a.categoryId = c.id where a.id = :id")
     suspend fun getById(id: Int): TasksWithCategoryInfo
+
+    @Query("UPDATE Tasks SET workId = :workId where id = :taskId")
+    fun updateWorkId(workId: String, taskId: Long)
+
+    @Query("SELECT t.workId FROM Tasks t WHERE t.id = :taskId")
+    suspend fun getWorkIdByTaskId(taskId: Long): String
 }

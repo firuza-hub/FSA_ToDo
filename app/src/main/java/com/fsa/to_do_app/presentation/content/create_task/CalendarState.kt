@@ -22,7 +22,7 @@ data class CalendarState(
 
             val currentMonth = mutableListOf<CalendarDay>()
             for (i in 1 until firstDayOfMonthWeekDay) currentMonth.add(CalendarDay(-1))
-            for (i in 1 until lastDayOfMonth) currentMonth.add(CalendarDay(i, tasks.filter { it.date?.getDayOfMonth() == i }))
+            for (i in 1 ..lastDayOfMonth) currentMonth.add(CalendarDay(i, tasks.filter { it.date?.getDayOfMonth() == i }))
 
             return currentMonth
         }

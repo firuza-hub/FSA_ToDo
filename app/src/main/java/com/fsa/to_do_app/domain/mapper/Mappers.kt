@@ -36,12 +36,12 @@ fun TasksWithCategoryInfo.toTaskModel(): TaskModel = TaskModel(
 )
 
 fun CreateTaskModel.toTask(): Task = Task(
-    isDone = false, content = content, date = date, categoryId = category.id
+    isDone = false, content = content, date = date, categoryId = category.id, workId = null
 )
 
 
 fun TaskModel.toTask(): Task = Task(
-    isDone = false, content = content, date = date, categoryId = category.id, id = id
+    isDone = false, content = content, date = date, categoryId = category.id, id = id, workId = null
 )
 
 

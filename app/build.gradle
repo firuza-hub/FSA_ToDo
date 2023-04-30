@@ -74,10 +74,13 @@ dependencies {
     implementation "io.insert-koin:koin-androidx-compose:3.2.2"
 
     // Navigation
-    implementation "androidx.navigation:navigation-compose:2.6.0-alpha09"
+    implementation "androidx.navigation:navigation-compose:2.6.0-beta01"
 
     //Room
     implementation "androidx.room:room-runtime:2.5.1"
     implementation 'androidx.room:room-ktx:2.5.1'
     kapt "androidx.room:room-compiler:2.5.1"
+
+    //Work
+    implementation "androidx.work:work-runtime-ktx:2.8.1"
 }

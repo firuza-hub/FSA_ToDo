@@ -18,5 +18,6 @@ data class Task(
     val content: String,
     val date: Date?,
     @ColumnInfo(index = true)
-    val categoryId: Int
+    val categoryId: Int,
+    val workId: String?
 )
