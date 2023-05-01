@@ -21,6 +21,7 @@ import com.fsa.to_do_app.presentation.content.create_task.composables.CreateTask
 import com.fsa.to_do_app.presentation.content.dashboard.composables.DashboardScreen
 import com.fsa.to_do_app.presentation.content.edit_task.EditTaskScreen
 import com.fsa.to_do_app.presentation.content.edit_category_list.composables.EditCategoryListScreen
+import com.fsa.to_do_app.presentation.content.splash_screen.SplashScreen
 import com.fsa.to_do_app.presentation.theme.ToDoAppTheme
 import com.fsa.to_do_app.util.CHANNEL_ID
 
@@ -36,7 +37,13 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     val navController = rememberNavController()
-                    NavHost(navController, startDestination = NavDestinations.DASHBOARD_SCREEN) {
+                    NavHost(navController, startDestination = NavDestinations.SPLASH_SCREEN) {
+                        composable(route = NavDestinations.SPLASH_SCREEN) {
+                            SplashScreen(navigateToMain = {
+                                navController.popBackStack()
+                                navController.navigate(NavDestinations.DASHBOARD_SCREEN)
+                            })
+                        }
                         composable(route = NavDestinations.DASHBOARD_SCREEN) {
                             DashboardScreen(navigateToCreateTask = {
                                 navController.navigate(
