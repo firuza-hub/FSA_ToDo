@@ -7,9 +7,10 @@ data class TaskModel(
     val isDone: Boolean,
     val content: String,
     val date: Date?,
-    val category:CategoryModel
+    val category:CategoryModel,
+    val notificationWorkId: String?
 ){
     companion object{
-        val NULL = TaskModel(-1, false,"",null, CategoryModel.NULL)
+        val NULL = TaskModel(-1, false,"",null, CategoryModel.NULL, null)
     }
 }

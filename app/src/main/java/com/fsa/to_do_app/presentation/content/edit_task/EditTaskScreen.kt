@@ -44,10 +44,11 @@ fun EditTaskScreen(
     var propertyBoxToShow by remember {
         mutableStateOf(ActionProperty.CATEGORY)
     }
+
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
-    if(!loading){
+    if (!loading) {
         Column(Modifier.fillMaxSize()) {
             TaskToolBar(cancel = navigateBack, save = {
                 viewModel.save {

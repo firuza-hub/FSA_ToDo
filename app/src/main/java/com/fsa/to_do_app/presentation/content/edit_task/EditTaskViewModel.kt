@@ -72,7 +72,6 @@ class EditTaskViewModel(
             return false
         }
         return true
-
     }
 
     private fun getCategories() {

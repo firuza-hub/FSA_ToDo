@@ -19,5 +19,5 @@ data class Task(
     val date: Date?,
     @ColumnInfo(index = true)
     val categoryId: Int,
-    val workId: String?
+    val notificationWorkId: String?
 )

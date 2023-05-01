@@ -4,11 +4,15 @@ import androidx.room.*
 import com.fsa.to_do_app.data.local.entities.Task
 import com.fsa.to_do_app.data.local.models.TasksWithCategoryInfo
 import kotlinx.coroutines.flow.Flow
-import java.sql.Blob
 import java.util.*
 
 @Dao
 interface TaskDao {
+    @Query("SELECT * FROM Tasks WHERE id = :id")
+    suspend fun getById(id: Int): Task
+    @Query("SELECT a.*,c.colorCode AS categoryColorCode, c.name as categoryName  FROM Tasks a join Categories c on a.categoryId = c.id where a.id = :id")
+    suspend fun getWithCategoryInfoById(id: Int): TasksWithCategoryInfo
+
     @Query("SELECT a.*,c.colorCode AS categoryColorCode, c.name as categoryName FROM Tasks a join Categories c on a.categoryId = c.id")
     fun getWithCategoryInfo(): Flow<List<TasksWithCategoryInfo>>
 
@@ -27,12 +31,7 @@ interface TaskDao {
     @Query("SELECT a.*,c.colorCode AS categoryColorCode, c.name as categoryName  FROM Tasks a join Categories c on a.categoryId = c.id where date(a.date / 1000,'unixepoch') = date(:date / 1000,'unixepoch')")
     fun getWithCategoryInfoForDate(date: Date): Flow<List<TasksWithCategoryInfo>>
 
-    @Query("SELECT a.*,c.colorCode AS categoryColorCode, c.name as categoryName  FROM Tasks a join Categories c on a.categoryId = c.id where a.id = :id")
-    suspend fun getById(id: Int): TasksWithCategoryInfo
 
-    @Query("UPDATE Tasks SET workId = :workId where id = :taskId")
+    @Query("UPDATE Tasks SET notificationWorkId = :workId where id = :taskId")
     fun updateWorkId(workId: String, taskId: Long)
-
-    @Query("SELECT t.workId FROM Tasks t WHERE t.id = :taskId")
-    suspend fun getWorkIdByTaskId(taskId: Long): String
 }

@@ -32,16 +32,17 @@ fun TasksWithCategoryInfo.toTaskModel(): TaskModel = TaskModel(
         name = categoryName,
         dateCreated = Date(),
         numberOfActions = -1
-    )
+    ),
+    task.notificationWorkId
 )
 
 fun CreateTaskModel.toTask(): Task = Task(
-    isDone = false, content = content, date = date, categoryId = category.id, workId = null
+    isDone = false, content = content, date = date, categoryId = category.id, notificationWorkId = null
 )
 
 
 fun TaskModel.toTask(): Task = Task(
-    isDone = false, content = content, date = date, categoryId = category.id, id = id, workId = null
+    isDone = false, content = content, date = date, categoryId = category.id, id = id, notificationWorkId = notificationWorkId
 )
 
 

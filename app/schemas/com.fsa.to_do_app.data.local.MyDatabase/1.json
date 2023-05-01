@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d9c0e16d7bba93d8c2a19af39a593fb3",
+    "identityHash": "78e0a3d38f824fd8e605860ee0c82c42",
     "entities": [
       {
         "tableName": "Tasks",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `isDone` INTEGER NOT NULL, `content` TEXT NOT NULL, `date` INTEGER, `categoryId` INTEGER NOT NULL, `workId` TEXT, FOREIGN KEY(`categoryId`) REFERENCES `Categories`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `isDone` INTEGER NOT NULL, `content` TEXT NOT NULL, `date` INTEGER, `categoryId` INTEGER NOT NULL, `notificationWorkId` TEXT, FOREIGN KEY(`categoryId`) REFERENCES `Categories`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -39,8 +39,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "workId",
-            "columnName": "workId",
+            "fieldPath": "notificationWorkId",
+            "columnName": "notificationWorkId",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -118,7 +118,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd9c0e16d7bba93d8c2a19af39a593fb3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '78e0a3d38f824fd8e605860ee0c82c42')"
     ]
   }
 }
