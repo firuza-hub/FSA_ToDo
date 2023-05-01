@@ -7,6 +7,9 @@ import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.domain.usecase.category.CreateCategoryUseCase
 import com.fsa.to_do_app.domain.usecase.category.DeleteCategoryUseCase
 import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
+import com.fsa.to_do_app.domain.usecase.category.UpdateCategoryUseCase
+import com.fsa.to_do_app.presentation.common.hexToColor
+import com.fsa.to_do_app.presentation.common.toHexString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,10 +19,11 @@ class EditCategoryListViewModel(
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val createCategoryUseCase: CreateCategoryUseCase,
     private val deleteCategoryUseCase: DeleteCategoryUseCase,
+    private val updateCategoryUseCase: UpdateCategoryUseCase,
 ) : ViewModel() {
 
 
-    val colors = listOf(
+    val colors = mutableListOf(
         Color(0xFFEF9A9A),
         Color(0xFFF48FB1),
         Color(0xFF80CBC4),
@@ -40,6 +44,8 @@ class EditCategoryListViewModel(
     private val _newCategoryColor = MutableStateFlow(colors[0])
     val newCategoryColor = _newCategoryColor.asStateFlow()
 
+    private val _editCategoryId = MutableStateFlow<Int?>(null)
+
     init {
         getCategories()
     }
@@ -54,8 +60,17 @@ class EditCategoryListViewModel(
 
     fun createNewCategory() {
         viewModelScope.launch(Dispatchers.IO) {
-            createCategoryUseCase(_newCategoryName.value, _newCategoryColor.value)
+            if (_editCategoryId.value != null) {
+                updateCategoryUseCase(
+                    _categories.value.single { it.id == _editCategoryId.value }.copy(
+                        name = _newCategoryName.value,
+                        colorCode = _newCategoryColor.value.toHexString()
+                    )
+                )
+            } else
+                createCategoryUseCase(_newCategoryName.value, _newCategoryColor.value)
             getCategories()
+            resetInputValues()
         }
     }
 
@@ -76,7 +91,22 @@ class EditCategoryListViewModel(
         }
     }
 
+    fun selectCategoryForEdit(category: CategoryModel) {
+        _newCategoryName.value = category.name
+        _newCategoryColor.value = category.colorCode.hexToColor()
+        _editCategoryId.value = category.id
+        if (!colors.contains(category.colorCode.hexToColor())) {
+            colors.add(category.colorCode.hexToColor())
+        }
+    }
+
     private fun validateDelete(id: Int): Boolean {
         return true//TODO: add validation logic with db check
+    }
+
+    fun resetInputValues() {
+        _newCategoryName.value = ""
+        _newCategoryColor.value = colors[0]
+        _editCategoryId.value = null
     }
 }

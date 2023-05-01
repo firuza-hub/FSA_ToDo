@@ -26,7 +26,7 @@ import com.fsa.to_do_app.presentation.common.toHexString
 @Composable
 fun CategoryCreationDialog(
     showDialog: Boolean,
-    closeDialog: () -> Unit,
+    onDismiss: () -> Unit,
     newCategoryName: String,
     newCategoryColor: Color,
     updateCategoryName: (String) -> Unit,
@@ -39,7 +39,7 @@ fun CategoryCreationDialog(
         var colorPickerOpen by rememberSaveable { mutableStateOf(false) }
 
         Dialog(
-            onDismissRequest = closeDialog,
+            onDismissRequest = onDismiss,
             properties = DialogProperties(dismissOnClickOutside = true)
         ) {
             Surface(
@@ -92,7 +92,7 @@ fun CategoryCreationDialog(
                     Column(Modifier.fillMaxWidth()) {
                         Text(text = "SAVE", color = Color.Blue,
                             modifier = Modifier
-                                .noRippleClickable { closeDialog(); createNewCategory() }
+                                .noRippleClickable { createNewCategory();}
                                 .padding(vertical = 16.dp, horizontal = 32.dp)
                                 .align(Alignment.End)
                         )

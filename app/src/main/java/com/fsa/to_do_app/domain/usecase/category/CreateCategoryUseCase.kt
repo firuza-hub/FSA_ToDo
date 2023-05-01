@@ -8,5 +8,4 @@ class CreateCategoryUseCase(private val repo: CategoryRepository) {
     suspend operator fun invoke(name: String, color: Color){
         repo.create(CreateCategoryModel(name = name, color = color))
     }
-
 }

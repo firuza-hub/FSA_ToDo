@@ -39,10 +39,11 @@ val presentationModule = module {
         EditCategoryListViewModel(
             getCategoriesUseCase = get(),
             createCategoryUseCase = get(),
-            deleteCategoryUseCase = get()
+            deleteCategoryUseCase = get(),
+            updateCategoryUseCase = get()
         )
     }
 
-    factory{ ReminderNotificationService(androidContext()) }
-    factory{ ReminderWorkerService(androidContext()) }
+    factory { ReminderNotificationService(androidContext()) }
+    factory { ReminderWorkerService(androidContext()) }
 }

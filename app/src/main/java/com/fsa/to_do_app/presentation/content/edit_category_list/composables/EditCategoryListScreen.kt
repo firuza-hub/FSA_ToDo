@@ -37,7 +37,7 @@ fun EditCategoryListScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            onCategorySelected = {},
+            onCategorySelected = {showDialog = true ; viewModel.selectCategoryForEdit(it)},
             onDeleteClicked = viewModel::deleteCategory,
             deleteAllowed = true
         )
@@ -60,10 +60,11 @@ fun EditCategoryListScreen(
         }
 
         CategoryCreationDialog(
-            showDialog, closeDialog = { showDialog = false },
+            showDialog,
+            onDismiss = { showDialog = false; viewModel.resetInputValues() },
             newCategoryName = newCategoryName,
             updateCategoryName = viewModel::updateCategoryName,
-            createNewCategory = { viewModel.createNewCategory() },
+            createNewCategory = { viewModel.createNewCategory(); showDialog = false },
             updateCategoryColor = viewModel::updateCategoryColor,
             newCategoryColor = newCategoryColor, colors = viewModel.colors
         )
