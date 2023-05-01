@@ -9,7 +9,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.topBorder
 import com.fsa.to_do_app.presentation.content.create_task.ActionProperty
 import com.fsa.to_do_app.presentation.content.create_task.composables.TaskBottomToolbar
@@ -48,11 +50,12 @@ fun EditTaskScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
+    val msg = stringResource(R.string.msg_savedSuccessfully)
     if (!loading) {
         Column(Modifier.fillMaxSize()) {
             TaskToolBar(cancel = navigateBack, save = {
                 viewModel.save {
-                    Toast.makeText(context, "Saved successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                     navigateBack()
                 }
 

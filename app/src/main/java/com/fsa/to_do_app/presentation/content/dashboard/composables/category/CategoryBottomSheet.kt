@@ -7,7 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.fsa.to_do_app.R
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.presentation.common.composables.shapes.DragHandle
@@ -46,7 +48,10 @@ fun CategoryBottomSheet(
                     Column(modifier = Modifier.padding(horizontal = 32.dp, vertical = 10.dp)) {
                         Text(text = category.name, style = MaterialTheme.typography.h1, color = category.colorCode.hexToColor().getTextOnBackground())
                         Text(
-                            text = "${category.numberOfActions} task(s)",
+                            text = buildString {
+        append(category.numberOfActions)
+        append(stringResource(R.string.task_s))
+    },
                             modifier = Modifier.padding(top = 2.dp),
                             style = MaterialTheme.typography.body2
                         )

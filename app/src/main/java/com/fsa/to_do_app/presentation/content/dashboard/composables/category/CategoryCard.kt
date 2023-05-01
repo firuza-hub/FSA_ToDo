@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.domain.model.CategoryModel
@@ -22,7 +23,7 @@ fun CategoryCard(
     category: CategoryModel,
     modifier: Modifier,
     onCategoryClicked: (CategoryModel) -> Unit,
-    onDeleteClicked:  (CategoryModel) -> Unit,
+    onDeleteClicked: (CategoryModel) -> Unit,
     deleteAllowed: Boolean = false
 ) {
     Card(
@@ -38,7 +39,10 @@ fun CategoryCard(
             Column(modifier = Modifier.padding(10.dp)) {
                 Text(text = category.name)
                 Text(
-                    text = "${category.numberOfActions} tasks",
+                    text = buildString {
+                        append(category.numberOfActions)
+                        append(stringResource(id = R.string.task_s))
+                    },
                     modifier = Modifier.padding(top = 2.dp),
                     style = MaterialTheme.typography.body2
                 )
@@ -49,7 +53,7 @@ fun CategoryCard(
                 Icon(
                     modifier = Modifier
                         .noRippleClickable { onDeleteClicked(category) }
-                        .padding( end = 16.dp),
+                        .padding(end = 16.dp),
                     painter = painterResource(id = R.drawable.ic_trash),
                     contentDescription = "Delete category"
                 )

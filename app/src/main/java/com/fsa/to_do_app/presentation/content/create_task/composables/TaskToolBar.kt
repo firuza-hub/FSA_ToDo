@@ -8,7 +8,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.noRippleClickable
 
 @Composable
@@ -23,8 +25,8 @@ fun TaskToolBar(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        if(showCancel) Text(text = "Cancel", modifier = Modifier.noRippleClickable { cancel() }, color = Color.Blue)
+        if(showCancel) Text(text = stringResource(R.string.btn_cancel), modifier = Modifier.noRippleClickable { cancel() }, color = Color.Blue)
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = "Done", modifier = Modifier.noRippleClickable { save() }, color = Color.Blue)
+        Text(text = stringResource(R.string.btn_done), modifier = Modifier.noRippleClickable { save() }, color = Color.Blue)
     }
 }

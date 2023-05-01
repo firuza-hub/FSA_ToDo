@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">ToDoApp</string>
+    <string name="app_name">İş Güc</string>
+    <string name="header_AllTasks">All Tasks</string>
+    <string name="header_Today">Today</string>
+    <string name="header_Lists">Lists</string>
+    <string name="task_s"> task(s)</string>
+    <string name="menu_task">Task</string>
+    <string name="menu_list">List</string>
+    <string name="menu_showToday">Show Today</string>
+    <string name="menu_showAll">Show All</string>
+    <string name="menu_Calendar">Calendar</string>
+    <string name="msg_deleted">Deleted</string>
+    <string name="hint_name">Name</string>
+    <string name="btn_save">SAVE</string>
+    <string name="msg_savedSuccessfully">Saved successfully</string>
+    <string name="btn_done">Done</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="hint_whatDoYouWantToDo">What do you want to do?</string>
 </resources>

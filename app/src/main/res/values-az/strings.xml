@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">İş Güc</string>
+    <string name="header_AllTasks">Bütün tapşırıqlar</string>
+    <string name="header_Today">Bu gün</string>
+    <string name="header_Lists">Siyahılar</string>
+    <string name="task_s">" tapşırıq(lar)"</string>
+    <string name="menu_task">Tapşırıq</string>
+    <string name="menu_list">Siyahı</string>
+    <string name="menu_showToday">Bu gün</string>
+    <string name="menu_showAll">Hamısı</string>
+    <string name="menu_Calendar">Təqvim</string>
+    <string name="msg_deleted">Silindi</string>
+    <string name="hint_name">Ad</string>
+    <string name="btn_save">SAXLA</string>
+    <string name="msg_savedSuccessfully">Uğurla yadda saxlanıldı</string>
+    <string name="btn_done">Hazır</string>
+    <string name="btn_cancel">Ləğv</string>
+    <string name="hint_whatDoYouWantToDo">Nə etmək lazım?</string>
+</resources>

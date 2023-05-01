@@ -18,7 +18,7 @@ fun CategoryWithNumberOfActions.toCategoryModel(): CategoryModel =
         category.name,
         category.colorCode,
         category.dateCreated,
-        numberOfActions ?: 0
+        numberOfActions
     )
 
 fun TasksWithCategoryInfo.toTaskModel(): TaskModel = TaskModel(

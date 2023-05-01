@@ -15,9 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.composables.shapes.CircleShape
 import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.presentation.common.noRippleClickable
@@ -72,7 +74,7 @@ fun CategoryCreationDialog(
                                 ) {
                                     if (newCategoryName.isEmpty())
                                         Text(
-                                            text = "Name",
+                                            text = stringResource(R.string.hint_name),
                                             style = MaterialTheme.typography.body1,
                                             color = Color.LightGray
                                         )
@@ -90,7 +92,7 @@ fun CategoryCreationDialog(
                         )
                     }
                     Column(Modifier.fillMaxWidth()) {
-                        Text(text = "SAVE", color = Color.Blue,
+                        Text(text = stringResource(R.string.btn_save), color = Color.Blue,
                             modifier = Modifier
                                 .noRippleClickable { createNewCategory();}
                                 .padding(vertical = 16.dp, horizontal = 32.dp)
@@ -114,8 +116,3 @@ fun CategoryCreationDialog(
         }
     }
 }
-
-fun colourSaver() = Saver<MutableState<Color>, String>(
-    save = { state -> state.value.toHexString() },
-    restore = { value -> mutableStateOf(value.hexToColor()) }
-)

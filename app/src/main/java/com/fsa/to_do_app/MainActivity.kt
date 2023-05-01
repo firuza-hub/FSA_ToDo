@@ -3,6 +3,7 @@ package com.fsa.to_do_app
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -19,15 +20,26 @@ import androidx.navigation.navArgument
 import com.fsa.to_do_app.presentation.common.navigation.NavDestinations
 import com.fsa.to_do_app.presentation.content.create_task.composables.CreateTaskScreen
 import com.fsa.to_do_app.presentation.content.dashboard.composables.DashboardScreen
-import com.fsa.to_do_app.presentation.content.edit_task.EditTaskScreen
 import com.fsa.to_do_app.presentation.content.edit_category_list.composables.EditCategoryListScreen
+import com.fsa.to_do_app.presentation.content.edit_task.EditTaskScreen
 import com.fsa.to_do_app.presentation.content.splash_screen.SplashScreen
 import com.fsa.to_do_app.presentation.theme.ToDoAppTheme
 import com.fsa.to_do_app.util.CHANNEL_ID
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val locale = Locale("az")
+        Locale.setDefault(locale)
+        val config: Configuration = baseContext.resources.configuration
+        config.locale = locale
+        baseContext.resources.updateConfiguration(
+            config,
+            baseContext.resources.displayMetrics
+        )
+
         createNotificationChannel(this)
         setContent {
             ToDoAppTheme {

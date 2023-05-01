@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
@@ -42,13 +43,14 @@ fun Tasks(
     onTaskClicked: (Int) -> Unit = {}
 ) {
     val context = LocalContext.current
+    val msg = stringResource(R.string.msg_deleted)
     LazyColumn(modifier) {
         items(items = tasks, key = { it.id }) { task ->
             val dismissState = rememberDismissState(
                 confirmStateChange = {
                     if (it == DismissValue.DismissedToStart) {
                         deleteTask(task) {
-                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, msg , Toast.LENGTH_SHORT).show()
                         }
                         true
                     } else false

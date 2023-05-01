@@ -11,7 +11,9 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.composables.functional.RoundCheckbox
 
 
@@ -47,7 +49,7 @@ fun TaskTextField(
 
                     if (content.isEmpty())
                         Text(
-                            text = "What do you want to do?",
+                            text = stringResource(R.string.hint_whatDoYouWantToDo),
                             style = MaterialTheme.typography.body1,
                             color = Color.LightGray
                         )

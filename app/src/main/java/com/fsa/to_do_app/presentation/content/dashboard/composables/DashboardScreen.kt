@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.composables.shapes.CircleShape
@@ -72,8 +73,8 @@ fun DashboardScreen(
             Row(Modifier.fillMaxWidth()) {
                 Text(
                     text = when (allShown) {
-                        DashboardFilter.ShowAll -> "All Tasks"
-                        DashboardFilter.ShowToday -> "Today"
+                        DashboardFilter.ShowAll -> stringResource(R.string.header_AllTasks)
+                        DashboardFilter.ShowToday -> stringResource(R.string.header_Today)
                         DashboardFilter.ShowByDate -> filterCalendar.time.getDateShort()
                     },
                     style = MaterialTheme.typography.h1,
@@ -104,7 +105,7 @@ fun DashboardScreen(
 
             if (categories.any()) {
                 Text(
-                    text = "Lists",
+                    text = stringResource(R.string.header_Lists),
                     style = MaterialTheme.typography.subtitle1,
                     modifier = Modifier.padding(bottom = 6.dp, start = 45.dp)
                 )

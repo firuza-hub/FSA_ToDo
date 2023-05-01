@@ -6,9 +6,9 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.hexToColor
@@ -41,7 +41,7 @@ fun CreateTaskOrCategoryMenu(
                             tint = "006CFF".hexToColor()
                         )
                         Text(
-                            "Task",
+                            stringResource(R.string.menu_task),
                             style = MaterialTheme.typography.body1,
                             color = "006CFF".hexToColor(),
                             modifier = Modifier.padding(start = 16.dp)
@@ -57,7 +57,7 @@ fun CreateTaskOrCategoryMenu(
                             tint = "006CFF".hexToColor()
                         )
                         Text(
-                            "List",
+                            stringResource(R.string.menu_list),
                             style = MaterialTheme.typography.body1,
                             color = "006CFF".hexToColor(),
                             modifier = Modifier.padding(start = 16.dp)
