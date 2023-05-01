@@ -1,6 +1,7 @@
 package com.fsa.to_do_app.data.local.repo
 
 import com.fsa.to_do_app.data.local.dao.CategoryDao
+import com.fsa.to_do_app.data.local.entities.Category
 import com.fsa.to_do_app.data.local.models.CategoryWithNumberOfActions
 import com.fsa.to_do_app.domain.mapper.toCategory
 import com.fsa.to_do_app.domain.model.CreateCategoryModel
@@ -18,6 +19,10 @@ class CategoryRepositoryImpl(private val dao: CategoryDao): CategoryRepository {
 
     override suspend fun create(createCategoryModel: CreateCategoryModel) {
         dao.create(createCategoryModel.toCategory())
+    }
+
+    override suspend fun delete(category: Category) {
+        dao.delete(category)
     }
 
 }

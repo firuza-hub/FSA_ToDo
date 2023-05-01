@@ -4,8 +4,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fsa.to_do_app.domain.model.CategoryModel
-import com.fsa.to_do_app.domain.model.CreateCategoryModel
 import com.fsa.to_do_app.domain.usecase.category.CreateCategoryUseCase
+import com.fsa.to_do_app.domain.usecase.category.DeleteCategoryUseCase
 import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,8 +14,10 @@ import kotlinx.coroutines.launch
 
 class EditCategoryListViewModel(
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val createCategoryUseCase: CreateCategoryUseCase
+    private val createCategoryUseCase: CreateCategoryUseCase,
+    private val deleteCategoryUseCase: DeleteCategoryUseCase,
 ) : ViewModel() {
+
 
     val colors = listOf(
         Color(0xFFEF9A9A),
@@ -63,5 +65,18 @@ class EditCategoryListViewModel(
 
     fun updateCategoryColor(input: Color) {
         _newCategoryColor.value = input
+    }
+
+    fun deleteCategory(category: CategoryModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (validateDelete(category.id)) {
+                deleteCategoryUseCase(category)
+                getCategories()
+            }
+        }
+    }
+
+    private fun validateDelete(id: Int): Boolean {
+        return true//TODO: add validation logic with db check
     }
 }

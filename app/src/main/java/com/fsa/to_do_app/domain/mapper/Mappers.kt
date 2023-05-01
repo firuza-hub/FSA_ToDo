@@ -49,3 +49,6 @@ fun TaskModel.toTask(): Task = Task(
 fun CreateCategoryModel.toCategory(): Category = Category(
     name = name, colorCode = color.toHexString()
 )
+fun CategoryModel.toCategory(): Category = Category(
+    name = name, colorCode = colorCode, id = id, dateCreated = dateCreated
+)

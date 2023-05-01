@@ -1,6 +1,7 @@
 package com.fsa.to_do_app.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.fsa.to_do_app.data.local.entities.Category
@@ -15,4 +16,6 @@ interface CategoryDao {
     fun getWithNumberOfActionsByDate(date: Date): List<CategoryWithNumberOfActions>
     @Insert
     fun create(category: Category)
+    @Delete
+    fun delete(category: Category)
 }

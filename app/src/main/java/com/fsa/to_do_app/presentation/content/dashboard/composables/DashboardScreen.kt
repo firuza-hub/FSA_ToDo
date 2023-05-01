@@ -114,11 +114,12 @@ fun DashboardScreen(
                 categories = categories,
                 modifier = Modifier
                     .weight(1f)
-                    .padding(end = 16.dp, start = 45.dp)
-            ) {
-                viewModel.updateSelectedCategory(it)
-                viewModel.updateCategorySheetState(ModalBottomSheetValue.Expanded)
-            }
+                    .padding(end = 16.dp, start = 45.dp),
+                {
+                    viewModel.updateSelectedCategory(it)
+                    viewModel.updateCategorySheetState(ModalBottomSheetValue.Expanded)
+                }
+            )
         }
         if (modalSheetState.isVisible) {
             CategoryBottomSheet(

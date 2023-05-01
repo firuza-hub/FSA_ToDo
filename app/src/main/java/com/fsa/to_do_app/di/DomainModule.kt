@@ -18,4 +18,5 @@ val domainModule = module {
     //CATEGORY
     factory { GetCategoriesUseCase(get()) }
     factory { CreateCategoryUseCase(get()) }
+    factory { DeleteCategoryUseCase(get()) }
 }

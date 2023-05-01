@@ -4,17 +4,15 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.domain.model.CategoryModel
+import com.fsa.to_do_app.domain.model.TaskModel
+import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
 import com.fsa.to_do_app.domain.usecase.task.DeleteTaskUseCase
 import com.fsa.to_do_app.domain.usecase.task.GetTasksUseCase
 import com.fsa.to_do_app.domain.usecase.task.UpdateTaskStatusUseCase
-import com.fsa.to_do_app.domain.usecase.category.GetCategoriesUseCase
-import com.fsa.to_do_app.presentation.service.ReminderNotificationService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -67,7 +65,6 @@ class DashboardViewModel(
                         _tasks.value = it
                         _isLoading.value = false
                     }
-
                 }
                 DashboardFilter.ShowToday -> {
                     getTasksUseCase.invoke(showAll = false).collect {
@@ -77,12 +74,14 @@ class DashboardViewModel(
                     }
                 }
                 DashboardFilter.ShowByDate -> {
-                    getTasksUseCase.invoke(showAll = false, date = _filterDate.value.time).collect {
-                        _isLoading.value = true
-                        _tasks.value = it
-                        _isLoading.value = false
-                    }
+                    getTasksUseCase.invoke(showAll = false, date = _filterDate.value.time)
+                        .collect {
+                            _isLoading.value = true
+                            _tasks.value = it
+                            _isLoading.value = false
+                        }
                 }
+
             }
         }
     }
@@ -100,6 +99,7 @@ class DashboardViewModel(
         }
         _tasksByCategory.value =
             _tasks.value.filter { it.category.id == _selectedCategory.value.id }
+
         viewModelScope.launch {
             updateTaskStatusUseCase(id, checked)
         }
@@ -133,6 +133,8 @@ class DashboardViewModel(
     }
 
     fun showByDate(filterCalendar: Calendar) {
+        _filterDate.value = filterCalendar
         _allShown.value = DashboardFilter.ShowByDate
+        loadData()
     }
 }

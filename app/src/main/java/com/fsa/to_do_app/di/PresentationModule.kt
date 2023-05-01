@@ -38,7 +38,8 @@ val presentationModule = module {
     viewModel {
         EditCategoryListViewModel(
             getCategoriesUseCase = get(),
-            createCategoryUseCase = get()
+            createCategoryUseCase = get(),
+            deleteCategoryUseCase = get()
         )
     }
 

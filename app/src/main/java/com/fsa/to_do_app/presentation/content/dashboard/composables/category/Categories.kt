@@ -13,7 +13,9 @@ import com.fsa.to_do_app.domain.model.CategoryModel
 fun Categories(
     categories: List<CategoryModel>,
     modifier: Modifier,
-    onCategorySelected: (CategoryModel) -> Unit
+    onCategorySelected: (CategoryModel) -> Unit,
+    onDeleteClicked: (CategoryModel) -> Unit = {},
+    deleteAllowed: Boolean = false
 ) {
     Column(modifier) {
         LazyColumn {
@@ -21,10 +23,11 @@ fun Categories(
                 Row(Modifier.fillMaxWidth()) {
                     CategoryCard(
                         category = it,
-                        modifier = Modifier
-                    ) {
-                        onCategorySelected(it)
-                    }
+                        modifier = Modifier,
+                        deleteAllowed = deleteAllowed,
+                        onCategoryClicked =  onCategorySelected,
+                        onDeleteClicked = onDeleteClicked
+                    )
                 }
             }
         }
