@@ -3,15 +3,26 @@ package com.fsa.to_do_app
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -40,9 +51,24 @@ class MainActivity : ComponentActivity() {
             baseContext.resources.displayMetrics
         )
 
-        createNotificationChannel(this)
+
         setContent {
             ToDoAppTheme {
+                var hasNotificationPermission by remember {
+                    mutableStateOf(
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            requestNotificationPermission()
+                        } else true
+                    )
+                }
+
+                val permissionLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.RequestPermission(),
+                    onResult = { isGranted ->
+                        hasNotificationPermission = isGranted
+                    }
+
+                )
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -57,17 +83,25 @@ class MainActivity : ComponentActivity() {
                             })
                         }
                         composable(route = NavDestinations.DASHBOARD_SCREEN) {
-                            DashboardScreen(navigateToCreateTask = {
-                                navController.navigate(
-                                    NavDestinations.CREATE_ACTION_SCREEN
-                                )
-                            },
+                            DashboardScreen(
+                                navigateToCreateTask = {
+                                    navController.navigate(
+                                        NavDestinations.CREATE_ACTION_SCREEN
+                                    )
+                                },
                                 navigateToEditTask = { navController.navigate("${NavDestinations.EDIT_ACTION_SCREEN}/$it") },
-                                navigateToCreateCategory = { navController.navigate(NavDestinations.EDIT_CATEGORY_LIST_SCREEN) })
+                                navigateToCreateCategory = { navController.navigate(NavDestinations.EDIT_CATEGORY_LIST_SCREEN) },
+                                permissionLauncher = permissionLauncher
+                            )
+
                         }
 
                         composable(route = NavDestinations.CREATE_ACTION_SCREEN) {
-                            CreateTaskScreen(navigateBack = { navController.popBackStack() })
+                            CreateTaskScreen(
+                                navigateBack = { navController.popBackStack() },
+                                hasNotificationPermission = hasNotificationPermission,
+                                redirectToPermissionSettings = { redirectToPermissionSettings() }
+                            )
                         }
                         composable(route = NavDestinations.EDIT_CATEGORY_LIST_SCREEN) {
                             EditCategoryListScreen(navigateBack = { navController.popBackStack() })
@@ -76,12 +110,18 @@ class MainActivity : ComponentActivity() {
                             route = "${NavDestinations.EDIT_ACTION_SCREEN}/{id}",
                             arguments = listOf(navArgument("id") { type = NavType.IntType })
                         ) {
-                            EditTaskScreen(navigateBack = { navController.popBackStack() })
+                            EditTaskScreen(
+                                navigateBack = { navController.popBackStack() },
+                                hasNotificationPermission = hasNotificationPermission,
+                                redirectToPermissionSettings = { redirectToPermissionSettings() }
+                            )
                         }
                     }
                 }
             }
         }
+
+
     }
 
     private fun createNotificationChannel(context: Context) {
@@ -101,6 +141,25 @@ class MainActivity : ComponentActivity() {
                 context.getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(notificationChannel)
         }
+    }
+
+    private fun requestNotificationPermission(): Boolean {
+        return if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            createNotificationChannel(this)
+            true
+        } else false
+    }
+
+    private fun redirectToPermissionSettings(){
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val uri = Uri.fromParts("package", this.packageName, null)
+        intent.data = uri
+        startActivity(intent)
     }
 
 }

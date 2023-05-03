@@ -1,5 +1,7 @@
 package com.fsa.to_do_app.presentation.content.dashboard.composables
 
+import android.os.Build
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -37,7 +39,13 @@ fun DashboardScreen(
     navigateToCreateTask: () -> Unit,
     navigateToEditTask: (Int) -> Unit,
     navigateToCreateCategory: () -> Unit,
+    permissionLauncher: ManagedActivityResultLauncher<String, Boolean>,
 ) {
+    LaunchedEffect(key1 = true) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
     LaunchedEffect(key1 = true) {
         viewModel.loadData()
     }
@@ -61,6 +69,8 @@ fun DashboardScreen(
         },
         skipHalfExpanded = true,
     )
+
+
     if (isLoading) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
     Box(
         modifier = Modifier.fillMaxSize()

@@ -21,7 +21,7 @@ fun ActionPropertiesSelectionBox(
     categories: List<CategoryModel>,
     onCategorySelected: (CategoryModel) -> Unit,
     onDateSelected: (Date) -> Unit,
-    onTimePicked: (h:Int, m:Int, ap:String) -> Unit,
+    onTimePicked: (h: Int, m: Int, ap: String) -> Unit,
     calendar: CalendarState,
     onMonthDown: () -> Unit,
     onMonthUp: () -> Unit

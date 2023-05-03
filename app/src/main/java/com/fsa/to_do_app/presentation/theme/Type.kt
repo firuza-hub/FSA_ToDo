@@ -5,7 +5,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import com.fsa.to_do_app.R
 
@@ -13,7 +15,8 @@ import com.fsa.to_do_app.R
 val SFPro = FontFamily(
     Font(R.font.sfpro_display_regular, FontWeight.Normal),
     Font(R.font.sfpro_display_medium, FontWeight.Medium),
-    Font(R.font.sfpro_display_bold, FontWeight.Bold)
+    Font(R.font.sfpro_display_bold, FontWeight.Bold),
+    Font(R.font.sfpro_display_semibold_italic, FontWeight.Medium, FontStyle.Italic)
 )
 
 val Typography = Typography(
@@ -43,6 +46,15 @@ val Typography = Typography(
         fontFamily = SFPro,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
+    ),
+    caption = TextStyle(
+        fontFamily = SFPro,
+        fontWeight = FontWeight.Medium,
+        fontStyle = FontStyle.Italic,
+        fontSize = 14.sp,
+        color = Color.Blue,
+        textDecoration = TextDecoration.Underline
+
     )
     /* Other default text styles to override
     button = TextStyle(

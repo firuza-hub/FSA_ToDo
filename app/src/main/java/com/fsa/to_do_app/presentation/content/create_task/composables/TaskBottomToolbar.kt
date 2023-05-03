@@ -34,7 +34,7 @@ fun TaskBottomToolbar(
     calendar: CalendarState,
     onMonthDown: () -> Unit,
     onMonthUp: () -> Unit,
-    onTimePicked: (h:Int, m:Int, ap:String) -> Unit
+    onTimePicked: (h: Int, m: Int, ap: String) -> Unit
 ) {
     Row(
         modifier
