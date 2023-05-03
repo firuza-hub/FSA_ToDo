@@ -82,10 +82,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-
-        // Hide the app icon from being displayed on app launch
-        actionBar?.hide()
     }
 
     private fun createNotificationChannel(context: Context) {
