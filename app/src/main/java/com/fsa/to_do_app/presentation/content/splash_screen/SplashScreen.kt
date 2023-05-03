@@ -33,7 +33,7 @@ fun SplashScreen(navigateToMain:() -> Unit) {
         navigateToMain()
     }
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Logo",
+        Image(painter = painterResource(id = R.drawable.ic_splash), contentDescription = "Logo",
         modifier = Modifier.scale(scale.value))
 
     }
