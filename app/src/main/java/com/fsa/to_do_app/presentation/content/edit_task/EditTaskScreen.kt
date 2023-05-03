@@ -1,5 +1,6 @@
 package com.fsa.to_do_app.presentation.content.edit_task
 
+import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -32,8 +33,8 @@ import org.koin.androidx.compose.koinViewModel
 fun EditTaskScreen(
     navigateBack: () -> Unit,
     viewModel: EditTaskViewModel = koinViewModel(),
-    hasNotificationPermission: Boolean,
-    redirectToPermissionSettings:() -> Unit
+    redirectToPermissionSettings: () -> Unit,
+    requestNotificationPermission: () -> Boolean
 ) {
     val task by viewModel.task.collectAsState()
     val loading by viewModel.loading.collectAsState()
@@ -41,6 +42,13 @@ fun EditTaskScreen(
     val calendar by viewModel.calendar.collectAsState()
     val context = LocalContext.current
 
+    var hasNotificationPermission by remember {
+        mutableStateOf(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestNotificationPermission()
+            } else true
+        )
+    }
     LaunchedEffect(key1 = true) {
         viewModel.validationErrors.collect {
             if (it.contentError.isNullOrBlank().not()) {
@@ -94,10 +102,9 @@ fun EditTaskScreen(
                     elevation = 0.dp
                 ) {
                     Row( modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)) {
-
-                        Text(text = "Allow reminder notifications", style = MaterialTheme.typography.body2)
+                        Text(text = stringResource(R.string.msg_allowNotification), style = MaterialTheme.typography.body2)
                         Spacer(modifier = Modifier.weight(1f))
-                        Text(text ="ALLOW", style = MaterialTheme.typography.caption, color = Color.Blue, modifier = Modifier.noRippleClickable { redirectToPermissionSettings() })
+                        Text(text = stringResource(R.string.btn_allow), style = MaterialTheme.typography.caption, color = Color.Blue, modifier = Modifier.noRippleClickable { redirectToPermissionSettings() })
                     }
                 }
             }

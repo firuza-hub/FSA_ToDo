@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
                         composable(route = NavDestinations.CREATE_ACTION_SCREEN) {
                             CreateTaskScreen(
                                 navigateBack = { navController.popBackStack() },
-                                hasNotificationPermission = hasNotificationPermission,
+                                requestNotificationPermission =  {requestNotificationPermission()},
                                 redirectToPermissionSettings = { redirectToPermissionSettings() }
                             )
                         }
@@ -112,7 +112,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             EditTaskScreen(
                                 navigateBack = { navController.popBackStack() },
-                                hasNotificationPermission = hasNotificationPermission,
+                                requestNotificationPermission =  {requestNotificationPermission()},
                                 redirectToPermissionSettings = { redirectToPermissionSettings() }
                             )
                         }

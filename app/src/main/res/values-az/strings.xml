@@ -17,4 +17,6 @@
     <string name="btn_done">Hazır</string>
     <string name="btn_cancel">Ləğv</string>
     <string name="hint_whatDoYouWantToDo">Nə etmək lazım?</string>
+    <string name="msg_allowNotification">Xatırlatmaya icazə ver</string>
+    <string name="btn_allow">İCAZƏ VER</string>
 </resources>

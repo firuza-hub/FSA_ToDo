@@ -16,4 +16,6 @@
     <string name="btn_done">Done</string>
     <string name="btn_cancel">Cancel</string>
     <string name="hint_whatDoYouWantToDo">What do you want to do?</string>
+    <string name="msg_allowNotification">Allow reminder notifications</string>
+    <string name="btn_allow">ALLOW</string>
 </resources>
