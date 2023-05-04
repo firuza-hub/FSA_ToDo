@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.ToDoApp" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:statusBarColor">@color/purple_700</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar" >true</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
     </style>
 </resources>
