@@ -23,6 +23,7 @@ fun TaskBottomToolbar(
     modifier: Modifier,
     category: CategoryModel,
     categories: List<CategoryModel>,
+    timeSet: Boolean,
     taskDate: Date?,
     expandPropertyBox: Boolean,
     propertyBoxToShow: ActionProperty,
@@ -34,7 +35,8 @@ fun TaskBottomToolbar(
     calendar: CalendarState,
     onMonthDown: () -> Unit,
     onMonthUp: () -> Unit,
-    onTimePicked: (h: Int, m: Int, ap: String) -> Unit
+    onTimePicked: (h: Int, m: Int, ap: String) -> Unit,
+    onTimeResetCLicked: () -> Unit
 ) {
     Row(
         modifier
@@ -61,7 +63,8 @@ fun TaskBottomToolbar(
 
         taskDate?.let {
             Text(
-                text = DateFormatter.parseDateTime(it), style = MaterialTheme.typography.body2,
+                text = if (timeSet) DateFormatter.parseDateTime(it) else DateFormatter.parseDate(it),
+                style = MaterialTheme.typography.body2,
                 modifier = Modifier
                     .padding(10.dp)
                     .align(Alignment.CenterVertically)
@@ -87,7 +90,8 @@ fun TaskBottomToolbar(
             calendar = calendar,
             onMonthDown = onMonthDown,
             onMonthUp = onMonthUp,
-            onTimePicked = onTimePicked
+            onTimePicked = onTimePicked,
+            onTimeResetCLicked = onTimeResetCLicked
         )
     }
 }

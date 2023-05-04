@@ -1,17 +1,13 @@
 package com.fsa.to_do_app.presentation.common.composables.functional
 
 import android.view.HapticFeedbackConstants
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -26,7 +22,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.presentation.common.noRippleClickable
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
@@ -36,7 +31,8 @@ fun CustomTimePicker(
     hour: Int,
     minute: Int,
     ap: String,
-    onTimePicked: (h: Int, m: Int, ap: String) -> Unit
+    onTimePicked: (h: Int, m: Int, ap: String) -> Unit,
+    onTimeResetCLicked: () -> Unit
 ) {
     val density = LocalDensity.current
     val haptic = LocalHapticFeedback.current
@@ -178,7 +174,15 @@ fun CustomTimePicker(
                         )
                     )
                 )
-        )
+        ) {
+            Text(
+                text = "Reset",
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.align(
+                    Alignment.TopEnd
+                ).padding(16.dp).noRippleClickable(onTimeResetCLicked)
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()

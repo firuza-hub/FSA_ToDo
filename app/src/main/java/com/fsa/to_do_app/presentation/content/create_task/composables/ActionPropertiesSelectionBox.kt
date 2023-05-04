@@ -24,7 +24,8 @@ fun ActionPropertiesSelectionBox(
     onTimePicked: (h: Int, m: Int, ap: String) -> Unit,
     calendar: CalendarState,
     onMonthDown: () -> Unit,
-    onMonthUp: () -> Unit
+    onMonthUp: () -> Unit,
+    onTimeResetCLicked: () -> Unit
 
 ) {
     Box(modifier = modifier.padding( bottom = 16.dp)) {
@@ -49,7 +50,8 @@ fun ActionPropertiesSelectionBox(
                     calendar.selectedDate.get(Calendar.HOUR),
                     calendar.selectedDate.get(Calendar.MINUTE),
                     calendar.selectedDate.get(Calendar.AM_PM).intToAmPm(),
-                    onTimePicked
+                    onTimePicked,
+                    onTimeResetCLicked
                 )
             }
         }

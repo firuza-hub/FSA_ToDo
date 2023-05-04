@@ -21,6 +21,7 @@ class CreateTaskViewModel(
     private val getMonthTasksUseCase: GetMonthTasksUseCase
 ) : ViewModel() {
     private val cal = Calendar.getInstance(TimeZone.getDefault())
+
     private val _task = MutableStateFlow(CreateTaskModel.NULL)
     val task = _task.asStateFlow()
 
@@ -32,6 +33,7 @@ class CreateTaskViewModel(
 
     private val _validationErrors = MutableSharedFlow<CreateActionErrorsModel>()
     val validationErrors = _validationErrors.asSharedFlow()
+
 
     init {
         getCategories()
@@ -77,8 +79,13 @@ class CreateTaskViewModel(
     fun selectTime(hour: Int, minute: Int, ap: String) {
         cal.set(Calendar.HOUR, hour)
         cal.set(Calendar.MINUTE, minute)
+        cal.set(Calendar.SECOND, 0)
         cal.set(Calendar.AM_PM, ap.stringToAmPm())
-        _task.value = _task.value.copy(date = cal.time)
+        _task.value = _task.value.copy(date = cal.time, timeSet = true)
+    }
+
+    fun resetTime(){
+        _task.value = _task.value.copy(timeSet = false)
     }
 
     fun onMonthUp() {

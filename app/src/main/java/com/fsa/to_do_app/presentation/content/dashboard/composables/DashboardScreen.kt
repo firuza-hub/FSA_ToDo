@@ -31,6 +31,7 @@ import com.fsa.to_do_app.presentation.theme.SFPro
 import com.fsa.to_do_app.util.getDateShort
 import org.koin.androidx.compose.koinViewModel
 import java.util.*
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

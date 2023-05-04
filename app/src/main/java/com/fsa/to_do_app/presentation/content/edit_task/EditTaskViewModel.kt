@@ -25,7 +25,7 @@ class EditTaskViewModel(
     private val getTaskUseCase: GetTaskUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val taskId: Int = checkNotNull( savedStateHandle["id"])
+    private val taskId: Int = checkNotNull(savedStateHandle["id"])
     private val cal = Calendar.getInstance(TimeZone.getDefault())
     private val _task = MutableStateFlow(TaskModel.NULL)
     val task = _task.asStateFlow()
@@ -50,7 +50,7 @@ class EditTaskViewModel(
         _loading.value = false
     }
 
-    private fun getTask(id: Int){
+    private fun getTask(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _task.value = getTaskUseCase(id)
         }
@@ -91,11 +91,17 @@ class EditTaskViewModel(
     fun selectDate(date: Date) {
         _task.value = _task.value.copy(date = date)
     }
-    fun selectTime(hour:Int, minute:Int, ap:String) {
-         cal.set(Calendar.HOUR, hour)
-         cal.set(Calendar.MINUTE, minute)
-         cal.set(Calendar.AM_PM, ap.stringToAmPm())
-        _task.value = _task.value.copy(date = cal.time)
+
+    fun selectTime(hour: Int, minute: Int, ap: String) {
+        cal.set(Calendar.HOUR, hour)
+        cal.set(Calendar.MINUTE, minute)
+        cal.set(Calendar.SECOND, 0)
+        cal.set(Calendar.AM_PM, ap.stringToAmPm())
+        _task.value = _task.value.copy(date = cal.time, timeSet = true)
+    }
+
+    fun resetTime() {
+        _task.value = _task.value.copy(timeSet = false)
     }
 
     fun onMonthUp() {
@@ -109,7 +115,7 @@ class EditTaskViewModel(
     fun onMonthDown() {
         viewModelScope.launch(Dispatchers.IO) {
             cal.add(Calendar.MONTH, -1)
-            val tasks =  getMonthTasks(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
+            val tasks = getMonthTasks(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
             _calendar.value = CalendarState.setCalendar(cal, tasks)
         }
     }
@@ -118,7 +124,7 @@ class EditTaskViewModel(
         return getMonthTasksUseCase(month, year)
     }
 
-    fun initCalendar(){
+    fun initCalendar() {
         viewModelScope.launch(Dispatchers.IO) {
             val tasks = getMonthTasks(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
             _calendar.value = CalendarState.setCalendar(cal, tasks)

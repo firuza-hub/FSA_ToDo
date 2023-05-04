@@ -11,4 +11,8 @@ object DateFormatter {
         val format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
         return format.format(date).toString()
     }
+    fun parseDate(date: Date): String {
+        val format = DateFormat.getDateInstance(DateFormat.SHORT)
+        return format.format(date).toString()
+    }
 }

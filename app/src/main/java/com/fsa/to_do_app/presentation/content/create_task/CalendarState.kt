@@ -22,20 +22,25 @@ data class CalendarState(
 
             val currentMonth = mutableListOf<CalendarDay>()
             for (i in 1 until firstDayOfMonthWeekDay) currentMonth.add(CalendarDay(-1))
-            for (i in 1 ..lastDayOfMonth) currentMonth.add(CalendarDay(i, tasks.filter { it.date?.getDayOfMonth() == i }))
+            for (i in 1..lastDayOfMonth) currentMonth.add(
+                CalendarDay(
+                    i,
+                    tasks.filter { it.date?.getDayOfMonth() == i })
+            )
 
             return currentMonth
         }
 
-        fun setCalendar(cal: Calendar, tasks: List<TaskModel>): CalendarState{
-                return CalendarState(
-                    selectedDate = cal,
-                    year = cal.get(Calendar.YEAR),
-                    month = cal.get(Calendar.MONTH),
-                    monthName = month_date.format(cal.time),
-                    daysRange = getMonthDays(cal.clone() as Calendar, tasks)
-                )
-            }
+        fun setCalendar(cal: Calendar, tasks: List<TaskModel>): CalendarState {
+            cal.set(Calendar.SECOND, 0)
+            return CalendarState(
+                selectedDate = cal,
+                year = cal.get(Calendar.YEAR),
+                month = cal.get(Calendar.MONTH),
+                monthName = month_date.format(cal.time),
+                daysRange = getMonthDays(cal.clone() as Calendar, tasks)
+            )
+        }
 
     }
 }
