@@ -44,3 +44,11 @@ fun Color.getTextOnBackground(): Color {
     println("white contrast: $contrastWhiteText ")
     return if (contrastWhiteText > 1.5f) Color.White else Color.Black
 }
+fun Color.getHintOnBackground(): Color {
+    val contrastWhiteText = ColorUtils.calculateContrast(
+        Color.White.toArgb(),
+        this.toArgb()
+    )
+    println("white contrast: $contrastWhiteText ")
+    return if (contrastWhiteText > 1.5f) Color.White.copy(0.5f) else Color.Black.copy(0.5f)
+}
