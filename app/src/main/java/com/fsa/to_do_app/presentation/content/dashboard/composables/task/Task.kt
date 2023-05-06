@@ -24,7 +24,8 @@ fun Task(
     onTaskChecked: (id: Int, checked: Boolean) -> Unit,
     showCategory: Boolean,
     allShown: DashboardFilter,
-    onClick: (Int) -> Unit = {}
+    onClick: (Int) -> Unit = {},
+    circleColor: Color
 ) {
     Row {
         RoundCheckbox(
@@ -35,7 +36,7 @@ fun Task(
                 .size(28.dp)
                 .align(Alignment.CenterVertically),
             colors = CheckboxDefaults.colors(
-                uncheckedColor = Color.LightGray,
+                uncheckedColor = circleColor,
                 checkedColor = Color.Blue
             ),
             borderWidth = 1.5.dp,

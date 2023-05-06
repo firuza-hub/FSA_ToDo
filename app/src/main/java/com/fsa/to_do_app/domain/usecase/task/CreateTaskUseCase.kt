@@ -11,20 +11,18 @@ class CreateTaskUseCase(
     private val reminderWorkerService: ReminderWorkerService
 ) {
     suspend operator fun invoke(model: CreateTaskModel) {
-        try {
-            val id = repo.create(model)
-            model.date?.let {
-                val todayDateTime = Calendar.getInstance()
-                val delayInSeconds = (it.time / 1000L) - (todayDateTime.timeInMillis / 1000L)
-                val workId = reminderWorkerService.createNotificationWorkRequest(
-                    model.content,
-                    delayInSeconds
-                )
+        val id = repo.create(model)
 
-                repo.updateWorkId(workId, id)
-            }
-        }catch (ex:Exception){
-            Log.e("SAVE_TASK", ex.stackTraceToString())
+        if (!model.timeSet) return
+        model.date?.let {
+            val todayDateTime = Calendar.getInstance()
+            val delayInSeconds = (it.time / 1000L) - (todayDateTime.timeInMillis / 1000L)
+            val workId = reminderWorkerService.createNotificationWorkRequest(
+                model.content,
+                delayInSeconds
+            )
+
+            repo.updateWorkId(workId, id)
         }
     }
 }

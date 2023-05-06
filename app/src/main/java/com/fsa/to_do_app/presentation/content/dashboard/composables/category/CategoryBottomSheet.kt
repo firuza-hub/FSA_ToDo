@@ -15,6 +15,7 @@ import com.fsa.to_do_app.domain.model.TaskModel
 import com.fsa.to_do_app.presentation.common.composables.shapes.DragHandle
 import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
+import com.fsa.to_do_app.util.getHintOnBackground
 import com.fsa.to_do_app.util.getTextOnBackground
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -47,14 +48,19 @@ fun CategoryBottomSheet(
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Column(modifier = Modifier.padding(horizontal = 32.dp, vertical = 10.dp)) {
-                        Text(text = category.name, style = MaterialTheme.typography.h1, color = category.colorCode.hexToColor().getTextOnBackground())
+                        Text(
+                            text = category.name,
+                            style = MaterialTheme.typography.h1,
+                            color = category.colorCode.hexToColor().getTextOnBackground()
+                        )
                         Text(
                             text = buildString {
-        append(category.numberOfActions)
-        append(stringResource(R.string.task_s))
-    },
+                                append(category.numberOfActions)
+                                append(stringResource(R.string.task_s))
+                            },
                             modifier = Modifier.padding(top = 2.dp),
-                            style = MaterialTheme.typography.body2
+                            style = MaterialTheme.typography.body2,
+                            color = category.colorCode.hexToColor().getHintOnBackground()
                         )
                     }
                     Tasks(
@@ -62,7 +68,8 @@ fun CategoryBottomSheet(
                         modifier = Modifier,
                         onTaskChecked = onActionChecked,
                         showCategory = false,
-                        allShown = allShown
+                        allShown = allShown,
+                        circleColor = category.colorCode.hexToColor().getHintOnBackground()
                     )
                 }
 

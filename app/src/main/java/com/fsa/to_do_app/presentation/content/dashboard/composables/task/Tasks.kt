@@ -40,7 +40,8 @@ fun Tasks(
     showCategory: Boolean = true,
     deleteTask: (TaskModel, onSuccess: () -> Unit) -> Unit = { _, _ -> },
     allShown: DashboardFilter,
-    onTaskClicked: (Int) -> Unit = {}
+    onTaskClicked: (Int) -> Unit = {},
+    circleColor: Color = Color.LightGray
 ) {
     val context = LocalContext.current
     val msg = stringResource(R.string.msg_deleted)
@@ -89,10 +90,10 @@ fun Tasks(
                     dismissThresholds = { FractionalThreshold(0.2f) },
                     directions = setOf(DismissDirection.EndToStart)
                 ) {
-                    Task(task, onTaskChecked, showCategory, allShown, onTaskClicked)
+                    Task(task, onTaskChecked, showCategory, allShown, onTaskClicked, circleColor)
                 }
             } else {
-                Task(task, onTaskChecked, showCategory, allShown)
+                Task(task, onTaskChecked, showCategory, allShown, circleColor = circleColor)
             }
         }
     }

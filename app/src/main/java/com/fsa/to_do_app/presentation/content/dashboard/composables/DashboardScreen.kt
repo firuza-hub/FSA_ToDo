@@ -110,7 +110,8 @@ fun DashboardScreen(
                 onTaskChecked = viewModel::onTaskChecked,
                 deleteTask = viewModel::delete,
                 allShown = allShown,
-                onTaskClicked = navigateToEditTask
+                onTaskClicked = navigateToEditTask,
+                circleColor = category.colorCode.hexToColor().getHintOnBackground()
             )
 
             if (categories.any()) {

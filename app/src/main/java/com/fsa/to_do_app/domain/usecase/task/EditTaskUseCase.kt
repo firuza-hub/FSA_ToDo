@@ -11,6 +11,8 @@ class EditTaskUseCase(
 ) {
     suspend operator fun invoke(model: TaskModel) {
         val id = repo.update(model)
+
+        if (!model.timeSet) return
         model.date?.let {
             val todayDateTime = Calendar.getInstance()
             val delayInSeconds = (it.time / 1000L) - (todayDateTime.timeInMillis / 1000L)
@@ -18,7 +20,7 @@ class EditTaskUseCase(
                 model.content,
                 delayInSeconds
             )
-           val prevId =  repo.getWorkId(id)
+            val prevId = repo.getWorkId(id)
             prevId?.let { prevWorkId ->
                 reminderWorkerService.cancelNotificationWorkRequest(prevWorkId)
             }

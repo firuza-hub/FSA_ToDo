@@ -42,7 +42,7 @@ fun EditTaskScreen(
     val calendar by viewModel.calendar.collectAsState()
     val context = LocalContext.current
 
-    var hasNotificationPermission by remember {
+    val hasNotificationPermission by remember {
         mutableStateOf(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 requestNotificationPermission()
@@ -114,6 +114,7 @@ fun EditTaskScreen(
                     .wrapContentHeight(unbounded = true),
                 task.category,
                 categories,
+                task.timeSet,
                 task.date,
                 expandPropertyBox,
                 propertyBoxToShow,
@@ -156,7 +157,8 @@ fun EditTaskScreen(
                 calendar = calendar,
                 onMonthUp = viewModel::onMonthUp,
                 onMonthDown = viewModel::onMonthDown,
-                onTimePicked = viewModel::selectTime
+                onTimePicked = viewModel::selectTime,
+                onTimeResetCLicked = viewModel::resetTime
             )
         }
     }

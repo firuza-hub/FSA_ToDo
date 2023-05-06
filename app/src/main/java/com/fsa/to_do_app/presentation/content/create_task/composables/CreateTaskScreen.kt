@@ -109,6 +109,7 @@ fun CreateTaskScreen(
                 .wrapContentHeight(unbounded = true),
             task.category,
             categories,
+            task.timeSet,
             task.date,
             expandPropertyBox,
             propertyBoxToShow,
@@ -150,7 +151,8 @@ fun CreateTaskScreen(
             calendar = calendar,
             onMonthDown = viewModel::onMonthDown,
             onMonthUp = viewModel::onMonthUp,
-            onTimePicked = viewModel::selectTime
+            onTimePicked = viewModel::selectTime,
+            onTimeResetCLicked = viewModel::resetTime
         )
     }
 }
