@@ -68,7 +68,7 @@ fun RoundCheckbox(
             if (checked) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_tick),
-                    contentDescription = "Tick",
+                    contentDescription = "Task checkbox",
                     tint = colors.checkmarkColor(
                         state = ToggleableState.On
                     ).value,

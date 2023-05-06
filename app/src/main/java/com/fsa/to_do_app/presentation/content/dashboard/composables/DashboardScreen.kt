@@ -110,8 +110,7 @@ fun DashboardScreen(
                 onTaskChecked = viewModel::onTaskChecked,
                 deleteTask = viewModel::delete,
                 allShown = allShown,
-                onTaskClicked = navigateToEditTask,
-                circleColor = category.colorCode.hexToColor().getHintOnBackground()
+                onTaskClicked = navigateToEditTask
             )
 
             if (categories.any()) {
@@ -187,22 +186,13 @@ fun DashboardScreen(
                 stiffness = Spring.StiffnessLow
             )
         )
+
         CircleShape(
             color = colorFAB,
             modifier = Modifier
                 .align(BottomEnd)
                 .padding(bottom = 30.dp, end = 16.dp)
-                .pointerInput(createOptionsExpanded) {
-                    awaitPointerEventScope {
-                        createOptionsExpanded = if (createOptionsExpanded) {
-                            waitForUpOrCancellation()
-                            false
-                        } else {
-                            awaitFirstDown(false)
-                            true
-                        }
-                    }
-                }
+                .noRippleClickable { createOptionsExpanded = !createOptionsExpanded }
                 .rotate(rotation),
             circleSize = 64.dp) {
             Icon(painterResource(id = R.drawable.ic_plus), "Create", tint = colorFABIcon)

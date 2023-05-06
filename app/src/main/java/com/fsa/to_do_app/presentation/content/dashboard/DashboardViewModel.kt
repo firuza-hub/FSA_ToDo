@@ -100,7 +100,7 @@ class DashboardViewModel(
         _tasksByCategory.value =
             _tasks.value.filter { it.category.id == _selectedCategory.value.id }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             updateTaskStatusUseCase(id, checked)
         }
     }

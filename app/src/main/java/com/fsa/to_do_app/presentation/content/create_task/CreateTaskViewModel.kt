@@ -108,7 +108,7 @@ class CreateTaskViewModel(
         return getMonthTasksUseCase(month, year)
     }
 
-    fun initCalendar() {
+    private fun initCalendar() {
         viewModelScope.launch(Dispatchers.IO) {
             val tasks = getMonthTasks(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
             _calendar.value = CalendarState.setCalendar(cal, tasks)
