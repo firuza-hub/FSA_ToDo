@@ -20,6 +20,7 @@ import com.fsa.to_do_app.util.getTextOnBackground
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CategoryBottomSheet(
+    modifier:Modifier,
     actionsByCategory: List<TaskModel>,
     category: CategoryModel,
     modalSheetState: ModalBottomSheetState,
@@ -27,7 +28,7 @@ fun CategoryBottomSheet(
     allShown: DashboardFilter
 ) {
     ModalBottomSheetLayout(
-        modifier = Modifier.padding(top = 50.dp),
+        modifier = modifier.padding(top = 50.dp),
         sheetState = modalSheetState,
         scrimColor = Color.Transparent,
         sheetBackgroundColor = category.colorCode.hexToColor(),

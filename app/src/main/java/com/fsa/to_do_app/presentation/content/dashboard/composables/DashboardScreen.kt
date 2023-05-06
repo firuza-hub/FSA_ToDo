@@ -134,6 +134,7 @@ fun DashboardScreen(
         }
         if (modalSheetState.isVisible) {
             CategoryBottomSheet(
+                Modifier.fillMaxWidth(),
                 tasksByCategory,
                 selectedCategory,
                 modalSheetState,
@@ -188,7 +189,8 @@ fun DashboardScreen(
         CircleShape(
             color = colorFAB,
             modifier = Modifier
-                .noRippleClickable { }
+                .align(BottomEnd)
+                .padding(bottom = 30.dp, end = 16.dp)
                 .pointerInput(createOptionsExpanded) {
                     awaitPointerEventScope {
                         createOptionsExpanded = if (createOptionsExpanded) {
@@ -200,8 +202,6 @@ fun DashboardScreen(
                         }
                     }
                 }
-                .align(BottomEnd)
-                .padding(bottom = 30.dp, end = 16.dp)
                 .rotate(rotation),
             circleSize = 64.dp) {
             Icon(painterResource(id = R.drawable.ic_plus), "Create", tint = colorFABIcon)
