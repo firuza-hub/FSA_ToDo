@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "403254508333",
+    "project_id": "todo-by-fsa",
+    "storage_bucket": "todo-by-fsa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403254508333:android:3ff55c227351d6ba63b1a4",
+        "android_client_info": {
+          "package_name": "com.fsa.to_do_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "403254508333-f6svcn90j6ob73crp6ntov9nhraf96g1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fsa.to_do_app",
+            "certificate_hash": "8a75722ca5ce8e61881f62861b61703c00018590"
+          }
+        },
+        {
+          "client_id": "403254508333-u6ptil0pk5g7qlrhab1k17rjgqk9drq3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMqNsL_bSOpzYIaYPyQE7JSx4iBOdAwhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "403254508333-u6ptil0pk5g7qlrhab1k17rjgqk9drq3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
