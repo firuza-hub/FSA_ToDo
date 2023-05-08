@@ -65,7 +65,7 @@ fun Task(
                 )
                 task.date?.let {
                     ActionTime(
-                        date = it, allShown,
+                        date = it, task.timeSet, allShown,
                         modifier = Modifier.padding(top = 4.dp)
                     )
                 }

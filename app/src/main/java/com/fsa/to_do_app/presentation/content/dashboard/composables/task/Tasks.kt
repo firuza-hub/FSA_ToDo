@@ -51,7 +51,7 @@ fun Tasks(
                 confirmStateChange = {
                     if (it == DismissValue.DismissedToStart) {
                         deleteTask(task) {
-                            Toast.makeText(context, msg , Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                         }
                         true
                     } else false
@@ -101,20 +101,22 @@ fun Tasks(
 
 
 @Composable
-fun ActionTime(date: Date, allShown: DashboardFilter, modifier: Modifier) {
+fun ActionTime(date: Date, timeSet: Boolean, allShown: DashboardFilter, modifier: Modifier) {
     Row(verticalAlignment = CenterVertically, modifier = modifier) {
-        Icon(
-            modifier = Modifier
-                .height(16.dp)
-                .padding(end = 4.dp),
-            tint = Color.Gray,
-            painter = painterResource(id = R.drawable.ic_alarm),
-            contentDescription = "Alarm icon"
-        )
-        Text(
-            text = if (allShown == DashboardFilter.ShowAll) date.getDateShort() else date.getTimeShort(),
-            style = MaterialTheme.typography.body2
-        )
+        if (timeSet) {
+            Icon(
+                modifier = Modifier
+                    .height(16.dp)
+                    .padding(end = 4.dp),
+                tint = Color.Gray,
+                painter = painterResource(id = R.drawable.ic_alarm),
+                contentDescription = "Alarm icon"
+            )
+            Text(
+                text = if (allShown == DashboardFilter.ShowAll) date.getDateShort() else date.getTimeShort(),
+                style = MaterialTheme.typography.body2
+            )
+        }
     }
 }
 

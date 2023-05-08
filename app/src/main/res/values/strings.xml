@@ -18,4 +18,5 @@
     <string name="hint_whatDoYouWantToDo">What do you want to do?</string>
     <string name="msg_allowNotification">Allow reminder notifications</string>
     <string name="btn_allow">ALLOW</string>
+    <string name="time_not_set">Time not set</string>
 </resources>

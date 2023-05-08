@@ -33,22 +33,35 @@ fun TasksWithCategoryInfo.toTaskModel(): TaskModel = TaskModel(
         dateCreated = Date(),
         numberOfActions = -1
     ),
-    task.notificationWorkId
+    task.notificationWorkId,
+    timeSet = task.timeSet
 )
 
 fun CreateTaskModel.toTask(): Task = Task(
-    isDone = false, content = content, date = date, categoryId = category.id, notificationWorkId = null
+    isDone = false,
+    content = content,
+    date = date,
+    categoryId = category.id,
+    notificationWorkId = null,
+    timeSet = timeSet
 )
 
 
 fun TaskModel.toTask(): Task = Task(
-    isDone = false, content = content, date = date, categoryId = category.id, id = id, notificationWorkId = notificationWorkId
+    isDone = false,
+    content = content,
+    date = date,
+    categoryId = category.id,
+    id = id,
+    notificationWorkId = notificationWorkId,
+    timeSet = timeSet
 )
 
 
 fun CreateCategoryModel.toCategory(): Category = Category(
     name = name, colorCode = color.toHexString()
 )
+
 fun CategoryModel.toCategory(): Category = Category(
     name = name, colorCode = colorCode, id = id, dateCreated = dateCreated
 )

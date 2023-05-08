@@ -53,12 +53,14 @@ class EditTaskViewModel(
     private fun getTask(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _task.value = getTaskUseCase(id)
+            _task.value.date?.let {
+                cal.time =it
+            }
         }
     }
 
     fun save(onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-
             if (inputValidated()) {
                 editTaskUseCase(_task.value)
                 withContext(Dispatchers.Main) { onSuccess() }

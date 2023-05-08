@@ -19,5 +19,7 @@ data class Task(
     val date: Date?,
     @ColumnInfo(index = true)
     val categoryId: Int,
-    val notificationWorkId: String?
+    val notificationWorkId: String?,
+    @ColumnInfo(defaultValue = "0")
+    val timeSet:Boolean
 )

@@ -1,6 +1,7 @@
 package com.fsa.to_do_app.di
 
 import androidx.room.Room
+import com.fsa.to_do_app.data.local.MIGRATION_1_2
 import com.fsa.to_do_app.data.local.MyDatabase
 import com.fsa.to_do_app.data.local.repo.TaskRepositoryImpl
 import com.fsa.to_do_app.data.local.repo.CategoryRepositoryImpl
@@ -12,7 +13,7 @@ val dataModule = module {
     //DB and DAO
     single {
         Room.databaseBuilder(get(), MyDatabase::class.java, "TODO_FSA_DB")
-            .createFromAsset("database/ToDo.db").build()
+            .createFromAsset("database/ToDo.db").addMigrations(MIGRATION_1_2).build()
     }
     single { get<MyDatabase>().getActionDao() }
     single { get<MyDatabase>().getCategoryDao() }

@@ -19,4 +19,5 @@
     <string name="hint_whatDoYouWantToDo">Nə etmək lazım?</string>
     <string name="msg_allowNotification">Xatırlatmaya icazə ver</string>
     <string name="btn_allow">İCAZƏ VER</string>
+    <string name="time_not_set">Vaxt seçilməyib</string>
 </resources>
