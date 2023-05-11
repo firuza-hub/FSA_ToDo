@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
@@ -21,7 +23,6 @@ fun DashboardFilterMenu(
     onShowAllClicked: () -> Unit,
     onShowTodayClicked: () -> Unit,
     onCalendarClicked: () -> Unit
-
 ) {
     Box(
         modifier = modifier.wrapContentSize()
@@ -31,11 +32,17 @@ fun DashboardFilterMenu(
         ) {
             if (allShown == DashboardFilter.ShowAll) DropdownMenuItem(onClick = { onShowTodayClicked(); close() }) {
                 Text(
-                    stringResource(R.string.menu_showToday)
+                    stringResource(R.string.menu_showToday), style = MaterialTheme.typography.body1
                 )
             }
-            else DropdownMenuItem(onClick = { onShowAllClicked(); close() }) { Text(stringResource(R.string.menu_showAll)) }
-            DropdownMenuItem(onClick = { onCalendarClicked(); close() }) { Text(stringResource(R.string.menu_Calendar)) }
+            else {
+                DropdownMenuItem(onClick = { onShowAllClicked(); close() }) {
+                    Text(stringResource(R.string.menu_showAll), style = MaterialTheme.typography.body1)
+                }
+                DropdownMenuItem(onClick = { onCalendarClicked(); close() }) {
+                    Text(stringResource(R.string.menu_Calendar), style = MaterialTheme.typography.body1)
+                }
+            }
         }
     }
 }

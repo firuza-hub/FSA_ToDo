@@ -44,13 +44,6 @@ class DashboardViewModel(
     private val _allShown = MutableStateFlow(DashboardFilter.ShowToday)
     val allShown = _allShown.asStateFlow()
 
-    @OptIn(ExperimentalMaterialApi::class)
-    private val _categorySheetState = MutableStateFlow(ModalBottomSheetValue.Hidden)
-
-    @OptIn(ExperimentalMaterialApi::class)
-    val categorySheetState = _categorySheetState.asStateFlow()
-
-
     fun loadData() {
         getCategories()
         getTasks()
@@ -110,10 +103,6 @@ class DashboardViewModel(
         _tasksByCategory.value = _tasks.value.filter { it.category.id == category.id }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
-    fun updateCategorySheetState(sheetState: ModalBottomSheetValue) {
-        _categorySheetState.value = sheetState
-    }
 
     fun delete(task: TaskModel, onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {

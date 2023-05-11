@@ -16,6 +16,6 @@ interface TaskRepository {
     suspend fun delete(task: TaskModel)
     fun getForDate(date: Date): Flow<List<TasksWithCategoryInfo>>
     suspend fun getById(id: Int): TasksWithCategoryInfo
-    fun updateWorkId(workId: UUID, taskId: Long)
+    fun updateWorkId(workId: UUID?, taskId: Long)
     suspend fun getWorkId(id: Long): UUID?
 }

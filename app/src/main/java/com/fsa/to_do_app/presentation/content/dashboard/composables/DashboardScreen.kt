@@ -6,17 +6,16 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,6 +28,7 @@ import com.fsa.to_do_app.presentation.content.dashboard.DashboardViewModel
 import com.fsa.to_do_app.presentation.content.dashboard.composables.menu.DashboardFilterMenu
 import com.fsa.to_do_app.presentation.theme.SFPro
 import com.fsa.to_do_app.util.getDateShort
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.util.*
 
@@ -49,11 +49,11 @@ fun DashboardScreen(
     LaunchedEffect(key1 = true) {
         viewModel.loadData()
     }
+    val scope = rememberCoroutineScope()
     val tasks by viewModel.tasks.collectAsState()
     val tasksByCategory by viewModel.tasksByCategory.collectAsState()
     val categories by viewModel.categories.collectAsState()
     val selectedCategory by viewModel.selectedCategory.collectAsState()
-    val categorySheetState by viewModel.categorySheetState.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val allShown by viewModel.allShown.collectAsState()
     var filterOptionsExpanded by remember { mutableStateOf(false) }
@@ -62,15 +62,9 @@ fun DashboardScreen(
     val filterCalendar by viewModel.filterDate.collectAsState()
 
     val modalSheetState = rememberModalBottomSheetState(
-        initialValue = categorySheetState,
-        confirmValueChange = {
-            viewModel.updateCategorySheetState(it)
-            it != ModalBottomSheetValue.HalfExpanded
-        },
-        skipHalfExpanded = true,
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true, animationSpec = tween(durationMillis = 1000)
     )
-
-
     if (isLoading) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
     Box(
         modifier = Modifier.fillMaxSize()
@@ -128,20 +122,21 @@ fun DashboardScreen(
                     .padding(end = 16.dp, start = 45.dp),
                 {
                     viewModel.updateSelectedCategory(it)
-                    viewModel.updateCategorySheetState(ModalBottomSheetValue.Expanded)
+                    scope.launch {
+                        modalSheetState.show()
+                    }
                 }
             )
         }
-        if (modalSheetState.isVisible) {
-            CategoryBottomSheet(
-                Modifier.fillMaxWidth(),
-                tasksByCategory,
-                selectedCategory,
-                modalSheetState,
-                viewModel::onTaskChecked,
-                allShown = allShown
-            )
-        }
+        CategoryBottomSheet(
+            Modifier.fillMaxWidth().align(BottomCenter),
+            tasksByCategory,
+            selectedCategory,
+            modalSheetState,
+            viewModel::onTaskChecked,
+            allShown = allShown
+        )
+
 
         DashboardFilterMenu(
             allShown = allShown,

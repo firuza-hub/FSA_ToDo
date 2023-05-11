@@ -33,5 +33,5 @@ interface TaskDao {
 
 
     @Query("UPDATE Tasks SET notificationWorkId = :workId where id = :taskId")
-    fun updateWorkId(workId: String, taskId: Long)
+    fun updateWorkId(workId: String?, taskId: Long)
 }

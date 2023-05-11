@@ -14,15 +14,20 @@ class EditTaskUseCase(
 
         if (!model.timeSet) return
         model.date?.let {
-            val todayDateTime = Calendar.getInstance()
-            val delayInSeconds = (it.time / 1000L) - (todayDateTime.timeInMillis / 1000L)
-            val workId = reminderWorkerService.createNotificationWorkRequest(
-                model.content,
-                delayInSeconds
-            )
             val prevId = repo.getWorkId(id)
             prevId?.let { prevWorkId ->
                 reminderWorkerService.cancelNotificationWorkRequest(prevWorkId)
+            }
+
+            val todayDateTime = Calendar.getInstance()
+            var workId: UUID? = null
+
+            if (it.after(todayDateTime.time)) {
+                val delayInSeconds = (it.time / 1000L) - (todayDateTime.timeInMillis / 1000L)
+                workId = reminderWorkerService.createNotificationWorkRequest(
+                    model.content,
+                    delayInSeconds
+                )
             }
             repo.updateWorkId(workId, id)
         }

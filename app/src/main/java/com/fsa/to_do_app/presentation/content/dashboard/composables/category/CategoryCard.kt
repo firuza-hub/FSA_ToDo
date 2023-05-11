@@ -16,6 +16,8 @@ import com.fsa.to_do_app.R
 import com.fsa.to_do_app.domain.model.CategoryModel
 import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.presentation.common.noRippleClickable
+import com.fsa.to_do_app.util.getHintOnBackground
+import com.fsa.to_do_app.util.getTextOnBackground
 
 
 @Composable
@@ -37,14 +39,18 @@ fun CategoryCard(
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.padding(10.dp)) {
-                Text(text = category.name)
+                Text(
+                    text = category.name,
+                    color = category.colorCode.hexToColor().getTextOnBackground()
+                )
                 Text(
                     text = buildString {
                         append(category.numberOfActions)
                         append(stringResource(id = R.string.task_s))
                     },
                     modifier = Modifier.padding(top = 2.dp),
-                    style = MaterialTheme.typography.body2
+                    style = MaterialTheme.typography.body2,
+                    color = category.colorCode.hexToColor().getHintOnBackground()
                 )
             }
             Spacer(modifier = Modifier.weight(1f))

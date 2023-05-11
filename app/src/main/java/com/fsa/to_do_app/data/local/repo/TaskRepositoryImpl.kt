@@ -42,8 +42,8 @@ class TaskRepositoryImpl(private val dao: TaskDao) : TaskRepository {
         return dao.getWithCategoryInfoById(id)
     }
 
-    override fun updateWorkId(workId: UUID, taskId: Long) {
-        dao.updateWorkId(workId.toString(), taskId)
+    override fun updateWorkId(workId: UUID?, taskId: Long) {
+        dao.updateWorkId(workId?.toString(), taskId)
     }
 
     override suspend fun getWorkId(id: Long): UUID? {

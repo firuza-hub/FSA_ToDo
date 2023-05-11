@@ -1,9 +1,11 @@
 package com.fsa.to_do_app.presentation.content.dashboard.composables
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +31,7 @@ fun CategoryBottomSheet(
     allShown: DashboardFilter
 ) {
     ModalBottomSheetLayout(
-        modifier = modifier.padding(top = 50.dp),
+        modifier = modifier.padding(top = 70.dp),
         sheetState = modalSheetState,
         scrimColor = Color.Transparent,
         sheetBackgroundColor = category.colorCode.hexToColor(),
