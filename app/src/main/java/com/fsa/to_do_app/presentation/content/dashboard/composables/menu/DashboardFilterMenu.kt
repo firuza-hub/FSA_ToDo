@@ -8,7 +8,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
@@ -32,15 +31,15 @@ fun DashboardFilterMenu(
         ) {
             if (allShown == DashboardFilter.ShowAll) DropdownMenuItem(onClick = { onShowTodayClicked(); close() }) {
                 Text(
-                    stringResource(R.string.menu_showToday), style = MaterialTheme.typography.body1
+                    stringResource(R.string.menu_showToday), style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onBackground)
                 )
             }
             else {
                 DropdownMenuItem(onClick = { onShowAllClicked(); close() }) {
-                    Text(stringResource(R.string.menu_showAll), style = MaterialTheme.typography.body1)
+                    Text(stringResource(R.string.menu_showAll), style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onBackground))
                 }
                 DropdownMenuItem(onClick = { onCalendarClicked(); close() }) {
-                    Text(stringResource(R.string.menu_Calendar), style = MaterialTheme.typography.body1)
+                    Text(stringResource(R.string.menu_Calendar), style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onBackground))
                 }
             }
         }
