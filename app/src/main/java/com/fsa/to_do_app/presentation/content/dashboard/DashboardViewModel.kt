@@ -1,5 +1,6 @@
 package com.fsa.to_do_app.presentation.content.dashboard
 
+import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
@@ -54,6 +55,7 @@ class DashboardViewModel(
             when (_allShown.value) {
                 DashboardFilter.ShowAll -> {
                     getTasksUseCase.invoke(showAll = true).collect {
+                        Log.d("TASKS_COLLECTED", "ShowAll "+ it.firstOrNull()?.content.toString())
                         _isLoading.value = true
                         _tasks.value = it
                         _isLoading.value = false
@@ -61,6 +63,7 @@ class DashboardViewModel(
                 }
                 DashboardFilter.ShowToday -> {
                     getTasksUseCase.invoke(showAll = false).collect {
+                        Log.d("TASKS_COLLECTED", "ShowToday "+ it.firstOrNull()?.content.toString())
                         _isLoading.value = true
                         _tasks.value = it
                         _isLoading.value = false
@@ -69,6 +72,7 @@ class DashboardViewModel(
                 DashboardFilter.ShowByDate -> {
                     getTasksUseCase.invoke(showAll = false, date = _filterDate.value.time)
                         .collect {
+                            Log.d("TASKS_COLLECTED", "ShowByDate "+ it.firstOrNull()?.content.toString())
                             _isLoading.value = true
                             _tasks.value = it
                             _isLoading.value = false
@@ -87,11 +91,11 @@ class DashboardViewModel(
     }
 
     fun onTaskChecked(id: Int, checked: Boolean) {
-        _tasks.value = _tasks.value.map {
-            if (it.id == id) it.copy(isDone = checked) else it
-        }
-        _tasksByCategory.value =
-            _tasks.value.filter { it.category.id == _selectedCategory.value.id }
+//        _tasks.value = _tasks.value.map {
+//            if (it.id == id) it.copy(isDone = checked) else it
+//        }
+//        _tasksByCategory.value =
+//            _tasks.value.filter { it.category.id == _selectedCategory.value.id }
 
         viewModelScope.launch(Dispatchers.IO) {
             updateTaskStatusUseCase(id, checked)
@@ -112,6 +116,7 @@ class DashboardViewModel(
     }
 
     fun showToday() {
+        Log.d("TASKS_COLLECTED", "SET SHOW TODAY ")
         _allShown.value = DashboardFilter.ShowToday
         loadData()
     }
