@@ -11,7 +11,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -37,7 +36,7 @@ fun CustomCalendar(
                     .padding(end = 16.dp)
                     .clickable { onMonthDown() },
                 painter = painterResource(id = R.drawable.ic_prev),
-                tint = Color.Black.copy(alpha = 0.15f),
+                tint = MaterialTheme.colors.onBackground.copy(alpha = 0.15f),
                 contentDescription = "Previous month"
             )
             Text(
@@ -48,7 +47,7 @@ fun CustomCalendar(
             Text(
                 text = calendar.year.toString(),
                 style = MaterialTheme.typography.body1,
-                color = Color.Black.copy(alpha = 0.15f)
+                color = MaterialTheme.colors.onBackground.copy(alpha = 0.15f)
             )
 
             Icon(
@@ -56,7 +55,7 @@ fun CustomCalendar(
                     .padding(start = 16.dp)
                     .clickable { onMonthUp() },
                 painter = painterResource(id = R.drawable.ic_next),
-                tint = Color.Black.copy(alpha = 0.15f),
+                tint = MaterialTheme.colors.onBackground.copy(alpha = 0.15f),
                 contentDescription = "Previous month"
             )
         }
@@ -99,7 +98,7 @@ fun CustomCalendar(
                                 .width(50.dp),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.h3,
-                            color = if (it.num == calendar.selectedDate.get(Calendar.DAY_OF_MONTH)) Color.Blue else Color.Black
+                            color = if (it.num == calendar.selectedDate.get(Calendar.DAY_OF_MONTH)) MaterialTheme.colors.secondary else MaterialTheme.colors.onBackground
                         )
                         Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                             it.tasks.take(3).forEach{

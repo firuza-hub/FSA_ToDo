@@ -11,7 +11,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -90,7 +89,7 @@ fun CreateTaskScreen(
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .padding(16.dp),
-                border = BorderStroke(1.dp, Color.LightGray),
+                border = BorderStroke(1.dp, MaterialTheme.colors.primaryVariant),
                 shape = RoundedCornerShape(12.dp),
                 backgroundColor = "d41939".hexToColor().copy(0.3f),
                 elevation = 0.dp
@@ -98,14 +97,14 @@ fun CreateTaskScreen(
                 Row(modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)) {
                     Text(text = stringResource(R.string.msg_allowNotification), style = MaterialTheme.typography.body2)
                     Spacer(modifier = Modifier.weight(1f))
-                    Text(text = stringResource(R.string.btn_allow), style = MaterialTheme.typography.caption, color = Color.Blue, modifier = Modifier.noRippleClickable { redirectToPermissionSettings() })
+                    Text(text = stringResource(R.string.btn_allow), style = MaterialTheme.typography.caption.copy(color = MaterialTheme.colors.secondary), color = MaterialTheme.colors.secondary, modifier = Modifier.noRippleClickable { redirectToPermissionSettings() })
                 }
             }
         }
 
         TaskBottomToolbar(
             modifier = Modifier
-                .topBorder(1.dp, Color.LightGray)
+                .topBorder(1.dp, MaterialTheme.colors.primaryVariant)
                 .wrapContentHeight(unbounded = true),
             task.category,
             categories,

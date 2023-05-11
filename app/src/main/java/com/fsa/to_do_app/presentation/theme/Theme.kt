@@ -1,30 +1,28 @@
 package com.fsa.to_do_app.presentation.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+@SuppressLint("ConflictingOnColor")
+private val LightColorPalette = lightColors(
+    background = Color.White,
+    onBackground = Color.Black,
+    error = Color.Red,
+    secondary = Blue,
+    primaryVariant = Color.LightGray,
+    primary = Color.White
 )
 
-private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+private val DarkColorPalette = darkColors(
+    background = DarkBlue,
+    onBackground = Color.White,
+    error = Color.Red,
+    secondary = Blue,
+    primaryVariant = Color.LightGray,
+    primary = Color.White
 )
 
 @Composable

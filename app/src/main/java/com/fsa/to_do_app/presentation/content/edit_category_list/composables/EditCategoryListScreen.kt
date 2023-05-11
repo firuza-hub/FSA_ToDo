@@ -6,10 +6,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
@@ -46,10 +46,10 @@ fun EditCategoryListScreen(
         Box(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .background(Color.Gray.copy(0.1f), RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colors.primaryVariant.copy(0.5f), RoundedCornerShape(10.dp))
                 .noRippleClickable { showDialog = true }
                 .fillMaxWidth()
-                .border(BorderStroke(1.dp, Color.Black.copy(0.1f)), RoundedCornerShape(10.dp))
+                .border(BorderStroke(1.dp, MaterialTheme.colors.onBackground.copy(0.1f)), RoundedCornerShape(10.dp))
                 .height(70.dp),
             contentAlignment = Alignment.Center
         ) {

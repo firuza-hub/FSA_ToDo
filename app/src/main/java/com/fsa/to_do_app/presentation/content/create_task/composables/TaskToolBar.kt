@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,8 +26,8 @@ fun TaskToolBar(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        if(showCancel) Text(text = stringResource(R.string.btn_cancel), modifier = Modifier.noRippleClickable { cancel() }, color = Color.Blue)
+        if(showCancel) Text(text = stringResource(R.string.btn_cancel), modifier = Modifier.noRippleClickable { cancel() }, color = MaterialTheme.colors.secondary)
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = stringResource(R.string.btn_done), modifier = Modifier.noRippleClickable { save() }, color = Color.Blue)
+        Text(text = stringResource(R.string.btn_done), modifier = Modifier.noRippleClickable { save() }, color = MaterialTheme.colors.secondary)
     }
 }

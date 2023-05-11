@@ -24,7 +24,7 @@ fun SelectedCategory(
         Text(
             text = category.name,
             style = MaterialTheme.typography.subtitle1,
-            color = if (isExpanded) Color.Blue else Color.LightGray
+            color = if (isExpanded) MaterialTheme.colors.secondary else MaterialTheme.colors.primaryVariant
         )
         CategoryIndicator(
             category.colorCode.hexToColor(),

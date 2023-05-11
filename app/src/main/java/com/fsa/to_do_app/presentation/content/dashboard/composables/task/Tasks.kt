@@ -63,8 +63,8 @@ fun Tasks(
                     background = {
                         val color by animateColorAsState(
                             when (dismissState.targetValue) {
-                                DismissValue.Default -> Color.White
-                                else -> Color.Red
+                                DismissValue.Default -> MaterialTheme.colors.background
+                                else -> MaterialTheme.colors.error
                             }
                         )
                         val scale by animateFloatAsState(

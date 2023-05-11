@@ -104,7 +104,7 @@ fun EditTaskScreen(
                     Row( modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)) {
                         Text(text = stringResource(R.string.msg_allowNotification), style = MaterialTheme.typography.body2)
                         Spacer(modifier = Modifier.weight(1f))
-                        Text(text = stringResource(R.string.btn_allow), style = MaterialTheme.typography.caption, color = Color.Blue, modifier = Modifier.noRippleClickable { redirectToPermissionSettings() })
+                        Text(text = stringResource(R.string.btn_allow), style = MaterialTheme.typography.caption.copy(color = MaterialTheme.colors.secondary), modifier = Modifier.noRippleClickable { redirectToPermissionSettings() })
                     }
                 }
             }

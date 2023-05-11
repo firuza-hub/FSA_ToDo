@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -94,7 +93,7 @@ fun DashboardScreen(
                         }
                         .padding(end = 10.dp)
                         .size(30.dp),
-                    tint = if (filterOptionsExpanded) Color.Blue else Color.Gray)
+                    tint = if (filterOptionsExpanded) MaterialTheme.colors.secondary else MaterialTheme.colors.primaryVariant)
 
 
             }
@@ -169,14 +168,14 @@ fun DashboardScreen(
 
 
         val colorFAB by animateColorAsState(
-            targetValue = if (createOptionsExpanded) "006CFF".hexToColor() else Color.White,
+            targetValue = if (createOptionsExpanded) MaterialTheme.colors.secondary else MaterialTheme.colors.primary,
             animationSpec = spring(
                 stiffness = Spring.StiffnessLow
             )
         )
 
         val colorFABIcon by animateColorAsState(
-            targetValue = if (createOptionsExpanded) Color.White else "006CFF".hexToColor(),
+            targetValue = if (createOptionsExpanded) MaterialTheme.colors.primary else MaterialTheme.colors.secondary,
             animationSpec = spring(
                 stiffness = Spring.StiffnessLow
             )

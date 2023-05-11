@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -30,12 +29,12 @@ fun TaskTextField(
         BasicTextField(
             value = content,
             onValueChange = onContentChange,
-            cursorBrush = SolidColor(Color.LightGray),
+            cursorBrush = SolidColor(MaterialTheme.colors.primaryVariant),
             modifier = Modifier
                 .fillMaxSize()
                 .onFocusChanged { if (it.hasFocus) onKeyboardShown() }
                 .padding(16.dp),
-            textStyle = MaterialTheme.typography.body1
+            textStyle = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onBackground)
         ) {
             Row {
                 RoundCheckbox(
@@ -51,7 +50,7 @@ fun TaskTextField(
                         Text(
                             text = stringResource(R.string.hint_whatDoYouWantToDo),
                             style = MaterialTheme.typography.body1,
-                            color = Color.LightGray
+                            color = MaterialTheme.colors.primaryVariant
                         )
                     it()
                 }

@@ -9,7 +9,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,9 +20,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.composables.shapes.CircleShape
-import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.presentation.common.noRippleClickable
-import com.fsa.to_do_app.presentation.common.toHexString
 
 @Composable
 fun CategoryCreationDialog(
@@ -46,7 +43,7 @@ fun CategoryCreationDialog(
         ) {
             Surface(
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White
+                color = MaterialTheme.colors.background
             ) {
                 Column(
                     Modifier.fillMaxWidth(),
@@ -63,7 +60,7 @@ fun CategoryCreationDialog(
                             value = newCategoryName,
                             onValueChange = updateCategoryName,
                             maxLines = 1,
-                            cursorBrush = SolidColor(Color.LightGray),
+                            cursorBrush = SolidColor(MaterialTheme.colors.primaryVariant),
                             textStyle = MaterialTheme.typography.body1,
                             modifier = Modifier
                                 .fillMaxWidth(0.7f),
@@ -76,7 +73,7 @@ fun CategoryCreationDialog(
                                         Text(
                                             text = stringResource(R.string.hint_name),
                                             style = MaterialTheme.typography.body1,
-                                            color = Color.LightGray
+                                            color = MaterialTheme.colors.primaryVariant
                                         )
                                     it()
                                 }
@@ -88,11 +85,11 @@ fun CategoryCreationDialog(
                                 .noRippleClickable { colorPickerOpen = true }
                                 .padding(horizontal = 8.dp),
                             circleSize = 24.dp,
-                            borderStroke = BorderStroke(1.dp, Color.Black.copy(0.1f))
+                            borderStroke = BorderStroke(1.dp, MaterialTheme.colors.onBackground.copy(0.1f))
                         )
                     }
                     Column(Modifier.fillMaxWidth()) {
-                        Text(text = stringResource(R.string.btn_save), color = Color.Blue,
+                        Text(text = stringResource(R.string.btn_save), color = MaterialTheme.colors.secondary,
                             modifier = Modifier
                                 .noRippleClickable { createNewCategory();}
                                 .padding(vertical = 16.dp, horizontal = 32.dp)

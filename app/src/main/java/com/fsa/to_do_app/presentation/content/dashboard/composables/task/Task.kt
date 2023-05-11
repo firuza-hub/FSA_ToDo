@@ -40,7 +40,7 @@ fun Task(
                 checkedColor = Color.Blue
             ),
             borderWidth = 1.5.dp,
-            backgroundColor = if (!showCategory) task.category.colorCode.hexToColor() else Color.White
+            backgroundColor = if (!showCategory) task.category.colorCode.hexToColor() else MaterialTheme.colors.background
         )
         Row(
             modifier = if (showCategory) Modifier
@@ -60,7 +60,7 @@ fun Task(
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2,
                     style = MaterialTheme.typography.body1,
-                    color = if (showCategory) Color.Black else task.category.colorCode.hexToColor()
+                    color = if (showCategory) MaterialTheme.colors.onBackground else task.category.colorCode.hexToColor()
                         .getTextOnBackground()
                 )
                 task.date?.let {

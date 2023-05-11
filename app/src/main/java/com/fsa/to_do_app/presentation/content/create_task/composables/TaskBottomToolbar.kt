@@ -7,7 +7,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
@@ -49,7 +48,7 @@ fun TaskBottomToolbar(
             modifier = Modifier
                 .padding(6.dp)
                 .noRippleClickable { onCalendarClicked() },
-            tint = if (propertyBoxToShow == ActionProperty.DATE && expandPropertyBox) Color.Blue else Color.LightGray
+            tint = if (propertyBoxToShow == ActionProperty.DATE && expandPropertyBox) MaterialTheme.colors.secondary else MaterialTheme.colors.primaryVariant
         )
         Spacer(modifier = Modifier.padding(4.dp))
         Icon(
@@ -58,7 +57,7 @@ fun TaskBottomToolbar(
             modifier = Modifier
                 .padding(6.dp)
                 .noRippleClickable { onTimeClicked() },
-            tint = if (propertyBoxToShow == ActionProperty.TIME && expandPropertyBox) Color.Blue else Color.LightGray
+            tint = if (propertyBoxToShow == ActionProperty.TIME && expandPropertyBox) MaterialTheme.colors.secondary else MaterialTheme.colors.primaryVariant
         )
 
         taskDate?.let {

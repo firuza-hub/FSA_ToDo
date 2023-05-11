@@ -6,8 +6,8 @@
         <item name="android:windowIsTranslucent">true</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar" >true</item>
+        <item name="android:statusBarColor">@color/dark_blue</item>
+        <item name="android:windowLightStatusBar" >false</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
     </style>
 </resources>

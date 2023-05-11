@@ -168,16 +168,16 @@ fun CustomTimePicker(
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color.White,
+                            MaterialTheme.colors.background,
                             Color.Transparent,
-                            Color.White
+                            MaterialTheme.colors.background
                         )
                     )
                 )
         ) {
             Text(
                 text = "Reset",
-                style = MaterialTheme.typography.caption,
+                style = MaterialTheme.typography.caption.copy(color = MaterialTheme.colors.secondary),
                 modifier = Modifier.align(
                     Alignment.TopEnd
                 ).padding(16.dp).noRippleClickable(onTimeResetCLicked)
@@ -188,7 +188,7 @@ fun CustomTimePicker(
                 .fillMaxWidth()
                 .height(45.dp)
                 .align(Alignment.CenterStart)
-                .border(1.dp, Color.Black.copy(0.1f))
+                .border(1.dp, MaterialTheme.colors.onBackground.copy(0.1f))
         )
 
     }
