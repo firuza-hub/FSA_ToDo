@@ -61,6 +61,7 @@ fun CategoryCard(
                         .noRippleClickable { onDeleteClicked(category) }
                         .padding(end = 16.dp),
                     painter = painterResource(id = R.drawable.ic_trash),
+                    tint = MaterialTheme.colors.onBackground,
                     contentDescription = "Delete category"
                 )
             }

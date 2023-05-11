@@ -41,7 +41,7 @@ fun CustomCalendar(
             )
             Text(
                 text = calendar.monthName,
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onBackground),
                 modifier = Modifier.padding(end = 5.dp)
             )
             Text(

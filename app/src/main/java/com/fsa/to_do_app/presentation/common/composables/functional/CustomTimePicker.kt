@@ -90,7 +90,7 @@ fun CustomTimePicker(
                 items(hours) {
                     Text(
                         text = if (it == -1) "" else it.toString(),
-                        style = MaterialTheme.typography.body1,
+                        style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onBackground),
                         fontSize = 26.sp,
                         modifier = Modifier
                             .width(40.dp)
@@ -121,7 +121,7 @@ fun CustomTimePicker(
                 items(minutes) {
                     Text(
                         text = if (it == -1) "" else df.format(it),
-                        style = MaterialTheme.typography.body1,
+                        style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onBackground),
                         fontSize = 26.sp,
                         modifier = Modifier
                             .width(40.dp)
@@ -145,7 +145,7 @@ fun CustomTimePicker(
                 items(apList) {
                     Text(
                         text = it,
-                        style = MaterialTheme.typography.body1,
+                        style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onBackground),
                         fontSize = 26.sp,
                         modifier = Modifier
                             .width(60.dp)

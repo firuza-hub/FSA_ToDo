@@ -17,7 +17,7 @@ import com.fsa.to_do_app.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navigateToMain:() -> Unit) {
+fun SplashScreen(navigateToMain: () -> Unit) {
     val scale = remember {
         Animatable(0f)
     }
@@ -33,8 +33,11 @@ fun SplashScreen(navigateToMain:() -> Unit) {
         navigateToMain()
     }
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Image(painter = painterResource(id = R.drawable.ic_splash), contentDescription = "Logo",
-        modifier = Modifier.scale(scale.value))
+        Image(
+            painter = painterResource(id = R.drawable.ic_splash),
+            contentDescription = "Logo",
+            modifier = Modifier.scale(scale.value)
+        )
 
     }
 }

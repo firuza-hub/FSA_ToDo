@@ -55,7 +55,8 @@ fun EditCategoryListScreen(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_plus),
-                contentDescription = "Create Category"
+                contentDescription = "Create Category",
+                tint = MaterialTheme.colors.onBackground
             )
         }
 
@@ -66,7 +67,8 @@ fun EditCategoryListScreen(
             updateCategoryName = viewModel::updateCategoryName,
             createNewCategory = { viewModel.createNewCategory(); showDialog = false },
             updateCategoryColor = viewModel::updateCategoryColor,
-            newCategoryColor = newCategoryColor, colors = viewModel.colors
+            newCategoryColor = newCategoryColor,
+            colors = viewModel.colors
         )
     }
 }

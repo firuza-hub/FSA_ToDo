@@ -80,7 +80,7 @@ fun DashboardScreen(
                         DashboardFilter.ShowToday -> stringResource(R.string.header_Today)
                         DashboardFilter.ShowByDate -> filterCalendar.time.getDateShort()
                     },
-                    style = MaterialTheme.typography.h1,
+                    style = MaterialTheme.typography.h1.copy(color = MaterialTheme.colors.onBackground),
                     fontFamily = SFPro,
                     modifier = Modifier.padding(start = 44.dp)
                 )
