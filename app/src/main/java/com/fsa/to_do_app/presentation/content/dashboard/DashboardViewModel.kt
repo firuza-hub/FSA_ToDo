@@ -12,6 +12,7 @@ import com.fsa.to_do_app.domain.usecase.task.DeleteTaskUseCase
 import com.fsa.to_do_app.domain.usecase.task.GetTasksUseCase
 import com.fsa.to_do_app.domain.usecase.task.UpdateTaskStatusUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -44,41 +45,50 @@ class DashboardViewModel(
 
     private val _allShown = MutableStateFlow(DashboardFilter.ShowToday)
     val allShown = _allShown.asStateFlow()
-
+    private lateinit var job: Job
     fun loadData() {
         getCategories()
         getTasks()
     }
 
     private fun getTasks() {
-        viewModelScope.launch(Dispatchers.IO) {
-            when (_allShown.value) {
-                DashboardFilter.ShowAll -> {
+        when (_allShown.value) {
+            DashboardFilter.ShowAll -> {
+                job = viewModelScope.launch(Dispatchers.IO) {
                     getTasksUseCase.invoke(showAll = true).collect {
-                        Log.d("TASKS_COLLECTED", "ShowAll "+ it.firstOrNull()?.content.toString())
+                        Log.d("TASKS_COLLECTED", "ShowAll " + it.firstOrNull()?.content.toString())
                         _isLoading.value = true
                         _tasks.value = it
                         _isLoading.value = false
                     }
                 }
-                DashboardFilter.ShowToday -> {
+            }
+            DashboardFilter.ShowToday -> {
+                job = viewModelScope.launch(Dispatchers.IO) {
                     getTasksUseCase.invoke(showAll = false).collect {
-                        Log.d("TASKS_COLLECTED", "ShowToday "+ it.firstOrNull()?.content.toString())
+                        Log.d(
+                            "TASKS_COLLECTED",
+                            "ShowToday " + it.firstOrNull()?.content.toString()
+                        )
                         _isLoading.value = true
                         _tasks.value = it
                         _isLoading.value = false
                     }
                 }
-                DashboardFilter.ShowByDate -> {
+            }
+            DashboardFilter.ShowByDate -> {
+                job = viewModelScope.launch(Dispatchers.IO) {
                     getTasksUseCase.invoke(showAll = false, date = _filterDate.value.time)
                         .collect {
-                            Log.d("TASKS_COLLECTED", "ShowByDate "+ it.firstOrNull()?.content.toString())
+                            Log.d(
+                                "TASKS_COLLECTED",
+                                "ShowByDate " + it.firstOrNull()?.content.toString()
+                            )
                             _isLoading.value = true
                             _tasks.value = it
                             _isLoading.value = false
                         }
                 }
-
             }
         }
     }
@@ -91,12 +101,6 @@ class DashboardViewModel(
     }
 
     fun onTaskChecked(id: Int, checked: Boolean) {
-//        _tasks.value = _tasks.value.map {
-//            if (it.id == id) it.copy(isDone = checked) else it
-//        }
-//        _tasksByCategory.value =
-//            _tasks.value.filter { it.category.id == _selectedCategory.value.id }
-
         viewModelScope.launch(Dispatchers.IO) {
             updateTaskStatusUseCase(id, checked)
         }
@@ -116,18 +120,21 @@ class DashboardViewModel(
     }
 
     fun showToday() {
+        job.cancel()
         Log.d("TASKS_COLLECTED", "SET SHOW TODAY ")
         _allShown.value = DashboardFilter.ShowToday
         loadData()
     }
 
     fun showAll() {
+        job.cancel()
         _allShown.value = DashboardFilter.ShowAll
         loadData()
     }
 
     fun showByDate(filterCalendar: Calendar) {
         _filterDate.value = filterCalendar
+        job.cancel()
         _allShown.value = DashboardFilter.ShowByDate
         loadData()
     }
