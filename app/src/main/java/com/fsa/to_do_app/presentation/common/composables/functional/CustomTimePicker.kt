@@ -42,7 +42,7 @@ fun CustomTimePicker(
     var _ap by remember { mutableStateOf(ap) }
 
     val hours = (listOf(-1, -1) + (1..12) + listOf(-1, -1)).toList()
-    val minutes = (listOf(-1, -1) + (1..60) + listOf(-1, -1)).toList()
+    val minutes = (listOf(-1, -1) + (0..59) + listOf(-1, -1)).toList()
     val apList = listOf("", "", "AM", "PM", "", "")
 
     var hourYCoordinates by remember { mutableStateOf(0) }
