@@ -15,7 +15,7 @@ val dataModule = module {
         Room.databaseBuilder(get(), MyDatabase::class.java, "TODO_FSA_DB")
             .createFromAsset("database/ToDo.db").addMigrations(MIGRATION_1_2).build()
     }
-    single { get<MyDatabase>().getActionDao() }
+    single { get<MyDatabase>().getTaskDao() }
     single { get<MyDatabase>().getCategoryDao() }
 
     //REPO

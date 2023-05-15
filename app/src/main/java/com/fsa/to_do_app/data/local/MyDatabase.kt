@@ -16,7 +16,7 @@ import com.fsa.to_do_app.util.Converters
 @Database(entities = [Task::class, Category::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class MyDatabase : RoomDatabase() {
-    abstract fun getActionDao(): TaskDao
+    abstract fun getTaskDao(): TaskDao
     abstract fun getCategoryDao(): CategoryDao
 }
 
