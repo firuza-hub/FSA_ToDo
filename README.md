@@ -1,4 +1,5 @@
-To Do App with task categorization and reminder notifications
+To Do App with task categorization and reminder notifications (https://play.google.com/store/apps/details?id=com.fsa.to_do_app)
+
 The app uses Clean Architecture and MVVM, Kotlin Flows, Jetpack compose, Notifications and is built for demonstration purposes
 
 ![Screenshot_20230504_100452_ Gc](https://github.com/firuza-hub/FSA_ToDo/assets/52698220/93dcfad6-86a7-4224-860c-06e93d47b916)
