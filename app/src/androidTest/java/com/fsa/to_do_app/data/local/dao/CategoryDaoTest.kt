@@ -16,11 +16,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.stopKoin
 import java.util.Date
 import kotlin.time.ExperimentalTime
 
 @RunWith(AndroidJUnit4::class)
-@SmallTest
+
 class CategoryDaoTest {
     private lateinit var db: MyDatabase
     private lateinit var categoryDao: CategoryDao
@@ -44,7 +45,7 @@ class CategoryDaoTest {
         db.close()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun upsertCategory() = runTest {
         val category = Category(id = 1, name = "Test Category", colorCode = "EF9A9A")

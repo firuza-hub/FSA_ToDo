@@ -8,7 +8,6 @@ import java.util.Calendar
 import java.util.Date
 
 class CalendarUtilsUnitTest {
-
     @Test
     fun getDayOfMonth_IsCorrect(){
         val date = Date(1684044227000)//14/05/2023
