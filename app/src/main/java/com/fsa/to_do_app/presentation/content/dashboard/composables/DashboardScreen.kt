@@ -1,6 +1,8 @@
 package com.fsa.to_do_app.presentation.content.dashboard.composables
 
 import android.os.Build
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
@@ -20,7 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.composables.shapes.CircleShape
-import com.fsa.to_do_app.presentation.common.hexToColor
 import com.fsa.to_do_app.presentation.common.noRippleClickable
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardViewModel
@@ -38,7 +39,7 @@ fun DashboardScreen(
     navigateToCreateTask: () -> Unit,
     navigateToEditTask: (Int) -> Unit,
     navigateToCreateCategory: () -> Unit,
-    permissionLauncher: ManagedActivityResultLauncher<String, Boolean>,
+    permissionLauncher: ManagedActivityResultLauncher<String, Boolean>
 ) {
     LaunchedEffect(key1 = true) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -59,11 +60,36 @@ fun DashboardScreen(
     var createOptionsExpanded by remember { mutableStateOf(false) }
     var showCalendar by remember { mutableStateOf(false) }
     val filterCalendar by viewModel.filterDate.collectAsState()
+    val isModalClosed by viewModel.isModalClosed.collectAsState()
 
     val modalSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         skipHalfExpanded = true, animationSpec = tween(durationMillis = 1000)
     )
+    LaunchedEffect(true) {
+        viewModel.isModalClosed.collect {
+            Log.d(
+                "MODAL_STATE",
+                "$it"
+            )
+        }
+    }
+    LaunchedEffect(true) {
+        snapshotFlow { modalSheetState.isVisible }.collect { isModalVisible ->
+            Log.d("MODAL_STATE", "set modal visible to $isModalVisible")
+            if (isModalVisible.not()) {
+                viewModel.changeModalState(open = false)
+            }
+        }
+    }
+
+    BackHandler(!isModalClosed) {
+        scope.launch {
+            modalSheetState.hide()
+             viewModel.changeModalState(open = false)
+        }
+    }
+
     if (isLoading) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
     Box(
         modifier = Modifier.fillMaxSize()
@@ -122,13 +148,16 @@ fun DashboardScreen(
                 {
                     viewModel.updateSelectedCategory(it)
                     scope.launch {
+                        viewModel.changeModalState(open = true)
                         modalSheetState.show()
                     }
                 }
             )
         }
         CategoryBottomSheet(
-            Modifier.fillMaxWidth().align(BottomCenter),
+            Modifier
+                .fillMaxWidth()
+                .align(BottomCenter),
             tasksByCategory,
             selectedCategory,
             modalSheetState,
@@ -201,4 +230,6 @@ fun DashboardScreen(
 
     }
 }
+
+
 

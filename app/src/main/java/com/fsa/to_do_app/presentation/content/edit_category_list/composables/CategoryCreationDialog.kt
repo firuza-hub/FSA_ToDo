@@ -61,7 +61,7 @@ fun CategoryCreationDialog(
                             onValueChange = updateCategoryName,
                             maxLines = 1,
                             cursorBrush = SolidColor(MaterialTheme.colors.primaryVariant),
-                            textStyle = MaterialTheme.typography.body1,
+                            textStyle = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onBackground),
                             modifier = Modifier
                                 .fillMaxWidth(0.7f),
                             decorationBox = {

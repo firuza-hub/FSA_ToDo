@@ -1,8 +1,6 @@
 package com.fsa.to_do_app.presentation.content.dashboard
 
 import android.util.Log
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fsa.to_do_app.domain.model.CategoryModel
@@ -17,7 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
+import java.util.Calendar
 
 class DashboardViewModel(
     private val getCategoriesUseCase: GetCategoriesUseCase,
@@ -43,8 +41,12 @@ class DashboardViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    private val _allShown = MutableStateFlow(DashboardFilter.ShowToday)
+    private val _allShown = MutableStateFlow(DashboardFilter.ShowAll)
     val allShown = _allShown.asStateFlow()
+
+    private val _isModalClosed = MutableStateFlow(true)
+    val isModalClosed = _isModalClosed.asStateFlow()
+
     private lateinit var job: Job
     fun loadData() {
         getCategories()
@@ -63,6 +65,7 @@ class DashboardViewModel(
                     }
                 }
             }
+
             DashboardFilter.ShowToday -> {
                 job = viewModelScope.launch(Dispatchers.IO) {
                     getTasksUseCase.invoke(showAll = false).collect {
@@ -76,6 +79,7 @@ class DashboardViewModel(
                     }
                 }
             }
+
             DashboardFilter.ShowByDate -> {
                 job = viewModelScope.launch(Dispatchers.IO) {
                     getTasksUseCase.invoke(showAll = false, date = _filterDate.value.time)
@@ -119,6 +123,7 @@ class DashboardViewModel(
         }
     }
 
+
     fun showToday() {
         job.cancel()
         Log.d("TASKS_COLLECTED", "SET SHOW TODAY ")
@@ -138,4 +143,11 @@ class DashboardViewModel(
         _allShown.value = DashboardFilter.ShowByDate
         loadData()
     }
+
+    fun changeModalState(open: Boolean) {
+        viewModelScope.launch {
+            _isModalClosed.value = !open
+        }
+    }
+
 }

@@ -36,11 +36,12 @@ import com.fsa.to_do_app.presentation.content.edit_task.EditTaskScreen
 import com.fsa.to_do_app.presentation.content.splash_screen.SplashScreen
 import com.fsa.to_do_app.presentation.theme.ToDoAppTheme
 import com.fsa.to_do_app.util.CHANNEL_ID
-import java.util.*
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         val locale = Locale("az")
         Locale.setDefault(locale)
@@ -99,7 +100,7 @@ class MainActivity : ComponentActivity() {
                         composable(route = NavDestinations.CREATE_ACTION_SCREEN) {
                             CreateTaskScreen(
                                 navigateBack = { navController.popBackStack() },
-                                requestNotificationPermission =  {requestNotificationPermission()},
+                                requestNotificationPermission = { requestNotificationPermission() },
                                 redirectToPermissionSettings = { redirectToPermissionSettings() }
                             )
                         }
@@ -112,7 +113,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             EditTaskScreen(
                                 navigateBack = { navController.popBackStack() },
-                                requestNotificationPermission =  {requestNotificationPermission()},
+                                requestNotificationPermission = { requestNotificationPermission() },
                                 redirectToPermissionSettings = { redirectToPermissionSettings() }
                             )
                         }
@@ -154,7 +155,7 @@ class MainActivity : ComponentActivity() {
         } else false
     }
 
-    private fun redirectToPermissionSettings(){
+    private fun redirectToPermissionSettings() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val uri = Uri.fromParts("package", this.packageName, null)
