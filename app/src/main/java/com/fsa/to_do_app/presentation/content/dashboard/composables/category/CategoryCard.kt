@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.presentation.content.dashboard.composables
+package com.fsa.to_do_app.presentation.content.dashboard.composables.category
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape

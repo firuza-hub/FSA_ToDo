@@ -47,6 +47,9 @@ class DashboardViewModel(
     private val _isModalClosed = MutableStateFlow(true)
     val isModalClosed = _isModalClosed.asStateFlow()
 
+    private val _createOptionsExpanded = MutableStateFlow(false)
+    val createOptionsExpanded = _createOptionsExpanded.asStateFlow()
+
     private lateinit var job: Job
     fun loadData() {
         getCategories()
@@ -147,6 +150,11 @@ class DashboardViewModel(
     fun changeModalState(open: Boolean) {
         viewModelScope.launch {
             _isModalClosed.value = !open
+        }
+    }
+    fun changeCreateOptionsExpanded(expanded: Boolean) {
+        viewModelScope.launch {
+            _createOptionsExpanded.value = expanded
         }
     }
 

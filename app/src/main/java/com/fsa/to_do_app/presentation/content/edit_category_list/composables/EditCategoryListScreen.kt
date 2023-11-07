@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.fsa.to_do_app.R
 import com.fsa.to_do_app.presentation.common.noRippleClickable
 import com.fsa.to_do_app.presentation.content.create_task.composables.TaskToolBar
-import com.fsa.to_do_app.presentation.content.dashboard.composables.Categories
+import com.fsa.to_do_app.presentation.content.dashboard.composables.category.Categories
 import com.fsa.to_do_app.presentation.content.edit_category_list.EditCategoryListViewModel
 import org.koin.androidx.compose.koinViewModel
 

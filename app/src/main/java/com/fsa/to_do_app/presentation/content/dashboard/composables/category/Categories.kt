@@ -1,4 +1,4 @@
-package com.fsa.to_do_app.presentation.content.dashboard.composables
+package com.fsa.to_do_app.presentation.content.dashboard.composables.category
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

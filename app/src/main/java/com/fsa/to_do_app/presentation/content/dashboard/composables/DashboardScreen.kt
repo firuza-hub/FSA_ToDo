@@ -25,6 +25,7 @@ import com.fsa.to_do_app.presentation.common.composables.shapes.CircleShape
 import com.fsa.to_do_app.presentation.common.noRippleClickable
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardFilter
 import com.fsa.to_do_app.presentation.content.dashboard.DashboardViewModel
+import com.fsa.to_do_app.presentation.content.dashboard.composables.category.Categories
 import com.fsa.to_do_app.presentation.content.dashboard.composables.menu.DashboardFilterMenu
 import com.fsa.to_do_app.presentation.theme.SFPro
 import com.fsa.to_do_app.util.getDateShort
@@ -57,7 +58,7 @@ fun DashboardScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val allShown by viewModel.allShown.collectAsState()
     var filterOptionsExpanded by remember { mutableStateOf(false) }
-    var createOptionsExpanded by remember { mutableStateOf(false) }
+    val createOptionsExpanded by viewModel.createOptionsExpanded.collectAsState()
     var showCalendar by remember { mutableStateOf(false) }
     val filterCalendar by viewModel.filterDate.collectAsState()
     val isModalClosed by viewModel.isModalClosed.collectAsState()
@@ -181,7 +182,7 @@ fun DashboardScreen(
             onCreateCategoryClicked = navigateToCreateCategory,
             onCreateTaskClicked = navigateToCreateTask,
             expanded = createOptionsExpanded,
-            close = { createOptionsExpanded = false },
+            close = { viewModel.changeCreateOptionsExpanded(false) },
             modifier = Modifier
                 .align(BottomEnd)
                 .padding(30.dp)
@@ -192,7 +193,7 @@ fun DashboardScreen(
             animationSpec = spring(
                 stiffness = Spring.StiffnessLow,
                 dampingRatio = if (createOptionsExpanded) Spring.DampingRatioHighBouncy else 1f
-            )
+            ), label = ""
         )
 
 
@@ -200,14 +201,14 @@ fun DashboardScreen(
             targetValue = if (createOptionsExpanded) MaterialTheme.colors.secondary else MaterialTheme.colors.primary,
             animationSpec = spring(
                 stiffness = Spring.StiffnessLow
-            )
+            ), label = ""
         )
 
         val colorFABIcon by animateColorAsState(
             targetValue = if (createOptionsExpanded) MaterialTheme.colors.primary else MaterialTheme.colors.secondary,
             animationSpec = spring(
                 stiffness = Spring.StiffnessLow
-            )
+            ), label = ""
         )
 
         CircleShape(
@@ -215,10 +216,14 @@ fun DashboardScreen(
             modifier = Modifier
                 .align(BottomEnd)
                 .padding(bottom = 30.dp, end = 16.dp)
-                .noRippleClickable { createOptionsExpanded = !createOptionsExpanded }
+                .noRippleClickable { viewModel.changeCreateOptionsExpanded(!createOptionsExpanded)  }
                 .rotate(rotation),
             circleSize = 64.dp) {
             Icon(painterResource(id = R.drawable.ic_plus), "Create", tint = colorFABIcon)
+        }
+
+        LaunchedEffect(createOptionsExpanded ){
+            Log.d("FAB_ROTATION", "createOptionsExpanded: $createOptionsExpanded")
         }
 
         if (showCalendar) {

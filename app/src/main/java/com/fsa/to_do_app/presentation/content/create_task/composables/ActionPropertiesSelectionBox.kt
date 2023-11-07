@@ -10,7 +10,7 @@ import com.fsa.to_do_app.presentation.common.composables.functional.CustomCalend
 import com.fsa.to_do_app.presentation.common.composables.functional.CustomTimePicker
 import com.fsa.to_do_app.presentation.content.create_task.ActionProperty
 import com.fsa.to_do_app.presentation.content.create_task.CalendarState
-import com.fsa.to_do_app.presentation.content.dashboard.composables.Categories
+import com.fsa.to_do_app.presentation.content.dashboard.composables.category.Categories
 import com.fsa.to_do_app.util.intToAmPm
 import java.util.*
 
